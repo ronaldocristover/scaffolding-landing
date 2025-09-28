@@ -124,27 +124,26 @@ export default function Home() {
       >
         {" "}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Right Column - Images */}
-            <div className="grid grid-cols-2 sm:grid-cols-2 gap-6">
-              <div className="relative">
-                <Image
-                  src="/certificate.jpeg"
-                  alt="Certificate of Appreciation"
-                  width={300}
-                  height={400}
-                  className="rounded-lg shadow-xl w-full h-auto object-cover"
-                />
-              </div>
-              <div className="relative">
-                <Image
-                  src="/certificate.jpeg"
-                  alt="Certificate of Excellence"
-                  width={300}
-                  height={400}
-                  className="rounded-lg shadow-xl w-full h-auto object-cover"
-                />
-              </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+            {/* Left Column - Image */}
+            <div className="flex justify-center">
+              <Image
+                src="/certificate.jpeg"
+                alt="Certificate of Appreciation"
+                width={350}
+                height={400}
+                className="rounded-lg shadow-xl w-full h-auto object-cover max-w-xs"
+              />
+            </div>
+            {/* Right Column - Image */}
+            <div className="flex justify-center">
+              <Image
+                src="/certificate.jpeg"
+                alt="Certificate of Excellence"
+                width={350}
+                height={400}
+                className="rounded-lg shadow-xl w-full h-auto object-cover max-w-xs"
+              />
             </div>
           </div>
         </div>
