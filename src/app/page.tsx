@@ -1,128 +1,97 @@
 import Image from "next/image";
+import Header from "@/components/Header";
+import ContactInfo from "@/components/ContactInfo";
+import FloatingButtons from "@/components/FloatingButtons";
+
+interface QuoteStep {
+  title: string;
+  content: string;
+}
+
+interface ContactInfoType {
+  icon: string;
+  alt: string;
+  text: string;
+  link?: string;
+}
 
 export default function Home() {
-  const quotePrice = [
+  const quotePrice: QuoteStep[] = [
     {
-      title: "步驟 1｜報價咨詢",
+      title: "步驟 1｜初步咨詢",
       content:
-        "Whatsapp 或 電郵報價，請提供以下資料： 1. 客戶/公司名稱  2. 施工地點  3. 施工點照片  4. 棚架用途",
+        "WhatsApp 或電郵報價，請提供以下資料：1. 客戶/公司名稱 2. 施工地點 3. 施工點照片 4. 棚架用途",
     },
     {
-      title: "步驟 2 報價咨詢",
+      title: "步驟 2｜實地考察",
       content:
-        "Whatsapp 或 電郵報價，請提供以下資料： 1. 客戶/公司名稱  2. 施工地點  3. 施工點照片  4. 棚架用途",
+        "安排專業師傅到現場進行實地考察，評估工程難度、安全要求及施工環境，確保報價準確",
     },
     {
-      title: "步驟 3｜報價咨詢",
+      title: "步驟 3｜詳細報價",
       content:
-        "Whatsapp 或 電郵報價，請提供以下資料： 1. 客戶/公司名稱  2. 施工地點  3. 施工點照片  4. 棚架用途",
+        "根據實地考察結果，提供詳細的工程報價單，包括材料費、人工費、運輸費及相關安全措施費用",
     },
     {
-      title: "步驟 4｜報價咨詢",
+      title: "步驟 4｜合約簽署",
       content:
-        "Whatsapp 或 電郵報價，請提供以下資料： 1. 客戶/公司名稱  2. 施工地點  3. 施工點照片  4. 棚架用途",
+        "雙方確認報價後簽署正式合約，明確工程範圍、完工時間、付款方式及安全責任條款",
     },
     {
-      title: "步驟 5｜報價咨詢",
+      title: "步驟 5｜工程施工",
       content:
-        "Whatsapp 或 電郵報價，請提供以下資料： 1. 客戶/公司名稱  2. 施工地點  3. 施工點照片  4. 棚架用途",
+        "由資深師傅帶領專業團隊進行施工，嚴格按照安全規範執行，定期檢查棚架穩固性及安全性",
     },
     {
-      title: "步驟 6｜報價咨詢",
+      title: "步驟 6｜完工驗收",
       content:
-        "Whatsapp 或 電郵報價，請提供以下資料： 1. 客戶/公司名稱  2. 施工地點  3. 施工點照片  4. 棚架用途",
+        "工程完成後進行全面檢查驗收，確保棚架符合安全標準，提供使用指引及定期維護建議",
+    },
+  ];
+
+  const companyLogos: string[] = [
+    "/company-logo-1.png",
+    "/company-logo-2.png",
+    "/company-logo-3.png",
+    "/company-logo-1.png",
+  ];
+
+  const contactInfo: ContactInfoType[] = [
+    {
+      icon: "/whatsapp-icon.png",
+      alt: "WhatsApp",
+      text: "+852 6806-0108",
+      link: "https://wa.me/85268060108",
+    },
+    {
+      icon: "/print-icon.png",
+      alt: "Phone",
+      text: "+852 3020-6719",
+      link: "tel:+85230206719",
+    },
+    {
+      icon: "/email-icon.png",
+      alt: "Email",
+      text: "leego.scaffolding@gmail.com",
+      link: "mailto:leego.scaffolding@gmail.com",
+    },
+    {
+      icon: "/fb-icon.png",
+      alt: "Facebook",
+      text: "https://www.facebook.com/MasterHongScaffolding/",
+      link: "https://www.facebook.com/MasterHongScaffolding/",
     },
   ];
 
   return (
-    <div className="min-h-screen bg-white dark:bg-gray-900">
-      {/* Sticky Navigation */}
-      <div style={{ background: "#737365" }} className="text-center py-1">
-        <span style={{ color: "#F7EA87" }}>
-          立即WhatsApp：+852 6806-0108
-          <Image
-            src="/whatsapp-icon.png"
-            alt="WhatsApp"
-            width={20}
-            height={20}
-            className="inline-block align-middle mx-2 mb-1"
-          />
-        </span>
-      </div>
-      <nav
-        className="sticky top-0 z-50 bg-white/80 dark:bg-gray-900/80 backdrop-blur-md border-b border-gray-200 dark:border-gray-700"
-        style={{
-          background: "linear-gradient(0deg, #FFFBB5 0%, #E0B700 100%)",
-        }}
-      >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            {/* Logo and Company Name */}
-            <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 bg-blue-600 flex items-center justify-center">
-                <Image
-                  src="/company-1.png"
-                  alt="Scaffolding Engineering Limited"
-                  width={100}
-                  height={100}
-                  className="rounded-lg"
-                />
-              </div>
-              <span className="font-viga text-xl text-gray-900 dark:text-white">
-                利高棚業工程有限公司｜康師傅搭棚公司
-                <br /> Scaffolding Engineering Limited
-              </span>
-            </div>
+    <div className="min-h-screen bg-white">
+      <Header phoneNumber="+852 6806-0108" />
 
-            {/* Desktop Menu */}
-            <div className="hidden md:flex space-x-8">
-              <a
-                href="#about"
-                className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-              >
-                公司簡介
-              </a>
-              <a
-                href="#pricing"
-                className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-              >
-                報價流程
-              </a>
-              <a
-                href="#contact"
-                className="text-gray-700 dark:text-gray-300 hover:text-blue-600 dark:hover:text-blue-400 transition-colors"
-              >
-                聯絡我們
-              </a>
-            </div>
-
-            {/* Mobile Menu Button */}
-            <button className="md:hidden p-2 text-gray-700 dark:text-gray-300">
-              <svg
-                className="w-6 h-6"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M4 6h16M4 12h16M4 18h16"
-                />
-              </svg>
-            </button>
-          </div>
-        </div>
-      </nav>
-
-      {/* Banner/Hero Section */}
+      {/* Hero Section */}
       <section
         id="home"
-        className="bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 py-20 lg:py-32"
-        style={{ background: "#C0FF4B" }}
+        className="bg-[#C0FF4B] py-20 lg:py-32"
       >
-        {" "}
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
             {/* Left Column - Image */}
@@ -133,6 +102,7 @@ export default function Home() {
                 width={350}
                 height={400}
                 className="rounded-lg shadow-xl w-full h-auto object-cover max-w-xs"
+                priority
               />
             </div>
             {/* Right Column - Image */}
@@ -199,15 +169,11 @@ export default function Home() {
         </div>
       </section>
 
-      <section>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      {/* Company Logos Section */}
+      <section className="py-12 bg-white">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 justify-items-center">
-            {[
-              "/company-logo-1.png",
-              "/company-logo-2.png",
-              "/company-logo-3.png",
-              "/company-logo-1.png",
-            ].map((src, idx) => (
+            {companyLogos.map((src, idx) => (
               <div
                 key={idx}
                 className="w-32 h-32 flex items-center justify-center"
@@ -218,7 +184,7 @@ export default function Home() {
                   width={200}
                   height={200}
                   className="object-contain w-full h-full"
-                  style={{ border: "none" }}
+                  loading="lazy"
                 />
               </div>
             ))}
@@ -230,13 +196,14 @@ export default function Home() {
       <section id="video" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto">
-            <div className="relative aspect-video bg-gray-200 dark:bg-gray-700 rounded-lg overflow-hidden">
+            <div className="relative aspect-video bg-gray-200 rounded-lg overflow-hidden">
               <iframe
                 className="w-full h-full"
                 src="https://www.youtube.com/embed/dQw4w9WgXcQ"
                 title="Company Introduction Video"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
+                loading="lazy"
               />
             </div>
           </div>
@@ -244,25 +211,23 @@ export default function Home() {
       </section>
 
       {/* Pricing Section */}
-      <section id="pricing" className="py-20" style={{ background: "#C0FF4B" }}>
+      <section id="pricing" className="py-20 bg-[#C0FF4B]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="font-viga text-3xl md:text-4xl text-gray-900 text-black mb-4">
-              Quote Price
+            <h2 className="font-viga text-3xl md:text-4xl text-black mb-4">
+              Quote Process
             </h2>
-            <p className="text-lg text-black text-3xl mb-4">公司簡介</p>
+            <p className="text-lg text-black text-3xl mb-4">報價流程</p>
           </div>
 
-          <div className="grid md:grid-cols-3">
+          <div className="grid md:grid-cols-3 gap-8">
             {quotePrice.map((item, idx) => (
               <div key={idx} className="p-8">
                 <h3 className="font-viga text-2xl mb-4 text-black text-center">
                   {item.title}
                 </h3>
                 <div className="space-y-3 mb-8 text-black">
-                  <p className={idx === 1 ? "" : "text-black"}>
-                    {item.content}
-                  </p>
+                  <p className="text-black">{item.content}</p>
                 </div>
               </div>
             ))}
@@ -270,68 +235,14 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Contact US Section */}
-      <section id="contact-us" className="py-20 bg-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="font-viga text-3xl md:text-4xl text-black mb-2">
-            Contact Us
-          </h2>
-          <p className="text-lg text-black text-3xl mb-12">聯絡我們</p>
-          <p className="text-lg text-black mb-12">
-            <span className="pr-5">
-              <Image
-                src="/whatsapp-icon.png"
-                alt="WhatsApp"
-                width={24}
-                height={24}
-                className="inline-block align-middle mr-2"
-              />
-              +852 6806-0108
-            </span>
-            <span className="pr-5">
-              <Image
-                src="/print-icon.png"
-                alt="Print"
-                width={24}
-                height={24}
-                className="inline-block align-middle mr-2"
-              />
-              +852 3020-6719
-            </span>
-            <span className="pr-5">
-              <Image
-                src="/email-icon.png"
-                alt="Print"
-                width={24}
-                height={24}
-                className="inline-block align-middle mr-2"
-              />
-              leego.scaffolding@gmail.com
-            </span>{" "}
-            <br />
-            <span>
-              <Image
-                src="/fb-icon.png"
-                alt="Print"
-                width={24}
-                height={24}
-                className="inline-block align-middle mr-2"
-              />
-              https://www.facebook.com/MasterHongScaffolding/
-            </span>
-          </p>
-        </div>
-      </section>
+      <ContactInfo contacts={contactInfo} />
 
       {/* Footer */}
       <footer
         id="contact"
-        className="bg-gray-900 text-white"
-        style={{
-          background: "linear-gradient(0deg, #FFFBB5 0%, #E0B700 100%)",
-        }}
+        className="text-white bg-gradient-to-b from-[#FFFBB5] to-[#E0B700]"
       >
-        <div className="border-gray-800 mt-12 pt-8 pb-8 text-center text-black">
+        <div className="pt-8 pb-8 text-center text-black">
           <p>
             MASTER HONG SCAFFOLDING WORKS &copy; Copyright 2025. All Rights
             Reserved.
@@ -339,29 +250,10 @@ export default function Home() {
         </div>
       </footer>
 
-      {/* Floating WhatsApp and Email Buttons */}
-      <div className="fixed bottom-6 right-6 flex flex-col space-y-3 z-50">
-        <a
-          href="mailto:hello@company.com"
-          className="bg-red-600 hover:bg-red-700 text-white p-4 rounded-full shadow-lg transition-all hover:scale-110"
-          title="Send Email"
-        >
-          <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z" />
-          </svg>
-        </a>
-        <a
-          href="https://wa.me/1234567890"
-          target="_blank"
-          rel="noopener noreferrer"
-          className="bg-green-600 hover:bg-green-700 text-white p-4 rounded-full shadow-lg transition-all hover:scale-110"
-          title="Chat on WhatsApp"
-        >
-          <svg className="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.885 3.488" />
-          </svg>
-        </a>
-      </div>
+      <FloatingButtons
+        email="leego.scaffolding@gmail.com"
+        whatsapp="https://wa.me/85268060108"
+      />
     </div>
   );
 }
