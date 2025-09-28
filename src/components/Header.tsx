@@ -1,14 +1,20 @@
+"use client";
+
 import Image from "next/image";
+import { useTranslations } from "next-intl";
+import LanguageSwitcher from "./LanguageSwitcher";
 
 interface HeaderProps {
   phoneNumber: string;
 }
 
 export default function Header({ phoneNumber }: HeaderProps) {
+  const t = useTranslations("nav");
+
   const menuItems = [
-    { href: "#about", label: "公司簡介" },
-    { href: "#pricing", label: "報價流程" },
-    { href: "#contact", label: "聯絡我們" },
+    { href: "#about", label: t("about") },
+    { href: "#pricing", label: t("pricing") },
+    { href: "#contact", label: t("contact") },
   ];
 
   return (
@@ -51,7 +57,7 @@ export default function Header({ phoneNumber }: HeaderProps) {
             </div>
 
             {/* Desktop Menu */}
-            <div className="hidden md:flex space-x-8">
+            <div className="hidden md:flex items-center space-x-8">
               {menuItems.map((item) => (
                 <a
                   key={item.href}
@@ -61,6 +67,7 @@ export default function Header({ phoneNumber }: HeaderProps) {
                   {item.label}
                 </a>
               ))}
+              <LanguageSwitcher />
             </div>
 
             {/* Mobile Menu Button */}

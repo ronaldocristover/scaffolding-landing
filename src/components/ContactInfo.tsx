@@ -1,4 +1,7 @@
+'use client';
+
 import Image from "next/image";
+import {useTranslations} from 'next-intl';
 
 interface ContactInfo {
   icon: string;
@@ -12,13 +15,14 @@ interface ContactInfoProps {
 }
 
 export default function ContactInfo({ contacts }: ContactInfoProps) {
+  const t = useTranslations();
   return (
     <section id="contact-us" className="py-20 bg-white">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         <h2 className="font-viga text-3xl md:text-4xl text-black mb-2">
           Contact Us
         </h2>
-        <p className="text-lg text-black text-3xl mb-12">聯絡我們</p>
+        <p className="text-lg text-black text-3xl mb-12">{t('nav.contact')}</p>
         <div className="text-lg text-black mb-12">
           <div className="flex flex-wrap justify-center gap-8">
             {contacts.map((contact, idx) => (

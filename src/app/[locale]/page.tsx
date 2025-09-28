@@ -2,6 +2,8 @@ import Image from "next/image";
 import Header from "@/components/Header";
 import ContactInfo from "@/components/ContactInfo";
 import FloatingButtons from "@/components/FloatingButtons";
+import {getTranslations} from 'next-intl/server';
+import {setRequestLocale} from 'next-intl/server';
 
 interface QuoteStep {
   title: string;
@@ -15,37 +17,39 @@ interface ContactInfoType {
   link?: string;
 }
 
-export default function Home() {
+type Props = {
+  params: Promise<{locale: string}>;
+};
+
+export default async function Home({params}: Props) {
+  const {locale} = await params;
+  setRequestLocale(locale);
+
+  const t = await getTranslations();
   const quotePrice: QuoteStep[] = [
     {
-      title: "步驟 1｜初步咨詢",
-      content:
-        "WhatsApp 或電郵報價，請提供以下資料：1. 客戶/公司名稱 2. 施工地點 3. 施工點照片 4. 棚架用途",
+      title: t('pricing.step1.title'),
+      content: t('pricing.step1.content'),
     },
     {
-      title: "步驟 2｜實地考察",
-      content:
-        "安排專業師傅到現場進行實地考察，評估工程難度、安全要求及施工環境，確保報價準確",
+      title: t('pricing.step2.title'),
+      content: t('pricing.step2.content'),
     },
     {
-      title: "步驟 3｜詳細報價",
-      content:
-        "根據實地考察結果，提供詳細的工程報價單，包括材料費、人工費、運輸費及相關安全措施費用",
+      title: t('pricing.step3.title'),
+      content: t('pricing.step3.content'),
     },
     {
-      title: "步驟 4｜合約簽署",
-      content:
-        "雙方確認報價後簽署正式合約，明確工程範圍、完工時間、付款方式及安全責任條款",
+      title: t('pricing.step4.title'),
+      content: t('pricing.step4.content'),
     },
     {
-      title: "步驟 5｜工程施工",
-      content:
-        "由資深師傅帶領專業團隊進行施工，嚴格按照安全規範執行，定期檢查棚架穩固性及安全性",
+      title: t('pricing.step5.title'),
+      content: t('pricing.step5.content'),
     },
     {
-      title: "步驟 6｜完工驗收",
-      content:
-        "工程完成後進行全面檢查驗收，確保棚架符合安全標準，提供使用指引及定期維護建議",
+      title: t('pricing.step6.title'),
+      content: t('pricing.step6.content'),
     },
   ];
 
@@ -59,25 +63,25 @@ export default function Home() {
   const contactInfo: ContactInfoType[] = [
     {
       icon: "/whatsapp-icon.png",
-      alt: "WhatsApp",
+      alt: t('contact.whatsapp'),
       text: "+852 6806-0108",
       link: "https://wa.me/85268060108",
     },
     {
       icon: "/print-icon.png",
-      alt: "Phone",
+      alt: t('contact.phone'),
       text: "+852 3020-6719",
       link: "tel:+85230206719",
     },
     {
       icon: "/email-icon.png",
-      alt: "Email",
+      alt: t('contact.email'),
       text: "leego.scaffolding@gmail.com",
       link: "mailto:leego.scaffolding@gmail.com",
     },
     {
       icon: "/fb-icon.png",
-      alt: "Facebook",
+      alt: t('contact.facebook'),
       text: "https://www.facebook.com/MasterHongScaffolding/",
       link: "https://www.facebook.com/MasterHongScaffolding/",
     },
@@ -98,7 +102,7 @@ export default function Home() {
             <div className="flex justify-center">
               <Image
                 src="/certificate.jpeg"
-                alt="Certificate of Appreciation"
+                alt={t('hero.certificateAlt1')}
                 width={350}
                 height={400}
                 className="rounded-lg shadow-xl w-full h-auto object-cover max-w-xs"
@@ -109,7 +113,7 @@ export default function Home() {
             <div className="flex justify-center">
               <Image
                 src="/certificate.jpeg"
-                alt="Certificate of Excellence"
+                alt={t('hero.certificateAlt2')}
                 width={350}
                 height={400}
                 className="rounded-lg shadow-xl w-full h-auto object-cover max-w-xs"
@@ -125,9 +129,9 @@ export default function Home() {
           {/* Centered About Our Company Title */}
           <div className="text-center mb-16">
             <h2 className="font-viga text-3xl md:text-4xl text-black mb-2">
-              About Our Company
+              {t('about.title')}
             </h2>
-            <p className="text-lg text-gray-800 mb-4">公司簡介</p>
+            <p className="text-lg text-gray-800 mb-4">{t('about.subtitle')}</p>
           </div>
 
           {/* Company Images */}
@@ -137,7 +141,7 @@ export default function Home() {
               <div className="relative">
                 <Image
                   src="/company-1.png"
-                  alt="Company 1"
+                  alt={t('about.companyImage1Alt')}
                   width={300}
                   height={200}
                   className="w-full h-auto object-cover max-w-sm mx-auto"
@@ -150,7 +154,7 @@ export default function Home() {
               <div className="relative">
                 <Image
                   src="/company-2.png"
-                  alt="Company Image"
+                  alt={t('about.companyImage2Alt')}
                   width={300}
                   height={200}
                   className="w-full h-auto object-cover max-w-sm mx-auto"
@@ -162,8 +166,7 @@ export default function Home() {
           {/* Company Description Text */}
           <div className="text-center">
             <p className="text-lg text-black leading-relaxed max-w-5xl mx-auto">
-              康師傅搭棚工程 隸屬
-              利高棚業工程有限公司其下一品牌，專責處理小型工程，行內又稱為「濕碎」。我們憑著廿多年的搭棚經驗，以專業團隊和工作流程，致力服務業主和中小企各類的棚架工程。由多位廿年資深搭棚師傅監工，以確保棚架安全、實用、省的時；工程和團隊亦已獲得政府認可之專業資格、牌照和保險，定期會配合嚴格的安全評核和訓練。每個工程完成後，更會定期安排督導員檢驗棚架，以確保安全。我們專業快捷、安全可靠、公道取價。
+              {t('about.description')}
             </p>
           </div>
         </div>
@@ -180,7 +183,7 @@ export default function Home() {
               >
                 <Image
                   src={src}
-                  alt={`Company Logo ${idx + 1}`}
+                  alt={`${t('companyLogos.alt')} ${idx + 1}`}
                   width={200}
                   height={200}
                   className="object-contain w-full h-full"
@@ -200,7 +203,7 @@ export default function Home() {
               <iframe
                 className="w-full h-full"
                 src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-                title="Company Introduction Video"
+                title={t('video.title')}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
                 loading="lazy"
@@ -215,9 +218,9 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="font-viga text-3xl md:text-4xl text-black mb-4">
-              Quote Process
+              {t('pricing.title')}
             </h2>
-            <p className="text-lg text-black text-3xl mb-4">報價流程</p>
+            <p className="text-lg text-black text-3xl mb-4">{t('pricing.subtitle')}</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
@@ -244,8 +247,7 @@ export default function Home() {
       >
         <div className="pt-8 pb-8 text-center text-black">
           <p>
-            MASTER HONG SCAFFOLDING WORKS &copy; Copyright 2025. All Rights
-            Reserved.
+            {t('footer.copyright')}
           </p>
         </div>
       </footer>

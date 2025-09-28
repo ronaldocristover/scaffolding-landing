@@ -1,0 +1,63 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About",
+    "services": "Services",
+    "pricing": "Pricing",
+    "contact": "Contact"
+  },
+  "hero": {
+    "certificateAlt1": "Certificate of Appreciation",
+    "certificateAlt2": "Certificate of Excellence"
+  },
+  "about": {
+    "title": "About Our Company",
+    "subtitle": "Company Introduction",
+    "companyImage1Alt": "Company 1",
+    "companyImage2Alt": "Company Image",
+    "description": "Master Hong Scaffolding Works is a brand under Lee Go Scaffolding Engineering Company Limited, specializing in small-scale projects, also known as 'wet and messy' work in the industry. With over 20 years of scaffolding experience, we serve property owners and small to medium enterprises with various scaffolding projects through our professional team and workflow. Supervised by multiple senior scaffolding masters with 20 years of experience to ensure scaffolding safety, practicality, and time efficiency. Our engineering and team have obtained government-recognized professional qualifications, licenses, and insurance, and regularly comply with strict safety assessments and training. After each project is completed, we regularly arrange supervisors to inspect scaffolding to ensure safety. We are professional, fast, safe, reliable, and fairly priced."
+  },
+  "companyLogos": {
+    "alt": "Company Logo"
+  },
+  "video": {
+    "title": "Company Introduction Video"
+  },
+  "pricing": {
+    "title": "Quote Process",
+    "subtitle": "Quotation Process",
+    "step1": {
+      "title": "Step 1 | Initial Consultation",
+      "content": "WhatsApp or email quotation, please provide the following information: 1. Customer/company name 2. Construction location 3. Construction site photos 4. Scaffolding purpose"
+    },
+    "step2": {
+      "title": "Step 2 | Site Survey",
+      "content": "Arrange professional masters to conduct on-site surveys, assess project difficulty, safety requirements, and construction environment to ensure accurate quotations"
+    },
+    "step3": {
+      "title": "Step 3 | Detailed Quotation",
+      "content": "Based on site survey results, provide detailed project quotations including material costs, labor costs, transportation costs, and related safety measure costs"
+    },
+    "step4": {
+      "title": "Step 4 | Contract Signing",
+      "content": "After both parties confirm the quotation, sign a formal contract clearly defining project scope, completion time, payment methods, and safety responsibility clauses"
+    },
+    "step5": {
+      "title": "Step 5 | Project Construction",
+      "content": "Led by senior masters with professional teams for construction, strictly following safety regulations, regularly checking scaffolding stability and safety"
+    },
+    "step6": {
+      "title": "Step 6 | Completion Inspection",
+      "content": "Comprehensive inspection after project completion to ensure scaffolding meets safety standards, provide usage guidelines and regular maintenance recommendations"
+    }
+  },
+  "contact": {
+    "whatsapp": "WhatsApp",
+    "phone": "Phone",
+    "email": "Email",
+    "facebook": "Facebook"
+  },
+  "footer": {
+    "copyright": "MASTER HONG SCAFFOLDING WORKS © Copyright 2025. All Rights Reserved."
+  }
+}
