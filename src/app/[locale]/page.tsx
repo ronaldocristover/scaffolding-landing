@@ -4,6 +4,7 @@ import ContactInfo from "@/components/ContactInfo";
 import FloatingButtons from "@/components/FloatingButtons";
 import {getTranslations} from 'next-intl/server';
 import {setRequestLocale} from 'next-intl/server';
+import { apiService, LandingPageData } from '@/services/api';
 
 interface QuoteStep {
   title: string;
@@ -25,71 +26,76 @@ export default async function Home({params}: Props) {
   const {locale} = await params;
   setRequestLocale(locale);
 
-  const t = await getTranslations();
-  const quotePrice: QuoteStep[] = [
-    {
-      title: t('pricing.step1.title'),
-      content: t('pricing.step1.content'),
-    },
-    {
-      title: t('pricing.step2.title'),
-      content: t('pricing.step2.content'),
-    },
-    {
-      title: t('pricing.step3.title'),
-      content: t('pricing.step3.content'),
-    },
-    {
-      title: t('pricing.step4.title'),
-      content: t('pricing.step4.content'),
-    },
-    {
-      title: t('pricing.step5.title'),
-      content: t('pricing.step5.content'),
-    },
-    {
-      title: t('pricing.step6.title'),
-      content: t('pricing.step6.content'),
-    },
-  ];
-
-  const companyLogos: string[] = [
-    "/company-logo-1.png",
-    "/company-logo-2.png",
-    "/company-logo-3.png",
-    "/company-logo-1.png",
-  ];
-
-  const contactInfo: ContactInfoType[] = [
-    {
-      icon: "/whatsapp-icon.png",
-      alt: t('contact.whatsapp'),
-      text: "+852 6806-0108",
-      link: "https://wa.me/85268060108",
-    },
-    {
-      icon: "/print-icon.png",
-      alt: t('contact.phone'),
-      text: "+852 3020-6719",
-      link: "tel:+85230206719",
-    },
-    {
-      icon: "/email-icon.png",
-      alt: t('contact.email'),
-      text: "leego.scaffolding@gmail.com",
-      link: "mailto:leego.scaffolding@gmail.com",
-    },
-    {
-      icon: "/fb-icon.png",
-      alt: t('contact.facebook'),
-      text: "https://www.facebook.com/MasterHongScaffolding/",
-      link: "https://www.facebook.com/MasterHongScaffolding/",
-    },
-  ];
+  // Get data from API
+  let landingPageData: LandingPageData;
+  try {
+    landingPageData = await apiService.getLandingPageData(locale);
+  } catch (error) {
+    console.error('Failed to fetch landing page data:', error);
+    // Fallback to translations if API fails
+    const t = await getTranslations();
+    landingPageData = {
+      locale,
+      hero: {
+        certificates: [
+          { src: "/certificate.jpeg", alt: t('hero.certificateAlt1') },
+          { src: "/certificate.jpeg", alt: t('hero.certificateAlt2') }
+        ]
+      },
+      about: {
+        title: t('about.title'),
+        subtitle: t('about.subtitle'),
+        description: t('about.description'),
+        images: [
+          { src: "/company-1.png", alt: t('about.companyImage1Alt') },
+          { src: "/company-2.png", alt: t('about.companyImage2Alt') }
+        ]
+      },
+      companyLogos: [
+        "/company-logo-1.png",
+        "/company-logo-2.png",
+        "/company-logo-3.png",
+        "/company-logo-1.png"
+      ],
+      video: {
+        title: t('video.title'),
+        embedUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ"
+      },
+      pricing: {
+        title: t('pricing.title'),
+        subtitle: t('pricing.subtitle'),
+        steps: [
+          { title: t('pricing.step1.title'), content: t('pricing.step1.content') },
+          { title: t('pricing.step2.title'), content: t('pricing.step2.content') },
+          { title: t('pricing.step3.title'), content: t('pricing.step3.content') },
+          { title: t('pricing.step4.title'), content: t('pricing.step4.content') },
+          { title: t('pricing.step5.title'), content: t('pricing.step5.content') },
+          { title: t('pricing.step6.title'), content: t('pricing.step6.content') }
+        ]
+      },
+      contact: {
+        phoneNumber: "+852 6806-0108",
+        contacts: [
+          { type: "whatsapp", icon: "/whatsapp-icon.png", alt: t('contact.whatsapp'), text: "+852 6806-0108", link: "https://wa.me/85268060108" },
+          { type: "phone", icon: "/print-icon.png", alt: t('contact.phone'), text: "+852 3020-6719", link: "tel:+85230206719" },
+          { type: "email", icon: "/email-icon.png", alt: t('contact.email'), text: "leego.scaffolding@gmail.com", link: "mailto:leego.scaffolding@gmail.com" },
+          { type: "facebook", icon: "/fb-icon.png", alt: t('contact.facebook'), text: "https://www.facebook.com/MasterHongScaffolding/", link: "https://www.facebook.com/MasterHongScaffolding/" }
+        ]
+      },
+      footer: {
+        copyright: t('footer.copyright')
+      },
+      navigation: {
+        about: t('nav.about'),
+        pricing: t('nav.pricing'),
+        contact: t('nav.contact')
+      }
+    };
+  }
 
   return (
     <div className="min-h-screen bg-white">
-      <Header phoneNumber="+852 6806-0108" />
+      <Header phoneNumber={landingPageData.contact.phoneNumber} />
 
       {/* Hero Section */}
       <section
@@ -101,8 +107,8 @@ export default async function Home({params}: Props) {
             {/* Left Column - Image */}
             <div className="flex justify-center">
               <Image
-                src="/certificate.jpeg"
-                alt={t('hero.certificateAlt1')}
+                src={landingPageData.hero.certificates[0].src}
+                alt={landingPageData.hero.certificates[0].alt}
                 width={350}
                 height={400}
                 className="rounded-lg shadow-xl w-full h-auto object-cover max-w-xs"
@@ -112,8 +118,8 @@ export default async function Home({params}: Props) {
             {/* Right Column - Image */}
             <div className="flex justify-center">
               <Image
-                src="/certificate.jpeg"
-                alt={t('hero.certificateAlt2')}
+                src={landingPageData.hero.certificates[1].src}
+                alt={landingPageData.hero.certificates[1].alt}
                 width={350}
                 height={400}
                 className="rounded-lg shadow-xl w-full h-auto object-cover max-w-xs"
@@ -129,9 +135,9 @@ export default async function Home({params}: Props) {
           {/* Centered About Our Company Title */}
           <div className="text-center mb-16">
             <h2 className="font-viga text-3xl md:text-4xl text-black mb-2">
-              {t('about.title')}
+              {landingPageData.about.title}
             </h2>
-            <p className="text-lg text-gray-800 mb-4">{t('about.subtitle')}</p>
+            <p className="text-lg text-gray-800 mb-4">{landingPageData.about.subtitle}</p>
           </div>
 
           {/* Company Images */}
@@ -140,8 +146,8 @@ export default async function Home({params}: Props) {
             <div className="text-center">
               <div className="relative">
                 <Image
-                  src="/company-1.png"
-                  alt={t('about.companyImage1Alt')}
+                  src={landingPageData.about.images[0].src}
+                  alt={landingPageData.about.images[0].alt}
                   width={300}
                   height={200}
                   className="w-full h-auto object-cover max-w-sm mx-auto"
@@ -153,8 +159,8 @@ export default async function Home({params}: Props) {
             <div className="text-center">
               <div className="relative">
                 <Image
-                  src="/company-2.png"
-                  alt={t('about.companyImage2Alt')}
+                  src={landingPageData.about.images[1].src}
+                  alt={landingPageData.about.images[1].alt}
                   width={300}
                   height={200}
                   className="w-full h-auto object-cover max-w-sm mx-auto"
@@ -166,7 +172,7 @@ export default async function Home({params}: Props) {
           {/* Company Description Text */}
           <div className="text-center">
             <p className="text-lg text-black leading-relaxed max-w-5xl mx-auto">
-              {t('about.description')}
+              {landingPageData.about.description}
             </p>
           </div>
         </div>
@@ -176,14 +182,14 @@ export default async function Home({params}: Props) {
       <section className="py-12 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 justify-items-center">
-            {companyLogos.map((src, idx) => (
+            {landingPageData.companyLogos.map((src, idx) => (
               <div
                 key={idx}
                 className="w-32 h-32 flex items-center justify-center"
               >
                 <Image
                   src={src}
-                  alt={`${t('companyLogos.alt')} ${idx + 1}`}
+                  alt={`Company Logo ${idx + 1}`}
                   width={200}
                   height={200}
                   className="object-contain w-full h-full"
@@ -202,8 +208,8 @@ export default async function Home({params}: Props) {
             <div className="relative aspect-video bg-gray-200 rounded-lg overflow-hidden">
               <iframe
                 className="w-full h-full"
-                src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-                title={t('video.title')}
+                src={landingPageData.video.embedUrl}
+                title={landingPageData.video.title}
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
                 loading="lazy"
@@ -218,13 +224,13 @@ export default async function Home({params}: Props) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="font-viga text-3xl md:text-4xl text-black mb-4">
-              {t('pricing.title')}
+              {landingPageData.pricing.title}
             </h2>
-            <p className="text-lg text-black text-3xl mb-4">{t('pricing.subtitle')}</p>
+            <p className="text-lg text-black text-3xl mb-4">{landingPageData.pricing.subtitle}</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {quotePrice.map((item, idx) => (
+            {landingPageData.pricing.steps.map((item, idx) => (
               <div key={idx} className="p-8">
                 <h3 className="font-viga text-2xl mb-4 text-black text-center">
                   {item.title}
@@ -238,7 +244,7 @@ export default async function Home({params}: Props) {
         </div>
       </section>
 
-      <ContactInfo contacts={contactInfo} />
+      <ContactInfo contacts={landingPageData.contact.contacts} />
 
       {/* Footer */}
       <footer
@@ -247,14 +253,14 @@ export default async function Home({params}: Props) {
       >
         <div className="pt-8 pb-8 text-center text-black">
           <p>
-            {t('footer.copyright')}
+            {landingPageData.footer.copyright}
           </p>
         </div>
       </footer>
 
       <FloatingButtons
-        email="leego.scaffolding@gmail.com"
-        whatsapp="https://wa.me/85268060108"
+        email={landingPageData.contact.contacts.find(c => c.type === 'email')?.text || "leego.scaffolding@gmail.com"}
+        whatsapp={landingPageData.contact.contacts.find(c => c.type === 'whatsapp')?.link || "https://wa.me/85268060108"}
       />
     </div>
   );
