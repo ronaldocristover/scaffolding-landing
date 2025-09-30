@@ -53,11 +53,11 @@ export default function Header({ phoneNumber }: HeaderProps) {
                 />
               </div>
               <div className="flex flex-col">
-                <span className="font-viga text-sm sm:text-lg md:text-xl text-gray-900 leading-tight">
+                <span className="font-sans font-bold text-sm sm:text-lg md:text-xl text-gray-900 leading-tight tracking-tight">
                   <span className="hidden sm:inline">利高棚業工程有限公司｜康師傅搭棚公司</span>
                   <span className="sm:hidden">康師傅搭棚公司</span>
                 </span>
-                <span className="font-viga text-xs sm:text-sm md:text-base text-gray-700 leading-tight">
+                <span className="font-sans font-semibold text-xs sm:text-sm md:text-base text-gray-700 leading-tight tracking-wide">
                   Scaffolding Engineering Limited
                 </span>
               </div>
@@ -69,7 +69,7 @@ export default function Header({ phoneNumber }: HeaderProps) {
                 <a
                   key={item.href}
                   href={item.href}
-                  className="text-gray-700 hover:text-blue-600 transition-colors"
+                  className="font-sans font-medium text-gray-700 hover:text-blue-600 transition-colors text-sm tracking-wide"
                 >
                   {item.label}
                 </a>
@@ -126,7 +126,7 @@ export default function Header({ phoneNumber }: HeaderProps) {
               <a
                 key={item.href}
                 href={item.href}
-                className={`block text-gray-700 hover:text-blue-600 transition-all duration-300 py-2 text-base font-medium transform ${
+                className={`block font-sans font-medium text-gray-700 hover:text-blue-600 transition-all duration-300 py-2 text-sm tracking-wide transform ${
                   isMobileMenuOpen
                     ? 'translate-x-0 opacity-100'
                     : '-translate-x-4 opacity-0'
