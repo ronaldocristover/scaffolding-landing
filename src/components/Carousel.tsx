@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import Image from 'next/image';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
@@ -27,11 +27,11 @@ export default function Carousel({ items, autoPlay = false, interval = 5000 }: C
     );
   };
 
-  const goToNext = () => {
+  const goToNext = useCallback(() => {
     setCurrentIndex((prevIndex) =>
       prevIndex === items.length - 1 ? 0 : prevIndex + 1
     );
-  };
+  }, [items.length]);
 
   const goToSlide = (index: number) => {
     setCurrentIndex(index);
@@ -42,7 +42,7 @@ export default function Carousel({ items, autoPlay = false, interval = 5000 }: C
       const timer = setInterval(goToNext, interval);
       return () => clearInterval(timer);
     }
-  }, [autoPlay, interval, items.length]);
+  }, [autoPlay, interval, items.length, goToNext]);
 
   if (items.length === 0) return null;
 

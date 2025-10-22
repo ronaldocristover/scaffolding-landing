@@ -32,10 +32,10 @@ export interface WebsiteContent {
   services: Service[];
 }
 
-export interface ContentUpdateRequest {
+export interface ContentUpdateRequest extends Record<string, unknown> {
   section: 'hero' | 'about' | 'services';
   locale: string;
-  content: any;
+  content: Record<string, unknown>;
 }
 
 // Mock implementation for content endpoints
@@ -107,7 +107,7 @@ export class ContentService {
    */
   static async updateContent(
     updateData: ContentUpdateRequest
-  ): Promise<ApiResponse<any>> {
+  ): Promise<ApiResponse<{ message: string; section: string; locale: string }>> {
     if (this.useMock) {
       // Simulate API delay
       await new Promise(resolve => setTimeout(resolve, 500));
@@ -128,14 +128,14 @@ export class ContentService {
       };
     }
 
-    return apiCall<any>('PUT', '/content', updateData);
+    return apiCall<{ message: string; section: string; locale: string }>('PUT', '/content', updateData);
   }
 
   /**
    * Get services catalog
    * GET /api/services
    */
-  static async getServices(): Promise<ApiResponse<{ services: any[] }>> {
+  static async getServices(): Promise<ApiResponse<{ services: Service[] }>> {
     if (this.useMock) {
       await new Promise(resolve => setTimeout(resolve, 200));
 
@@ -150,7 +150,7 @@ export class ContentService {
       };
     }
 
-    return apiCall<any>('GET', '/services');
+    return apiCall<{ services: Service[] }>('GET', '/services');
   }
 
   /**
@@ -170,7 +170,7 @@ export class ContentService {
       errors.locale = 'Locale must be either "en" or "zh"';
     }
 
-    if (!updateData.content) {
+    if (!updateData.content || Object.keys(updateData.content).length === 0) {
       errors.content = 'Content data is required';
     }
 

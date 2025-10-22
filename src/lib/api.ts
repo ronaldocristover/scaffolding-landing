@@ -48,7 +48,7 @@ export interface ApiResponse<T> {
   error?: {
     code: string;
     message: string;
-    details?: any;
+    details?: Record<string, unknown>;
   };
   meta?: {
     pagination?: {
@@ -65,7 +65,7 @@ export interface ApiResponse<T> {
 export const apiCall = async <T>(
   method: 'GET' | 'POST' | 'PUT' | 'DELETE',
   endpoint: string,
-  data?: any
+  data?: Record<string, unknown> | FormData
 ): Promise<ApiResponse<T>> => {
   try {
     const response = await apiClient.request({
@@ -74,13 +74,28 @@ export const apiCall = async <T>(
       data,
     });
     return response.data;
-  } catch (error: any) {
+  } catch (error: unknown) {
+    // Type guard for axios error
+    if (error && typeof error === 'object' && 'response' in error) {
+      const axiosError = error as { response?: { data?: { error?: { code?: string; message?: string; details?: Record<string, unknown> } } } };
+      return {
+        success: false,
+        error: {
+          code: axiosError.response?.data?.error?.code || 'NETWORK_ERROR',
+          message: axiosError.response?.data?.error?.message || 'Network error occurred',
+          details: axiosError.response?.data?.error?.details,
+        },
+        meta: {
+          timestamp: new Date().toISOString(),
+        },
+      };
+    }
+
     return {
       success: false,
       error: {
-        code: error.response?.data?.error?.code || 'NETWORK_ERROR',
-        message: error.response?.data?.error?.message || 'Network error occurred',
-        details: error.response?.data?.error?.details,
+        code: 'NETWORK_ERROR',
+        message: 'Network error occurred',
       },
       meta: {
         timestamp: new Date().toISOString(),

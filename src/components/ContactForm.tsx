@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import ContactService, { ContactFormRequest } from "@/services/contact-service";
-import { useTranslations } from "next-intl";
 
 interface ContactFormProps {
   locale?: string;
@@ -10,7 +9,6 @@ interface ContactFormProps {
 }
 
 export default function ContactForm({ locale = "en", className = "" }: ContactFormProps) {
-  const t = useTranslations();
   const [formData, setFormData] = useState<ContactFormRequest>({
     name: "",
     company: "",

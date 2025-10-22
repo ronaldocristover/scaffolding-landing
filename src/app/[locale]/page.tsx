@@ -1,13 +1,12 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import Image from "next/image";
 import Header from "@/components/Header";
 import ContactInfo from "@/components/ContactInfo";
 import FloatingButtons from "@/components/FloatingButtons";
 import Carousel from "@/components/Carousel";
 import ContactService from "@/services/contact-service";
-import ContentService from "@/services/content-service";
 import CarouselService from "@/services/carousel-service";
 import { useTranslations } from "next-intl";
 
@@ -84,108 +83,109 @@ export default function Home({ params }: Props) {
     "/company-logo-1.png",
   ];
 
-  // Fetch data from API on component mount and when locale changes
-  useEffect(() => {
+  // Create memoized fetch data function
+  const fetchData = useCallback(async () => {
     if (locale === 'en') return; // Don't fetch until locale is set
 
-    const fetchData = async () => {
-      try {
-        setLoading(true);
+    try {
+      setLoading(true);
 
-        // Fetch contact info
-        const contactResponse = await ContactService.getContactInfo();
-        if (contactResponse.success && contactResponse.data) {
-          const contacts: ContactInfoType[] = [
-            {
-              icon: "/whatsapp-icon.png",
-              alt: t("contact.whatsapp"),
-              text: contactResponse.data.whatsapp.number,
-              link: contactResponse.data.whatsapp.link,
-            },
-            {
-              icon: "/print-icon.png",
-              alt: t("contact.phone"),
-              text: contactResponse.data.phone.main,
-              link: `tel:${contactResponse.data.phone.main.replace(/\s/g, '')}`,
-            },
-            {
-              icon: "/email-icon.png",
-              alt: t("contact.email"),
-              text: contactResponse.data.email.address,
-              link: `mailto:${contactResponse.data.email.address}`,
-            },
-            {
-              icon: "/fb-icon.png",
-              alt: t("contact.facebook"),
-              text: contactResponse.data.facebook.url,
-              link: contactResponse.data.facebook.url,
-            },
-          ];
-          setContactInfo(contacts);
-        }
-
-        // Fetch carousel items
-        const carouselResponse = await CarouselService.getCarouselItems();
-        if (carouselResponse.success && carouselResponse.data) {
-          const items: CarouselItemType[] = carouselResponse.data.items.map(item => ({
-            type: item.type,
-            src: item.url,
-            alt: item.alt || item.title,
-          }));
-          setCarouselItems(items);
-        }
-      } catch (error) {
-        console.error('Error fetching data:', error);
-
-        // Fallback to hardcoded data if API fails
-        const fallbackContacts: ContactInfoType[] = [
+      // Fetch contact info
+      const contactResponse = await ContactService.getContactInfo();
+      if (contactResponse.success && contactResponse.data) {
+        const contacts: ContactInfoType[] = [
           {
             icon: "/whatsapp-icon.png",
             alt: t("contact.whatsapp"),
-            text: "+852 6806-0108",
-            link: "https://wa.me/85268060108",
+            text: contactResponse.data.whatsapp.number,
+            link: contactResponse.data.whatsapp.link,
           },
           {
             icon: "/print-icon.png",
             alt: t("contact.phone"),
-            text: "+852 3020-6719",
-            link: "tel:+85230206719",
+            text: contactResponse.data.phone.main,
+            link: `tel:${contactResponse.data.phone.main.replace(/\s/g, '')}`,
           },
           {
             icon: "/email-icon.png",
             alt: t("contact.email"),
-            text: "leego.scaffolding@gmail.com",
-            link: "mailto:leego.scaffolding@gmail.com",
+            text: contactResponse.data.email.address,
+            link: `mailto:${contactResponse.data.email.address}`,
           },
           {
             icon: "/fb-icon.png",
             alt: t("contact.facebook"),
-            text: "https://www.facebook.com/MasterHongScaffolding/",
-            link: "https://www.facebook.com/MasterHongScaffolding/",
+            text: contactResponse.data.facebook.url,
+            link: contactResponse.data.facebook.url,
           },
         ];
-        setContactInfo(fallbackContacts);
-
-        const fallbackCarousel: CarouselItemType[] = [
-          {
-            type: "image",
-            src: "/banner-1.jpeg",
-            alt: "Scaffolding work 1",
-          },
-          {
-            type: "image",
-            src: "/banner-2.jpeg",
-            alt: "Scaffolding work 2",
-          },
-        ];
-        setCarouselItems(fallbackCarousel);
-      } finally {
-        setLoading(false);
+        setContactInfo(contacts);
       }
-    };
 
+      // Fetch carousel items
+      const carouselResponse = await CarouselService.getCarouselItems();
+      if (carouselResponse.success && carouselResponse.data) {
+        const items: CarouselItemType[] = carouselResponse.data.items.map(item => ({
+          type: item.type,
+          src: item.url,
+          alt: item.alt || item.title,
+        }));
+        setCarouselItems(items);
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+
+      // Fallback to hardcoded data if API fails
+      const fallbackContacts: ContactInfoType[] = [
+        {
+          icon: "/whatsapp-icon.png",
+          alt: t("contact.whatsapp"),
+          text: "+852 6806-0108",
+          link: "https://wa.me/85268060108",
+        },
+        {
+          icon: "/print-icon.png",
+          alt: t("contact.phone"),
+          text: "+852 3020-6719",
+          link: "tel:+85230206719",
+        },
+        {
+          icon: "/email-icon.png",
+          alt: t("contact.email"),
+          text: "leego.scaffolding@gmail.com",
+          link: "mailto:leego.scaffolding@gmail.com",
+        },
+        {
+          icon: "/fb-icon.png",
+          alt: t("contact.facebook"),
+          text: "https://www.facebook.com/MasterHongScaffolding/",
+          link: "https://www.facebook.com/MasterHongScaffolding/",
+        },
+      ];
+      setContactInfo(fallbackContacts);
+
+      const fallbackCarousel: CarouselItemType[] = [
+        {
+          type: "image",
+          src: "/banner-1.jpeg",
+          alt: "Scaffolding work 1",
+        },
+        {
+          type: "image",
+          src: "/banner-2.jpeg",
+          alt: "Scaffolding work 2",
+        },
+      ];
+      setCarouselItems(fallbackCarousel);
+    } finally {
+      setLoading(false);
+    }
+  }, [locale, t]);
+
+  // Fetch data from API on component mount and when dependencies change
+  useEffect(() => {
     fetchData();
-  }, [locale]);
+  }, [fetchData]);
 
   if (loading) {
     return (

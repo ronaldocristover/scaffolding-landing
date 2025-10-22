@@ -123,14 +123,15 @@ export class CarouselService {
         },
       });
 
-      const data = await response.json();
+      const data: ApiResponse<MediaUploadResponse> = await response.json();
       return data;
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'Failed to upload file';
       return {
         success: false,
         error: {
           code: 'UPLOAD_ERROR',
-          message: error.message || 'Failed to upload file',
+          message: errorMessage,
         },
         meta: {
           timestamp: new Date().toISOString(),

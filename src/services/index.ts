@@ -28,5 +28,6 @@ export type {
 } from './carousel-service';
 
 // Re-export API client and utilities
-export { apiClient, apiCall, ApiResponse } from '@/lib/api';
+export { apiClient, apiCall } from '@/lib/api';
+export type { ApiResponse } from '@/lib/api';
 export { mockContactInfo, mockContent, mockCarouselItems } from '@/lib/mock-data';
