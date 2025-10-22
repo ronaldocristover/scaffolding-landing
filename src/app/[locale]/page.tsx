@@ -2,6 +2,7 @@ import Image from "next/image";
 import Header from "@/components/Header";
 import ContactInfo from "@/components/ContactInfo";
 import FloatingButtons from "@/components/FloatingButtons";
+import Carousel from "@/components/Carousel";
 import {getTranslations} from 'next-intl/server';
 import {setRequestLocale} from 'next-intl/server';
 
@@ -84,6 +85,25 @@ export default async function Home({params}: Props) {
       alt: t('contact.facebook'),
       text: "https://www.facebook.com/MasterHongScaffolding/",
       link: "https://www.facebook.com/MasterHongScaffolding/",
+    },
+  ];
+
+  const carouselItems = [
+    {
+      type: 'video' as const,
+      src: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+      title: t('video.title'),
+      videoId: "dQw4w9WgXcQ",
+    },
+    {
+      type: 'image' as const,
+      src: "/company-1.png",
+      alt: "Scaffolding work 1",
+    },
+    {
+      type: 'image' as const,
+      src: "/company-2.png",
+      alt: "Scaffolding work 2",
     },
   ];
 
@@ -195,21 +215,10 @@ export default async function Home({params}: Props) {
         </div>
       </section>
 
-      {/* Video Section */}
+      {/* Carousel Section */}
       <section id="video" className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="max-w-4xl mx-auto">
-            <div className="relative aspect-video bg-gray-200 rounded-lg overflow-hidden">
-              <iframe
-                className="w-full h-full"
-                src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-                title={t('video.title')}
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                allowFullScreen
-                loading="lazy"
-              />
-            </div>
-          </div>
+          <Carousel items={carouselItems} autoPlay={true} interval={4000} />
         </div>
       </section>
 
