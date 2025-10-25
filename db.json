@@ -1,0 +1,111 @@
+{
+  "main": {
+    "logo": "https://example.com/images/logo.png",
+    "title": "Task Manager Pro",
+    "subtitle": "Your Ultimate Task Management Solution"
+  },
+  "banner": {
+    "title": "About This Application",
+    "subtitle": "Manage Your Tasks Efficiently",
+    "content": "This application is designed to help users manage their tasks efficiently. It offers",
+    "images": {
+      "section1": [
+        "https://example.com/images/task_management_1.png",
+        "https://example.com/images/task_management_2.png"
+      ],
+      "section2": [
+        "https://example.com/images/productivity_1.png",
+        "https://example.com/images/productivity_2.png"
+      ],
+      "section3": [
+        "https://example.com/images/productivity_1.png",
+        "https://example.com/images/productivity_2.png"
+      ]
+    }
+  },
+  "about": {
+    "title": "About This Application",
+    "subtitle": "Manage Your Tasks Efficiently",
+    "content": "This application is designed to help users manage their tasks efficiently. It offers",
+    "images": {
+      "section1": [
+        "https://example.com/images/task_management_1.png",
+        "https://example.com/images/task_management_2.png"
+      ],
+      "section2": [
+        "https://example.com/images/productivity_1.png",
+        "https://example.com/images/productivity_2.png"
+      ],
+      "section3": [
+        "https://example.com/images/productivity_1.png",
+        "https://example.com/images/productivity_2.png"
+      ]
+    }
+  },
+  "quote": {
+    "success": true,
+    "data": {
+      "title": "About This Application",
+      "subtitle": "Manage Your Tasks Efficiently",
+      "content": [
+        {
+          "title": "About This Application",
+          "subtitle": "Manage Your Tasks Efficiently",
+          "content": "This application is designed to help users manage their tasks efficiently. It offers",
+          "order": 1
+        },
+        {
+          "title": "About This Application",
+          "subtitle": "Manage Your Tasks Efficiently",
+          "content": "This application is designed to help users manage their tasks efficiently. It offers",
+          "order": 2
+        },
+        {
+          "title": "About This Application",
+          "subtitle": "Manage Your Tasks Efficiently",
+          "content": "This application is designed to help users manage their tasks efficiently. It offers",
+          "order": 3
+        },
+        {
+          "title": "About This Application",
+          "subtitle": "Manage Your Tasks Efficiently",
+          "content": "This application is designed to help users manage their tasks efficiently. It offers",
+          "order": 4
+        },
+        {
+          "title": "About This Application",
+          "subtitle": "Manage Your Tasks Efficiently",
+          "content": "This application is designed to help users manage their tasks efficiently. It offers",
+          "order": 5
+        },
+        {
+          "title": "About This Application",
+          "subtitle": "Manage Your Tasks Efficiently",
+          "content": "This application is designed to help users manage their tasks efficiently. It offers",
+          "order": 6
+        }
+      ]
+    }
+  },
+
+  "contact-info": {
+    "success": true,
+    "data": {
+      "title": "Contact Us",
+      "subtitle": "聯絡我們",
+      "content": {
+        "email": "support@example.com",
+        "phone": "+1-800-123-4567",
+        "whatsapp": "+1-800-765-4321",
+        "facebook": "https://facebook.com/example"
+      }
+    }
+  },
+  "footer": {
+    "content": "© 2024 Example Inc. All rights reserved."
+  },
+  "widget": {
+    "email": "Enter your email",
+    "whatsapp": "Enter your WhatsApp number"
+  }
+}

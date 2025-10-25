@@ -8,7 +8,10 @@ interface ContactFormProps {
   className?: string;
 }
 
-export default function ContactForm({ locale = "en", className = "" }: ContactFormProps) {
+export default function ContactForm({
+  locale = "en",
+  className = "",
+}: ContactFormProps) {
   const [formData, setFormData] = useState<ContactFormRequest>({
     name: "",
     company: "",
@@ -28,14 +31,16 @@ export default function ContactForm({ locale = "en", className = "" }: ContactFo
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >
   ) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
 
     // Clear error for this field when user starts typing
     if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: "" }));
+      setErrors((prev) => ({ ...prev, [name]: "" }));
     }
   };
 
@@ -58,9 +63,10 @@ export default function ContactForm({ locale = "en", className = "" }: ContactFo
       if (response.success) {
         setSubmitStatus({
           type: "success",
-          message: locale === "zh"
-            ? "感謝您的查詢！我們將在2-4小時內回覆您。"
-            : "Thank you for your inquiry! We'll respond within 2-4 hours."
+          message:
+            locale === "zh"
+              ? "感謝您的查詢！我們將在2-4小時內回覆您。"
+              : "Thank you for your inquiry! We'll respond within 2-4 hours.",
         });
         // Reset form
         setFormData({
@@ -77,14 +83,21 @@ export default function ContactForm({ locale = "en", className = "" }: ContactFo
       } else {
         setSubmitStatus({
           type: "error",
-          message: response.error?.message || (locale === "zh" ? "提交失敗，請重試。" : "Submission failed, please try again.")
+          message:
+            response.error?.message ||
+            (locale === "zh"
+              ? "提交失敗，請重試。"
+              : "Submission failed, please try again."),
         });
       }
     } catch (error) {
-      console.error('Contact form submission error:', error);
+      console.error("Contact form submission error:", error);
       setSubmitStatus({
         type: "error",
-        message: locale === "zh" ? "網絡錯誤，請重試。" : "Network error, please try again."
+        message:
+          locale === "zh"
+            ? "網絡錯誤，請重試。"
+            : "Network error, please try again.",
       });
     } finally {
       setIsSubmitting(false);
@@ -112,7 +125,10 @@ export default function ContactForm({ locale = "en", className = "" }: ContactFo
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               {locale === "zh" ? "姓名 *" : "Name *"}
             </label>
             <input
@@ -126,11 +142,15 @@ export default function ContactForm({ locale = "en", className = "" }: ContactFo
               }`}
               required
             />
-            {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+            {errors.name && (
+              <p className="text-red-500 text-sm mt-1">{errors.name}</p>
+            )}
           </div>
-
           <div>
-            <label htmlFor="company" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="company"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               {locale === "zh" ? "公司名稱" : "Company"}
             </label>
             <input
@@ -144,7 +164,10 @@ export default function ContactForm({ locale = "en", className = "" }: ContactFo
           </div>
 
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               {locale === "zh" ? "電子郵件 *" : "Email *"}
             </label>
             <input
@@ -158,11 +181,16 @@ export default function ContactForm({ locale = "en", className = "" }: ContactFo
               }`}
               required
             />
-            {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+            )}
           </div>
 
           <div>
-            <label htmlFor="phone" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="phone"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               {locale === "zh" ? "電話 *" : "Phone *"}
             </label>
             <input
@@ -176,11 +204,16 @@ export default function ContactForm({ locale = "en", className = "" }: ContactFo
               }`}
               required
             />
-            {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
+            {errors.phone && (
+              <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
+            )}
           </div>
 
           <div>
-            <label htmlFor="projectType" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="projectType"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               {locale === "zh" ? "項目類型 *" : "Project Type *"}
             </label>
             <select
@@ -203,11 +236,16 @@ export default function ContactForm({ locale = "en", className = "" }: ContactFo
                 {locale === "zh" ? "工業" : "Industrial"}
               </option>
             </select>
-            {errors.projectType && <p className="text-red-500 text-sm mt-1">{errors.projectType}</p>}
+            {errors.projectType && (
+              <p className="text-red-500 text-sm mt-1">{errors.projectType}</p>
+            )}
           </div>
 
           <div>
-            <label htmlFor="location" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="location"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               {locale === "zh" ? "地點 *" : "Location *"}
             </label>
             <input
@@ -221,11 +259,16 @@ export default function ContactForm({ locale = "en", className = "" }: ContactFo
               }`}
               required
             />
-            {errors.location && <p className="text-red-500 text-sm mt-1">{errors.location}</p>}
+            {errors.location && (
+              <p className="text-red-500 text-sm mt-1">{errors.location}</p>
+            )}
           </div>
 
           <div>
-            <label htmlFor="urgency" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="urgency"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               {locale === "zh" ? "緊急程度" : "Urgency"}
             </label>
             <select
@@ -245,7 +288,10 @@ export default function ContactForm({ locale = "en", className = "" }: ContactFo
           </div>
 
           <div>
-            <label htmlFor="subject" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="subject"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               {locale === "zh" ? "主題" : "Subject"}
             </label>
             <input
@@ -260,7 +306,10 @@ export default function ContactForm({ locale = "en", className = "" }: ContactFo
         </div>
 
         <div>
-          <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">
+          <label
+            htmlFor="message"
+            className="block text-sm font-medium text-gray-700 mb-1"
+          >
             {locale === "zh" ? "留言 *" : "Message *"}
           </label>
           <textarea
@@ -274,7 +323,9 @@ export default function ContactForm({ locale = "en", className = "" }: ContactFo
             }`}
             required
           />
-          {errors.message && <p className="text-red-500 text-sm mt-1">{errors.message}</p>}
+          {errors.message && (
+            <p className="text-red-500 text-sm mt-1">{errors.message}</p>
+          )}
         </div>
 
         <button
@@ -283,9 +334,12 @@ export default function ContactForm({ locale = "en", className = "" }: ContactFo
           className="w-full bg-[#C0FF4B] text-black font-semibold py-3 px-4 rounded-md hover:bg-[#B0E040] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {isSubmitting
-            ? locale === "zh" ? "提交中..." : "Submitting..."
-            : locale === "zh" ? "提交查詢" : "Submit Inquiry"
-          }
+            ? locale === "zh"
+              ? "提交中..."
+              : "Submitting..."
+            : locale === "zh"
+            ? "提交查詢"
+            : "Submit Inquiry"}
         </button>
       </form>
     </div>

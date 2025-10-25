@@ -1,14 +1,14 @@
-import axios from 'axios';
+import axios from "axios";
 
 // API base configuration
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || '/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
 // Create axios instance
 export const apiClient = axios.create({
   baseURL: API_BASE_URL,
   timeout: 10000,
   headers: {
-    'Content-Type': 'application/json',
+    "Content-Type": "application/json",
   },
 });
 
@@ -16,7 +16,7 @@ export const apiClient = axios.create({
 apiClient.interceptors.request.use(
   (config) => {
     // Add auth token if available
-    const token = localStorage.getItem('auth_token');
+    const token = localStorage.getItem("auth_token");
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -34,8 +34,8 @@ apiClient.interceptors.response.use(
     // Handle common errors
     if (error.response?.status === 401) {
       // Handle unauthorized access
-      localStorage.removeItem('auth_token');
-      window.location.href = '/login';
+      localStorage.removeItem("auth_token");
+      window.location.href = "/login";
     }
     return Promise.reject(error);
   }
@@ -63,7 +63,7 @@ export interface ApiResponse<T> {
 
 // Utility function for API calls
 export const apiCall = async <T>(
-  method: 'GET' | 'POST' | 'PUT' | 'DELETE',
+  method: "GET" | "POST" | "PUT" | "DELETE",
   endpoint: string,
   data?: Record<string, unknown> | FormData
 ): Promise<ApiResponse<T>> => {
@@ -76,13 +76,25 @@ export const apiCall = async <T>(
     return response.data;
   } catch (error: unknown) {
     // Type guard for axios error
-    if (error && typeof error === 'object' && 'response' in error) {
-      const axiosError = error as { response?: { data?: { error?: { code?: string; message?: string; details?: Record<string, unknown> } } } };
+    if (error && typeof error === "object" && "response" in error) {
+      const axiosError = error as {
+        response?: {
+          data?: {
+            error?: {
+              code?: string;
+              message?: string;
+              details?: Record<string, unknown>;
+            };
+          };
+        };
+      };
       return {
         success: false,
         error: {
-          code: axiosError.response?.data?.error?.code || 'NETWORK_ERROR',
-          message: axiosError.response?.data?.error?.message || 'Network error occurred',
+          code: axiosError.response?.data?.error?.code || "NETWORK_ERROR",
+          message:
+            axiosError.response?.data?.error?.message ||
+            "Network error occurred",
           details: axiosError.response?.data?.error?.details,
         },
         meta: {
@@ -94,8 +106,8 @@ export const apiCall = async <T>(
     return {
       success: false,
       error: {
-        code: 'NETWORK_ERROR',
-        message: 'Network error occurred',
+        code: "NETWORK_ERROR",
+        message: "Network error occurred",
       },
       meta: {
         timestamp: new Date().toISOString(),

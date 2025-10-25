@@ -7,8 +7,10 @@ import ContactInfo from "@/components/ContactInfo";
 import FloatingButtons from "@/components/FloatingButtons";
 import Carousel from "@/components/Carousel";
 import ContactService from "@/services/contact-service";
+import QuotePriceService from "@/services/quote-price.service";
 import CarouselService from "@/services/carousel-service";
 import { useTranslations } from "next-intl";
+import { title } from "process";
 
 interface QuoteStep {
   title: string;
@@ -33,7 +35,7 @@ type Props = {
 };
 
 export default function Home({ params }: Props) {
-  const [locale, setLocale] = useState<string>('en');
+  const [locale, setLocale] = useState<string>("en");
   const t = useTranslations();
 
   // Handle async params
@@ -46,7 +48,16 @@ export default function Home({ params }: Props) {
   }, [params]);
 
   const [contactInfo, setContactInfo] = useState<ContactInfoType[]>([]);
+  const [contactBaseInfo, setContactBaseInfo] = useState({
+    title: "",
+    subtitle: "",
+  });
   const [carouselItems, setCarouselItems] = useState<CarouselItemType[]>([]);
+  const [quotePricing, setQuotePricing] = useState({
+    title: "",
+    subtitle: "",
+    content: [],
+  });
   const [loading, setLoading] = useState(true);
 
   const quotePrice: QuoteStep[] = [
@@ -85,7 +96,7 @@ export default function Home({ params }: Props) {
 
   // Create memoized fetch data function
   const fetchData = useCallback(async () => {
-    if (locale === 'en') return; // Don't fetch until locale is set
+    if (locale === "en") return; // Don't fetch until locale is set
 
     try {
       setLoading(true);
@@ -93,47 +104,69 @@ export default function Home({ params }: Props) {
       // Fetch contact info
       const contactResponse = await ContactService.getContactInfo();
       if (contactResponse.success && contactResponse.data) {
+        const contactBaseInfo = {
+          title: contactResponse.data.title,
+          subtitle: contactResponse.data.subtitle,
+        };
         const contacts: ContactInfoType[] = [
           {
             icon: "/whatsapp-icon.png",
             alt: t("contact.whatsapp"),
-            text: contactResponse.data.whatsapp.number,
-            link: contactResponse.data.whatsapp.link,
+            text: contactResponse.data.content.whatsapp,
+            link: contactResponse.data.content.whatsapp,
           },
           {
             icon: "/print-icon.png",
             alt: t("contact.phone"),
-            text: contactResponse.data.phone.main,
-            link: `tel:${contactResponse.data.phone.main.replace(/\s/g, '')}`,
+            text: contactResponse.data.content.phone,
+            link: `tel:${contactResponse.data.content.phone.replace(
+              /\s/g,
+              ""
+            )}`,
           },
           {
             icon: "/email-icon.png",
             alt: t("contact.email"),
-            text: contactResponse.data.email.address,
-            link: `mailto:${contactResponse.data.email.address}`,
+            text: contactResponse.data.content.email,
+            link: `mailto:${contactResponse.data.content.email}`,
           },
           {
             icon: "/fb-icon.png",
             alt: t("contact.facebook"),
-            text: contactResponse.data.facebook.url,
-            link: contactResponse.data.facebook.url,
+            text: contactResponse.data.content.facebook,
+            link: contactResponse.data.content.facebook,
           },
         ];
         setContactInfo(contacts);
+        setContactBaseInfo(contactBaseInfo);
+      }
+
+      // Fetch quote price info
+      const quoteResponse = await QuotePriceService.getContactInfo();
+      if (quoteResponse.success && quoteResponse.data) {
+        // Currently not used, but can be set to state if needed
+        console.log("Quote Price Info:", quoteResponse.data);
+        setQuotePricing({
+          title: quoteResponse.data.title || "",
+          subtitle: quoteResponse.data.subtitle || "",
+          content: quoteResponse.data.content || [],
+        });
       }
 
       // Fetch carousel items
       const carouselResponse = await CarouselService.getCarouselItems();
       if (carouselResponse.success && carouselResponse.data) {
-        const items: CarouselItemType[] = carouselResponse.data.items.map(item => ({
-          type: item.type,
-          src: item.url,
-          alt: item.alt || item.title,
-        }));
+        const items: CarouselItemType[] = carouselResponse.data.items.map(
+          (item) => ({
+            type: item.type,
+            src: item.url,
+            alt: item.alt || item.title,
+          })
+        );
         setCarouselItems(items);
       }
     } catch (error) {
-      console.error('Error fetching data:', error);
+      console.error("Error fetching data:", error);
 
       // Fallback to hardcoded data if API fails
       const fallbackContacts: ContactInfoType[] = [
@@ -200,7 +233,7 @@ export default function Home({ params }: Props) {
 
   return (
     <div className="min-h-screen bg-white">
-      <Header phoneNumber={contactInfo[0]?.text || "+852 6806-0108"} />
+      <Header phoneNumber={contactInfo[0].text} />
 
       {/* Hero Section */}
       <section id="home" className="bg-[#C0FF4B] py-20 lg:py-32">
@@ -315,21 +348,23 @@ export default function Home({ params }: Props) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
             <h2 className="font-viga text-3xl md:text-4xl text-black mb-4">
-              {t("pricing.title")}
+              {/* {t("pricing.title")} */}
+              {quotePricing.title || ""}
             </h2>
             <p className="text-lg text-black text-3xl mb-4">
-              {t("pricing.subtitle")}
+              {/* {t("pricing.subtitle")} */}
+              {quotePricing.subtitle || ""}
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            {quotePrice.map((item, idx) => (
+            {quotePricing.content.map((item, idx) => (
               <div key={idx} className="p-8">
                 <h3 className="font-viga text-2xl mb-4 text-black text-center">
-                  {item.title}
+                  {item["title"]}
                 </h3>
                 <div className="space-y-3 mb-8 text-black">
-                  <p className="text-black">{item.content}</p>
+                  <p className="text-black">{item["content"]}</p>
                 </div>
               </div>
             ))}
@@ -337,7 +372,7 @@ export default function Home({ params }: Props) {
         </div>
       </section>
 
-      <ContactInfo contacts={contactInfo} />
+      <ContactInfo contacts={contactInfo} contactBaseInfo={contactBaseInfo} />
 
       {/* Footer */}
       <footer
@@ -350,7 +385,10 @@ export default function Home({ params }: Props) {
       </footer>
 
       <FloatingButtons
-        email={contactInfo[2]?.text?.replace("mailto:", "") || "leego.scaffolding@gmail.com"}
+        email={
+          contactInfo[2]?.text?.replace("mailto:", "") ||
+          "leego.scaffolding@gmail.com"
+        }
         whatsapp={contactInfo[0]?.link || "https://wa.me/85268060108"}
       />
     </div>

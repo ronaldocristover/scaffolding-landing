@@ -2,30 +2,17 @@ import { apiCall, ApiResponse } from "@/lib/api";
 import { mockContactInfo } from "@/lib/mock-data";
 
 // Types for contact endpoints
+
+export interface ContactInfoContent {
+  whatsapp: string;
+  phone: string;
+  email: string;
+  facebook: string;
+}
 export interface ContactInfo {
-  whatsapp: {
-    number: string;
-    link: string;
-    available: boolean;
-    workingHours: string;
-  };
-  phone: {
-    main: string;
-    backup: string;
-    available: boolean;
-  };
-  email: {
-    address: string;
-    responseTime: string;
-  };
-  facebook: {
-    url: string;
-    active: boolean;
-  };
-  address: {
-    full: string;
-    areas: string[];
-  };
+  title: string;
+  subtitle: string;
+  content: ContactInfoContent;
 }
 
 export interface ContactFormRequest {
@@ -59,17 +46,17 @@ export class ContactService {
    * GET /api/contact-info
    */
   static async getContactInfo(): Promise<ApiResponse<ContactInfo>> {
-    if (this.useMock) {
-      // Simulate API delay
-      await new Promise((resolve) => setTimeout(resolve, 300));
-      return {
-        success: true,
-        data: mockContactInfo,
-        meta: {
-          timestamp: new Date().toISOString(),
-        },
-      };
-    }
+    // if (this.useMock) {
+    //   // Simulate API delay
+    //   await new Promise((resolve) => setTimeout(resolve, 300));
+    //   return {
+    //     success: true,
+    //     data: mockContactInfo,
+    //     meta: {
+    //       timestamp: new Date().toISOString(),
+    //     },
+    //   };
+    // }
 
     return apiCall<ContactInfo>("GET", "/contact-info");
   }
