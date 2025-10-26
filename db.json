@@ -8,37 +8,34 @@
     "title": "About This Application",
     "subtitle": "Manage Your Tasks Efficiently",
     "content": "This application is designed to help users manage their tasks efficiently. It offers",
-    "images": {
-      "section1": [
-        "https://example.com/images/task_management_1.png",
-        "https://example.com/images/task_management_2.png"
-      ],
-      "section2": [
-        "https://example.com/images/productivity_1.png",
-        "https://example.com/images/productivity_2.png"
-      ],
-      "section3": [
-        "https://example.com/images/productivity_1.png",
-        "https://example.com/images/productivity_2.png"
-      ]
-    }
+    "images": [
+      "https://www.edrawsoft.com/templates/images/vertical-certificate.png",
+      "https://www.edrawsoft.com/templates/images/vertical-certificate.png"
+    ]
   },
   "about": {
-    "title": "About This Application",
-    "subtitle": "Manage Your Tasks Efficiently",
-    "content": "This application is designed to help users manage their tasks efficiently. It offers",
+    "title": "About Our Company222",
+    "subtitle": "公司簡介222",
+    "content": "222 康師傅搭棚工程 隸屬 利高棚業工程有限公司其下一品牌，專責處理小型工程，行內又稱為「濕碎」。我們憑著廿多年的搭棚經驗，以專業團隊和工作流程，致力服務業主和中小企各類的棚架工程。由多位廿年資深搭棚師傅監工，以確保棚架安全、實用、省的時；工程和團隊亦已獲得政府認可之專業資格、牌照和保險，定期會配合嚴格的安全評核和訓練。每個工程完成後，更會定期安排督導員檢驗棚架，以確保安全。我們專業快捷、安全可靠、公道取價。",
     "images": {
-      "section1": [
-        "https://example.com/images/task_management_1.png",
-        "https://example.com/images/task_management_2.png"
-      ],
+      "section1": ["/company-1.png", "/company-2.png"],
       "section2": [
-        "https://example.com/images/productivity_1.png",
-        "https://example.com/images/productivity_2.png"
+        "/company-logo-1.png",
+        "/company-logo-2.png",
+        "/company-logo-3.png",
+        "/company-logo-1.png"
       ],
       "section3": [
-        "https://example.com/images/productivity_1.png",
-        "https://example.com/images/productivity_2.png"
+        {
+          "type": "image",
+          "src": "/banner-1.jpeg",
+          "alt": "Scaffolding work 1"
+        },
+        {
+          "type": "image",
+          "src": "/banner-2.jpeg",
+          "alt": "Scaffolding work 2"
+        }
       ]
     }
   },
@@ -101,11 +98,9 @@
       }
     }
   },
-  "footer": {
-    "content": "© 2024 Example Inc. All rights reserved."
-  },
-  "widget": {
-    "email": "Enter your email",
-    "whatsapp": "Enter your WhatsApp number"
+  "baseInfo": {
+    "email": "ronaldochristover@gmail.com",
+    "whatsapp": "+6282121180999",
+    "footer": "康師傅搭棚工程 © 版權所有 2026。保留所有權利。"
   }
 }

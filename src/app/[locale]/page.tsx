@@ -1,21 +1,18 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
 import Image from "next/image";
-import Header from "@/components/Header";
+import AboutCompanyService from "@/services/about-company-service";
+import BannerService from "@/services/banner-service";
+import BaseInfoService from "@/services/baseinfo-service";
+import CarouselService from "@/services/carousel-service";
+import ContactService from "@/services/contact-service";
+import QuotePriceService from "@/services/quote-price-service";
+import Carousel from "@/components/Carousel";
 import ContactInfo from "@/components/ContactInfo";
 import FloatingButtons from "@/components/FloatingButtons";
-import Carousel from "@/components/Carousel";
-import ContactService from "@/services/contact-service";
-import QuotePriceService from "@/services/quote-price.service";
-import CarouselService from "@/services/carousel-service";
-import { useTranslations } from "next-intl";
-import { title } from "process";
-
-interface QuoteStep {
-  title: string;
-  content: string;
-}
+import Header from "@/components/Header";
 
 interface ContactInfoType {
   icon: string;
@@ -47,6 +44,22 @@ export default function Home({ params }: Props) {
     getParams();
   }, [params]);
 
+  const [banners, setBanners] = useState([]);
+  const [baseInfo, setBaseInfo] = useState({
+    email: "",
+    whatsapp: "",
+    footer: "",
+  });
+  const [aboutCompanyInfo, setAboutCompanyInfo] = useState({
+    title: "",
+    subtitle: "",
+    content: "",
+    images: {
+      section1: [],
+      section2: [],
+      section3: [],
+    },
+  });
   const [contactInfo, setContactInfo] = useState<ContactInfoType[]>([]);
   const [contactBaseInfo, setContactBaseInfo] = useState({
     title: "",
@@ -59,40 +72,6 @@ export default function Home({ params }: Props) {
     content: [],
   });
   const [loading, setLoading] = useState(true);
-
-  const quotePrice: QuoteStep[] = [
-    {
-      title: t("pricing.step1.title"),
-      content: t("pricing.step1.content"),
-    },
-    {
-      title: t("pricing.step2.title"),
-      content: t("pricing.step2.content"),
-    },
-    {
-      title: t("pricing.step3.title"),
-      content: t("pricing.step3.content"),
-    },
-    {
-      title: t("pricing.step4.title"),
-      content: t("pricing.step4.content"),
-    },
-    {
-      title: t("pricing.step5.title"),
-      content: t("pricing.step5.content"),
-    },
-    {
-      title: t("pricing.step6.title"),
-      content: t("pricing.step6.content"),
-    },
-  ];
-
-  const companyLogos: string[] = [
-    "/company-logo-1.png",
-    "/company-logo-2.png",
-    "/company-logo-3.png",
-    "/company-logo-1.png",
-  ];
 
   // Create memoized fetch data function
   const fetchData = useCallback(async () => {
@@ -151,6 +130,23 @@ export default function Home({ params }: Props) {
           subtitle: quoteResponse.data.subtitle || "",
           content: quoteResponse.data.content || [],
         });
+      }
+
+      // Fetch banners
+      const bannerResponse = await BannerService.getBannerInfo();
+      if (bannerResponse) {
+        setBanners(bannerResponse.images || []);
+      }
+
+      const baseInfoResponse = await BaseInfoService.getBaseInfo();
+      if (baseInfoResponse) {
+        setBaseInfo(baseInfoResponse);
+      }
+
+      // Fetch about company
+      const aboutCompanyResponse = await AboutCompanyService.getAboutInfo();
+      if (aboutCompanyResponse) {
+        setAboutCompanyInfo(aboutCompanyResponse);
       }
 
       // Fetch carousel items
@@ -233,33 +229,25 @@ export default function Home({ params }: Props) {
 
   return (
     <div className="min-h-screen bg-white">
-      <Header phoneNumber={contactInfo[0].text} />
+      <Header phoneNumber={contactInfo[0]?.text || ""} />
 
       {/* Hero Section */}
       <section id="home" className="bg-[#C0FF4B] py-20 lg:py-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            {/* Left Column - Image */}
-            <div className="flex justify-center">
-              <Image
-                src="/certificate.jpeg"
-                alt={t("hero.certificateAlt1")}
-                width={350}
-                height={400}
-                className="rounded-lg shadow-xl w-full h-auto object-cover max-w-xs"
-                priority
-              />
-            </div>
-            {/* Right Column - Image */}
-            <div className="flex justify-center">
-              <Image
-                src="/certificate.jpeg"
-                alt={t("hero.certificateAlt2")}
-                width={350}
-                height={400}
-                className="rounded-lg shadow-xl w-full h-auto object-cover max-w-xs"
-              />
-            </div>
+            {banners.length > 0 &&
+              banners.map((banner: string, index: number) => (
+                <div key={index} className="flex justify-center">
+                  <Image
+                    src={banner}
+                    alt={banner + "-" + index}
+                    width={350}
+                    height={400}
+                    className="rounded-lg shadow-xl w-full h-auto object-cover max-w-xs"
+                    priority
+                  />
+                </div>
+              ))}
           </div>
         </div>
       </section>
@@ -270,44 +258,35 @@ export default function Home({ params }: Props) {
           {/* Centered About Our Company Title */}
           <div className="text-center mb-16">
             <h2 className="font-viga text-3xl md:text-4xl text-black mb-2">
-              {t("about.title")}
+              {aboutCompanyInfo.title || t("about.title")}
             </h2>
-            <p className="text-lg text-gray-800 mb-4">{t("about.subtitle")}</p>
+            <p className="text-lg text-gray-800 mb-4">
+              {aboutCompanyInfo.subtitle || t("about.subtitle")}
+            </p>
           </div>
 
           {/* Company Images */}
           <div className="grid md:grid-cols-2 gap-12 mb-12">
-            {/* Company Image 1 */}
-            <div className="text-center">
-              <div className="relative">
-                <Image
-                  src="/company-1.png"
-                  alt={t("about.companyImage1Alt")}
-                  width={300}
-                  height={200}
-                  className="w-full h-auto object-cover max-w-sm mx-auto"
-                />
-              </div>
-            </div>
-
-            {/* Company Image 2 */}
-            <div className="text-center">
-              <div className="relative">
-                <Image
-                  src="/company-2.png"
-                  alt={t("about.companyImage2Alt")}
-                  width={300}
-                  height={200}
-                  className="w-full h-auto object-cover max-w-sm mx-auto"
-                />
-              </div>
-            </div>
+            {aboutCompanyInfo &&
+              aboutCompanyInfo?.images?.section1.map((src, index) => (
+                <div key={index} className="text-center">
+                  <div className="relative">
+                    <Image
+                      src={src}
+                      alt={t("about.companyImage1Alt")}
+                      width={300}
+                      height={200}
+                      className="w-full h-auto object-cover max-w-sm mx-auto"
+                    />
+                  </div>
+                </div>
+              ))}
           </div>
 
           {/* Company Description Text */}
           <div className="text-center">
             <p className="text-lg text-black leading-relaxed max-w-5xl mx-auto">
-              {t("about.description")}
+              {aboutCompanyInfo.content || t("about.description")}
             </p>
           </div>
         </div>
@@ -317,31 +296,38 @@ export default function Home({ params }: Props) {
       <section className="py-12 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 justify-items-center">
-            {companyLogos.map((src, idx) => (
-              <div
-                key={idx}
-                className="w-32 h-32 flex items-center justify-center"
-              >
-                <Image
-                  src={src}
-                  alt={`${t("companyLogos.alt")} ${idx + 1}`}
-                  width={200}
-                  height={200}
-                  className="object-contain w-full h-full"
-                  loading="lazy"
-                />
-              </div>
-            ))}
+            {aboutCompanyInfo &&
+              aboutCompanyInfo.images?.section2?.map((src, idx) => (
+                <div
+                  key={idx}
+                  className="w-32 h-32 flex items-center justify-center"
+                >
+                  <Image
+                    src={src}
+                    alt={src + "-" + (idx + 1)}
+                    width={200}
+                    height={200}
+                    className="object-contain w-full h-full"
+                    loading="lazy"
+                  />
+                </div>
+              ))}
           </div>
         </div>
       </section>
 
       {/* Carousel Section */}
-      <section id="video" className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Carousel items={carouselItems} autoPlay={true} interval={4000} />
-        </div>
-      </section>
+      {aboutCompanyInfo && aboutCompanyInfo.images?.section3 && (
+        <section id="video" className="py-20 bg-white">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <Carousel
+              items={aboutCompanyInfo && aboutCompanyInfo.images?.section3}
+              autoPlay={true}
+              interval={4000}
+            />
+          </div>
+        </section>
+      )}
 
       {/* Pricing Section */}
       <section id="pricing" className="py-20 bg-[#C0FF4B]">
@@ -380,16 +366,19 @@ export default function Home({ params }: Props) {
         className="text-white bg-gradient-to-b from-[#FFFBB5] to-[#E0B700]"
       >
         <div className="pt-8 pb-8 text-center text-black">
-          <p>{t("footer.copyright")}</p>
+          <p>{baseInfo.footer || t("footer.copyright")}</p>
         </div>
       </footer>
 
       <FloatingButtons
         email={
-          contactInfo[2]?.text?.replace("mailto:", "") ||
+          baseInfo.email?.replace("mailto:", "") ||
           "leego.scaffolding@gmail.com"
         }
-        whatsapp={contactInfo[0]?.link || "https://wa.me/85268060108"}
+        whatsapp={
+          "https://wa.me/" + baseInfo.whatsapp?.replace(/\D/g, "") ||
+          "85268060108"
+        }
       />
     </div>
   );
