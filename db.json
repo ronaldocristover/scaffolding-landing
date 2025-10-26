@@ -1,8 +1,9 @@
 {
-  "main": {
-    "logo": "https://example.com/images/logo.png",
-    "title": "Task Manager Pro",
-    "subtitle": "Your Ultimate Task Management Solution"
+  "companyInfo": {
+    "logo": "/logo.png",
+    "name": "Scaffolding Engineering Limited",
+    "title": "利高棚業工程有限公司｜康師傅搭棚公司",
+    "subtitle": "康師傅搭棚公司"
   },
   "banner": {
     "title": "About This Application",
@@ -99,6 +100,7 @@
     }
   },
   "baseInfo": {
+    "phone": "+1-800-123-4567",
     "email": "ronaldochristover@gmail.com",
     "whatsapp": "+6282121180999",
     "footer": "康師傅搭棚工程 © 版權所有 2026。保留所有權利。"

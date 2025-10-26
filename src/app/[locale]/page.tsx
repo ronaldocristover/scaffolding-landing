@@ -8,6 +8,7 @@ import BannerService from "@/services/banner-service";
 import BaseInfoService from "@/services/baseinfo-service";
 import CarouselService from "@/services/carousel-service";
 import ContactService from "@/services/contact-service";
+import CompanyInfoService from "@/services/company-info.service";
 import QuotePriceService from "@/services/quote-price-service";
 import Carousel from "@/components/Carousel";
 import ContactInfo from "@/components/ContactInfo";
@@ -49,6 +50,7 @@ export default function Home({ params }: Props) {
     email: "",
     whatsapp: "",
     footer: "",
+    phone: "",
   });
   const [aboutCompanyInfo, setAboutCompanyInfo] = useState({
     title: "",
@@ -59,6 +61,13 @@ export default function Home({ params }: Props) {
       section2: [],
       section3: [],
     },
+  });
+
+  const [companyInfo, setCompanyInfo] = useState({
+    logo: "",
+    name: "",
+    title: "",
+    subtitle: "",
   });
   const [contactInfo, setContactInfo] = useState<ContactInfoType[]>([]);
   const [contactBaseInfo, setContactBaseInfo] = useState({
@@ -149,6 +158,11 @@ export default function Home({ params }: Props) {
         setAboutCompanyInfo(aboutCompanyResponse);
       }
 
+      const companyInfoResponse = await CompanyInfoService.getCompanyInfo();
+      if (companyInfoResponse) {
+        setCompanyInfo(companyInfoResponse);
+      }
+
       // Fetch carousel items
       const carouselResponse = await CarouselService.getCarouselItems();
       if (carouselResponse.success && carouselResponse.data) {
@@ -229,7 +243,7 @@ export default function Home({ params }: Props) {
 
   return (
     <div className="min-h-screen bg-white">
-      <Header phoneNumber={contactInfo[0]?.text || ""} />
+      <Header phoneNumber={baseInfo.phone || ""} companyInfo={companyInfo} />
 
       {/* Hero Section */}
       <section id="home" className="bg-[#C0FF4B] py-20 lg:py-32">

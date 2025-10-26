@@ -7,9 +7,15 @@ import LanguageSwitcher from "./LanguageSwitcher";
 
 interface HeaderProps {
   phoneNumber: string;
+  companyInfo: {
+    logo: string;
+    title: string;
+    subtitle: string;
+    name: string;
+  };
 }
 
-export default function Header({ phoneNumber }: HeaderProps) {
+export default function Header({ phoneNumber, companyInfo }: HeaderProps) {
   const t = useTranslations("nav");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -44,8 +50,8 @@ export default function Header({ phoneNumber }: HeaderProps) {
             <div className="flex items-center space-x-2 sm:space-x-3">
               <div className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center overflow-hidden rounded-lg bg-transparent">
                 <Image
-                  src="/company-1.png"
-                  alt="Scaffolding Engineering Limited"
+                  src={companyInfo.logo || "/logo.png"}
+                  alt={companyInfo?.name || "Scaffolding Engineering Limited"}
                   width={100}
                   height={100}
                   className="rounded-lg object-cover w-full h-full"
@@ -55,12 +61,15 @@ export default function Header({ phoneNumber }: HeaderProps) {
               <div className="flex flex-col">
                 <span className="font-sans font-bold text-sm sm:text-lg md:text-xl text-gray-900 leading-tight tracking-tight">
                   <span className="hidden sm:inline">
-                    利高棚業工程有限公司｜康師傅搭棚公司
+                    {companyInfo.title ||
+                      "利高棚業工程有限公司｜康師傅搭棚公司"}
                   </span>
-                  <span className="sm:hidden">康師傅搭棚公司</span>
+                  <span className="sm:hidden">
+                    {companyInfo.subtitle || "康師傅搭棚公司"}
+                  </span>
                 </span>
                 <span className="font-sans font-semibold text-xs sm:text-sm md:text-base text-gray-700 leading-tight tracking-wide">
-                  Scaffolding Engineering Limited
+                  {companyInfo.name || "Scaffolding Engineering Limited"}
                 </span>
               </div>
             </div>
