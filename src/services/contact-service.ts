@@ -46,19 +46,7 @@ export class ContactService {
    * GET /api/contact-info
    */
   static async getContactInfo(): Promise<ApiResponse<ContactInfo>> {
-    // if (this.useMock) {
-    //   // Simulate API delay
-    //   await new Promise((resolve) => setTimeout(resolve, 300));
-    //   return {
-    //     success: true,
-    //     data: mockContactInfo,
-    //     meta: {
-    //       timestamp: new Date().toISOString(),
-    //     },
-    //   };
-    // }
-
-    return apiCall<ContactInfo>("GET", "/contact-info");
+    return apiCall<ContactInfo>("GET", "/contact-us");
   }
 
   /**

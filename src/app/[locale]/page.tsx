@@ -46,12 +46,6 @@ export default function Home({ params }: Props) {
   }, [params]);
 
   const [banners, setBanners] = useState([]);
-  const [baseInfo, setBaseInfo] = useState({
-    email: "",
-    whatsapp: "",
-    footer: "",
-    phone: "",
-  });
   const [aboutCompanyInfo, setAboutCompanyInfo] = useState({
     title: "",
     subtitle: "",
@@ -137,30 +131,25 @@ export default function Home({ params }: Props) {
         setQuotePricing({
           title: quoteResponse.data.title || "",
           subtitle: quoteResponse.data.subtitle || "",
-          content: quoteResponse.data.content || [],
+          content: quoteResponse.data.content,
         });
       }
 
       // Fetch banners
       const bannerResponse = await BannerService.getBannerInfo();
       if (bannerResponse) {
-        setBanners(bannerResponse.images || []);
-      }
-
-      const baseInfoResponse = await BaseInfoService.getBaseInfo();
-      if (baseInfoResponse) {
-        setBaseInfo(baseInfoResponse);
+        setBanners(bannerResponse.content?.images || []);
       }
 
       // Fetch about company
       const aboutCompanyResponse = await AboutCompanyService.getAboutInfo();
       if (aboutCompanyResponse) {
-        setAboutCompanyInfo(aboutCompanyResponse);
+        setAboutCompanyInfo(aboutCompanyResponse.content);
       }
 
       const companyInfoResponse = await CompanyInfoService.getCompanyInfo();
       if (companyInfoResponse) {
-        setCompanyInfo(companyInfoResponse);
+        setCompanyInfo(companyInfoResponse.content);
       }
 
       // Fetch carousel items
@@ -243,7 +232,7 @@ export default function Home({ params }: Props) {
 
   return (
     <div className="min-h-screen bg-white">
-      <Header phoneNumber={baseInfo.phone || ""} companyInfo={companyInfo} />
+      <Header companyInfo={companyInfo} />
 
       {/* Hero Section */}
       <section id="home" className="bg-[#C0FF4B] py-20 lg:py-32">
@@ -380,17 +369,17 @@ export default function Home({ params }: Props) {
         className="text-white bg-gradient-to-b from-[#FFFBB5] to-[#E0B700]"
       >
         <div className="pt-8 pb-8 text-center text-black">
-          <p>{baseInfo.footer || t("footer.copyright")}</p>
+          <p>{companyInfo.footer || t("footer.copyright")}</p>
         </div>
       </footer>
 
       <FloatingButtons
         email={
-          baseInfo.email?.replace("mailto:", "") ||
+          companyInfo.email?.replace("mailto:", "") ||
           "leego.scaffolding@gmail.com"
         }
         whatsapp={
-          "https://wa.me/" + baseInfo.whatsapp?.replace(/\D/g, "") ||
+          "https://wa.me/" + companyInfo.whatsapp?.replace(/\D/g, "") ||
           "85268060108"
         }
       />

@@ -2,7 +2,7 @@ import { apiCall } from "@/lib/api";
 
 export class CompanyInfoService {
   static async getCompanyInfo() {
-    return apiCall("GET", "/companyInfo");
+    return apiCall("GET", "/basic-company-info");
   }
 }
 

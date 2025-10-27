@@ -12,10 +12,11 @@ interface HeaderProps {
     title: string;
     subtitle: string;
     name: string;
+    phone: string;
   };
 }
 
-export default function Header({ phoneNumber, companyInfo }: HeaderProps) {
+export default function Header({ companyInfo }: HeaderProps) {
   const t = useTranslations("nav");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -30,7 +31,7 @@ export default function Header({ phoneNumber, companyInfo }: HeaderProps) {
       {/* Top Contact Bar */}
       <div className="bg-[#737365] text-center py-1">
         <span className="text-[#F7EA87]">
-          立即WhatsApp：{phoneNumber}
+          立即WhatsApp：{companyInfo.phone}
           <Image
             src="/whatsapp-icon.png"
             alt="WhatsApp"
