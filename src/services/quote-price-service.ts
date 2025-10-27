@@ -8,7 +8,7 @@ export class QuotaPriceService {
     !process.env.NEXT_PUBLIC_API_URL || process.env.NODE_ENV === "development";
 
   static async getContactInfo() {
-    return apiCall("GET", "/quote");
+    return apiCall("GET", "/quote-price");
   }
 }
 

@@ -125,13 +125,13 @@ export default function Home({ params }: Props) {
 
       // Fetch quote price info
       const quoteResponse = await QuotePriceService.getContactInfo();
-      if (quoteResponse.success && quoteResponse.data) {
+      if (quoteResponse.success && quoteResponse.content) {
         // Currently not used, but can be set to state if needed
         console.log("Quote Price Info:", quoteResponse.data);
         setQuotePricing({
-          title: quoteResponse.data.title || "",
-          subtitle: quoteResponse.data.subtitle || "",
-          content: quoteResponse.data.content,
+          title: quoteResponse.content.title || "",
+          subtitle: quoteResponse.content.subtitle || "",
+          content: quoteResponse.content.content,
         });
       }
 
