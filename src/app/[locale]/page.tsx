@@ -93,21 +93,21 @@ export default function Home({ params }: Props) {
       const contactResponse = await ContactService.getContactInfo();
       if (contactResponse.success && contactResponse.data) {
         const contactBaseInfo = {
-          title: contactResponse.data.title,
-          subtitle: contactResponse.data.subtitle,
+          title: contactResponse.data.title || t("contact.title"),
+          subtitle: contactResponse.data.subtitle || t("contact.subtitle"),
         };
         const contacts: ContactInfoType[] = [
           {
             icon: "/whatsapp-icon.png",
             alt: t("contact.whatsapp"),
-            text: contactResponse.data.content.whatsapp,
-            link: contactResponse.data.content.whatsapp,
+            text: contactResponse.data.content?.whatsapp || "+852 6806-0108",
+            link: contactResponse.data.content?.whatsapp || "+852 6806-0108",
           },
           {
             icon: "/print-icon.png",
             alt: t("contact.phone"),
-            text: contactResponse.data.content.phone,
-            link: `tel:${contactResponse.data.content.phone.replace(
+            text: contactResponse.data.content?.phone || "+852 3020-6719",
+            link: `tel:${(contactResponse.data.content?.phone || "+852 3020-6719").replace(
               /\s/g,
               ""
             )}`,
@@ -115,14 +115,14 @@ export default function Home({ params }: Props) {
           {
             icon: "/email-icon.png",
             alt: t("contact.email"),
-            text: contactResponse.data.content.email,
-            link: `mailto:${contactResponse.data.content.email}`,
+            text: contactResponse.data.content?.email || "leego.scaffolding@gmail.com",
+            link: `mailto:${contactResponse.data.content?.email || "leego.scaffolding@gmail.com"}`,
           },
           {
             icon: "/fb-icon.png",
             alt: t("contact.facebook"),
-            text: contactResponse.data.content.facebook,
-            link: contactResponse.data.content.facebook,
+            text: contactResponse.data.content?.facebook || "https://www.facebook.com/MasterHongScaffolding/",
+            link: contactResponse.data.content?.facebook || "https://www.facebook.com/MasterHongScaffolding/",
           },
         ];
         setContactInfo(contacts);
@@ -143,14 +143,32 @@ export default function Home({ params }: Props) {
       // Fetch banners
       const bannerResponse = await BannerService.getBannerInfo();
       if (bannerResponse.success && bannerResponse.data) {
-        setBanners(bannerResponse.data.images || []);
+        setBanners(bannerResponse.data?.images || []);
       }
 
       // Fetch about company
-      const aboutCompanyResponse: any =
-        await AboutCompanyService.getAboutInfo();
-      if (aboutCompanyResponse.success && aboutCompanyResponse.content) {
-        setAboutCompanyInfo(aboutCompanyResponse.conten);
+      const aboutCompanyResponse = await AboutCompanyService.getAboutInfo();
+      if (aboutCompanyResponse.success && aboutCompanyResponse.data) {
+        const data = aboutCompanyResponse.data as {
+          title?: string;
+          subtitle?: string;
+          content?: string;
+          images?: {
+            section1?: string[];
+            section2?: string[];
+            section3?: string[];
+          };
+        };
+        setAboutCompanyInfo({
+          title: data.title || t("about.title"),
+          subtitle: data.subtitle || t("about.subtitle"),
+          content: data.content || t("about.description"),
+          images: data.images || {
+            section1: [],
+            section2: [],
+            section3: [],
+          },
+        });
       }
 
       const companyInfoResponse = await CompanyInfoService.getCompanyInfo();
@@ -161,11 +179,11 @@ export default function Home({ params }: Props) {
       // Fetch carousel items
       const carouselResponse = await CarouselService.getCarouselItems();
       if (carouselResponse.success && carouselResponse.data) {
-        const items: CarouselItemType[] = carouselResponse.data.items.map(
+        const items: CarouselItemType[] = (carouselResponse.data.items || []).map(
           (item) => ({
             type: item.type,
             src: item.url,
-            alt: item.alt || item.title,
+            alt: item.alt || item.title || "Carousel item",
           })
         );
         setCarouselItems(items);

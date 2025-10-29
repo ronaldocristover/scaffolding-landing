@@ -17,12 +17,13 @@ interface HeaderProps {
 }
 
 export default function Header({ companyInfo, phoneNumber }: HeaderProps) {
+  const t = useTranslations("nav");
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   // Add null checks to prevent runtime errors
   if (!companyInfo) {
     return null;
   }
-  const t = useTranslations("nav");
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const menuItems = [
     { href: "#about", label: t("about") },
