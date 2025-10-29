@@ -4,9 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import AboutCompanyService from "@/services/about-company-service";
-import BannerService, { BannerInfo } from "@/services/banner-service";
-import BaseInfoService from "@/services/baseinfo-service";
-import CarouselService from "@/services/carousel-service";
+import BannerService from "@/services/banner-service";
 import ContactService from "@/services/contact-service";
 import CompanyInfoService from "@/services/company-info.service";
 import QuotePriceService, {
@@ -24,11 +22,6 @@ interface ContactInfoType {
   link?: string;
 }
 
-interface CarouselItemType {
-  type: "image" | "video";
-  src: string;
-  alt: string;
-}
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -48,7 +41,16 @@ export default function Home({ params }: Props) {
   }, [params]);
 
   const [banners, setBanners] = useState<string[]>([]);
-  const [aboutCompanyInfo, setAboutCompanyInfo] = useState({
+  const [aboutCompanyInfo, setAboutCompanyInfo] = useState<{
+    title: string;
+    subtitle: string;
+    content: string;
+    images: {
+      section1: string[];
+      section2: string[];
+      section3: string[];
+    };
+  }>({
     title: "",
     subtitle: "",
     content: "",
@@ -74,8 +76,7 @@ export default function Home({ params }: Props) {
     title: "",
     subtitle: "",
   });
-  const [carouselItems, setCarouselItems] = useState<CarouselItemType[]>([]);
-  const [quotePricing, setQuotePricing] = useState<QuotePricingInfo>({
+    const [quotePricing, setQuotePricing] = useState<QuotePricingInfo>({
     title: "",
     subtitle: "",
     content: [],
@@ -163,10 +164,10 @@ export default function Home({ params }: Props) {
           title: data.title || t("about.title"),
           subtitle: data.subtitle || t("about.subtitle"),
           content: data.content || t("about.description"),
-          images: data.images || {
-            section1: [],
-            section2: [],
-            section3: [],
+          images: {
+            section1: data.images?.section1 || [],
+            section2: data.images?.section2 || [],
+            section3: data.images?.section3 || [],
           },
         });
       }
@@ -174,19 +175,6 @@ export default function Home({ params }: Props) {
       const companyInfoResponse = await CompanyInfoService.getCompanyInfo();
       if (companyInfoResponse.success && companyInfoResponse.data) {
         setCompanyInfo(companyInfoResponse.data as typeof companyInfo);
-      }
-
-      // Fetch carousel items
-      const carouselResponse = await CarouselService.getCarouselItems();
-      if (carouselResponse.success && carouselResponse.data) {
-        const items: CarouselItemType[] = (carouselResponse.data.items || []).map(
-          (item) => ({
-            type: item.type,
-            src: item.url,
-            alt: item.alt || item.title || "Carousel item",
-          })
-        );
-        setCarouselItems(items);
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -219,20 +207,6 @@ export default function Home({ params }: Props) {
         },
       ];
       setContactInfo(fallbackContacts);
-
-      const fallbackCarousel: CarouselItemType[] = [
-        {
-          type: "image",
-          src: "/banner-1.jpeg",
-          alt: "Scaffolding work 1",
-        },
-        {
-          type: "image",
-          src: "/banner-2.jpeg",
-          alt: "Scaffolding work 2",
-        },
-      ];
-      setCarouselItems(fallbackCarousel);
     } finally {
       setLoading(false);
     }
@@ -348,7 +322,11 @@ export default function Home({ params }: Props) {
         <section id="video" className="py-20 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <Carousel
-              items={aboutCompanyInfo && aboutCompanyInfo.images?.section3}
+              items={aboutCompanyInfo.images.section3.map((src, index) => ({
+                type: 'image' as const,
+                src,
+                alt: `Gallery image ${index + 1}`,
+              }))}
               autoPlay={true}
               interval={4000}
             />
