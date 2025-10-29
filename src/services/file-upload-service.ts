@@ -40,13 +40,9 @@ export class FileUploadService {
 
     try {
       const response = await apiCall<FileUploadResponse>(
+        'POST',
         `${this.UPLOAD_BASE_URL}/upload/single?folder=${folder}`,
-        {
-          method: 'POST',
-          body: formData,
-          // Note: Progress tracking would require XMLHttpRequest or a progress-enabled fetch library
-          // For now, we'll use the basic fetch approach
-        }
+        formData
       );
 
       // For basic progress tracking, we could simulate progress
@@ -54,6 +50,9 @@ export class FileUploadService {
         onProgress({ loaded: 100, total: 100, percentage: 100 });
       }
 
+      if (!response.data) {
+        throw new Error('Upload failed: No data received from server');
+      }
       return response.data;
     } catch (error) {
       throw new Error(`File upload failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
@@ -132,5 +131,3 @@ export class FileUploadService {
   }
 }
 
-// Export types for external use
-export type { FileUploadResponse, UploadProgress };

@@ -9,7 +9,9 @@ import BaseInfoService from "@/services/baseinfo-service";
 import CarouselService from "@/services/carousel-service";
 import ContactService from "@/services/contact-service";
 import CompanyInfoService from "@/services/company-info.service";
-import QuotePriceService, { QuotePricingInfo } from "@/services/quote-price-service";
+import QuotePriceService, {
+  QuotePricingInfo,
+} from "@/services/quote-price-service";
 import Carousel from "@/components/Carousel";
 import ContactInfo from "@/components/ContactInfo";
 import FloatingButtons from "@/components/FloatingButtons";
@@ -62,6 +64,10 @@ export default function Home({ params }: Props) {
     name: "",
     title: "",
     subtitle: "",
+    phone: "",
+    footer: "",
+    email: "",
+    whatsapp: "",
   });
   const [contactInfo, setContactInfo] = useState<ContactInfoType[]>([]);
   const [contactBaseInfo, setContactBaseInfo] = useState({
@@ -142,14 +148,15 @@ export default function Home({ params }: Props) {
       }
 
       // Fetch about company
-      const aboutCompanyResponse = await AboutCompanyService.getAboutInfo();
-      if (aboutCompanyResponse) {
-        setAboutCompanyInfo(aboutCompanyResponse.content);
+      const aboutCompanyResponse: any =
+        await AboutCompanyService.getAboutInfo();
+      if (aboutCompanyResponse.success && aboutCompanyResponse.content) {
+        setAboutCompanyInfo(aboutCompanyResponse.conten);
       }
 
       const companyInfoResponse = await CompanyInfoService.getCompanyInfo();
-      if (companyInfoResponse) {
-        setCompanyInfo(companyInfoResponse.content);
+      if (companyInfoResponse.success && companyInfoResponse.data) {
+        setCompanyInfo(companyInfoResponse.data as typeof companyInfo);
       }
 
       // Fetch carousel items
@@ -232,7 +239,7 @@ export default function Home({ params }: Props) {
 
   return (
     <div className="min-h-screen bg-white">
-      <Header companyInfo={companyInfo} />
+      <Header companyInfo={companyInfo} phoneNumber={companyInfo.phone} />
 
       {/* Hero Section */}
       <section id="home" className="bg-[#C0FF4B] py-20 lg:py-32">
@@ -350,10 +357,10 @@ export default function Home({ params }: Props) {
             {quotePricing.content.map((item, idx) => (
               <div key={idx} className="p-8">
                 <h3 className="font-viga text-2xl mb-4 text-black text-center">
-                  {item["title"]}
+                  {item["title"] as string}
                 </h3>
                 <div className="space-y-3 mb-8 text-black">
-                  <p className="text-black">{item["content"]}</p>
+                  <p className="text-black">{item["content"] as string}</p>
                 </div>
               </div>
             ))}
