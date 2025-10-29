@@ -25,6 +25,7 @@ export interface ContactFormRequest {
   projectType: "residential" | "commercial" | "industrial";
   location: string;
   urgency: "normal" | "urgent";
+  attachments?: string[]; // Array of uploaded file URLs
   [key: string]: unknown;
 }
 

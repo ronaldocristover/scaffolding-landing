@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import ContactService, { ContactFormRequest } from "@/services/contact-service";
+import FileUpload from "@/components/FileUpload";
 
 interface ContactFormProps {
   locale?: string;
@@ -22,6 +23,7 @@ export default function ContactForm({
     projectType: "residential",
     location: "",
     urgency: "normal",
+    attachments: [],
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<{
@@ -42,6 +44,13 @@ export default function ContactForm({
     if (errors[name]) {
       setErrors((prev) => ({ ...prev, [name]: "" }));
     }
+  };
+
+  const handleFileAttachment = (fileUrl: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      attachments: fileUrl ? [fileUrl] : [], // For now, allow single file attachment
+    }));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -79,6 +88,7 @@ export default function ContactForm({
           projectType: "residential",
           location: "",
           urgency: "normal",
+          attachments: [],
         });
       } else {
         setSubmitStatus({
@@ -325,6 +335,35 @@ export default function ContactForm({
           />
           {errors.message && (
             <p className="text-red-500 text-sm mt-1">{errors.message}</p>
+          )}
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            {locale === "zh" ? "附件（可選）" : "Attachment (Optional)"}
+          </label>
+          <FileUpload
+            value={formData.attachments?.[0] || ""}
+            onChange={handleFileAttachment}
+            folder="contact-attachments"
+            label={locale === "zh" ? "選擇文件" : "Choose File"}
+            helperText={locale === "zh" ? "上傳項目計劃、圖片或其他相關文件" : "Upload project plans, images, or other relevant files"}
+            accept="image/*,.pdf,.doc,.docx,.dwg"
+            maxSize={10 * 1024 * 1024} // 10MB for larger files like drawings
+            allowedTypes={[
+              'image/jpeg',
+              'image/png',
+              'image/webp',
+              'application/pdf',
+              'application/msword',
+              'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+              'application/dwg',
+            ]}
+            showPreview={true}
+            error={errors.attachments}
+          />
+          {errors.attachments && (
+            <p className="text-red-500 text-sm mt-1">{errors.attachments}</p>
           )}
         </div>
 

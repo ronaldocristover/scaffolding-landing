@@ -1,8 +1,12 @@
 import { apiCall } from "@/lib/api";
 
+export interface BannerInfo {
+  images: string[];
+}
+
 export class BannerService {
   static async getBannerInfo() {
-    return apiCall("GET", "/banners");
+    return apiCall<BannerInfo>("GET", "/banners");
   }
 }
 

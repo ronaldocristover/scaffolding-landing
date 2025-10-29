@@ -4,12 +4,12 @@ import { useCallback, useEffect, useState } from "react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import AboutCompanyService from "@/services/about-company-service";
-import BannerService from "@/services/banner-service";
+import BannerService, { BannerInfo } from "@/services/banner-service";
 import BaseInfoService from "@/services/baseinfo-service";
 import CarouselService from "@/services/carousel-service";
 import ContactService from "@/services/contact-service";
 import CompanyInfoService from "@/services/company-info.service";
-import QuotePriceService from "@/services/quote-price-service";
+import QuotePriceService, { QuotePricingInfo } from "@/services/quote-price-service";
 import Carousel from "@/components/Carousel";
 import ContactInfo from "@/components/ContactInfo";
 import FloatingButtons from "@/components/FloatingButtons";
@@ -45,7 +45,7 @@ export default function Home({ params }: Props) {
     getParams();
   }, [params]);
 
-  const [banners, setBanners] = useState([]);
+  const [banners, setBanners] = useState<string[]>([]);
   const [aboutCompanyInfo, setAboutCompanyInfo] = useState({
     title: "",
     subtitle: "",
@@ -69,7 +69,7 @@ export default function Home({ params }: Props) {
     subtitle: "",
   });
   const [carouselItems, setCarouselItems] = useState<CarouselItemType[]>([]);
-  const [quotePricing, setQuotePricing] = useState({
+  const [quotePricing, setQuotePricing] = useState<QuotePricingInfo>({
     title: "",
     subtitle: "",
     content: [],
@@ -125,20 +125,20 @@ export default function Home({ params }: Props) {
 
       // Fetch quote price info
       const quoteResponse = await QuotePriceService.getContactInfo();
-      if (quoteResponse.success && quoteResponse.content) {
+      if (quoteResponse.success && quoteResponse.data) {
         // Currently not used, but can be set to state if needed
         console.log("Quote Price Info:", quoteResponse.data);
         setQuotePricing({
-          title: quoteResponse.content.title || "",
-          subtitle: quoteResponse.content.subtitle || "",
-          content: quoteResponse.content.content,
+          title: quoteResponse.data.title || "",
+          subtitle: quoteResponse.data.subtitle || "",
+          content: quoteResponse.data.content,
         });
       }
 
       // Fetch banners
       const bannerResponse = await BannerService.getBannerInfo();
-      if (bannerResponse) {
-        setBanners(bannerResponse.content?.images || []);
+      if (bannerResponse.success && bannerResponse.data) {
+        setBanners(bannerResponse.data.images || []);
       }
 
       // Fetch about company
