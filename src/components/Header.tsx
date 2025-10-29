@@ -6,17 +6,21 @@ import { useTranslations } from "next-intl";
 import LanguageSwitcher from "./LanguageSwitcher";
 
 interface HeaderProps {
-  phoneNumber: string;
-  companyInfo: {
-    logo: string;
-    title: string;
-    subtitle: string;
-    name: string;
-    phone: string;
+  phoneNumber?: string;
+  companyInfo?: {
+    logo?: string;
+    title?: string;
+    subtitle?: string;
+    name?: string;
+    phone?: string;
   };
 }
 
 export default function Header({ companyInfo }: HeaderProps) {
+  // Add null checks to prevent runtime errors
+  if (!companyInfo) {
+    return null;
+  }
   const t = useTranslations("nav");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -31,7 +35,7 @@ export default function Header({ companyInfo }: HeaderProps) {
       {/* Top Contact Bar */}
       <div className="bg-[#737365] text-center py-1">
         <span className="text-[#F7EA87]">
-          立即WhatsApp：{companyInfo.phone}
+          立即WhatsApp：{companyInfo?.phone || ""}
           <Image
             src="/whatsapp-icon.png"
             alt="WhatsApp"

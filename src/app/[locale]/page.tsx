@@ -239,7 +239,7 @@ export default function Home({ params }: Props) {
 
   return (
     <div className="min-h-screen bg-white">
-      <Header companyInfo={companyInfo} phoneNumber={companyInfo.phone} />
+      <Header companyInfo={companyInfo} phoneNumber={companyInfo?.phone || ""} />
 
       {/* Hero Section */}
       <section id="home" className="bg-[#C0FF4B] py-20 lg:py-32">
