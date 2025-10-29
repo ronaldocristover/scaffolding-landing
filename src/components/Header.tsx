@@ -16,7 +16,7 @@ interface HeaderProps {
   };
 }
 
-export default function Header({ companyInfo }: HeaderProps) {
+export default function Header({ companyInfo, phoneNumber }: HeaderProps) {
   // Add null checks to prevent runtime errors
   if (!companyInfo) {
     return null;
@@ -35,7 +35,7 @@ export default function Header({ companyInfo }: HeaderProps) {
       {/* Top Contact Bar */}
       <div className="bg-[#737365] text-center py-1">
         <span className="text-[#F7EA87]">
-          立即WhatsApp：{companyInfo?.phone || ""}
+          立即WhatsApp：{phoneNumber || companyInfo?.phone || ""}
           <Image
             src="/whatsapp-icon.png"
             alt="WhatsApp"
@@ -55,7 +55,7 @@ export default function Header({ companyInfo }: HeaderProps) {
             <div className="flex items-center space-x-2 sm:space-x-3">
               <div className="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center overflow-hidden rounded-lg bg-transparent">
                 <Image
-                  src={companyInfo.logo || "/logo.png"}
+                  src={companyInfo?.logo || "/logo.png"}
                   alt={companyInfo?.name || "Scaffolding Engineering Limited"}
                   width={100}
                   height={100}
@@ -66,15 +66,15 @@ export default function Header({ companyInfo }: HeaderProps) {
               <div className="flex flex-col">
                 <span className="font-sans font-bold text-sm sm:text-lg md:text-xl text-gray-900 leading-tight tracking-tight">
                   <span className="hidden sm:inline">
-                    {companyInfo.title ||
+                    {companyInfo?.title ||
                       "利高棚業工程有限公司｜康師傅搭棚公司"}
                   </span>
                   <span className="sm:hidden">
-                    {companyInfo.subtitle || "康師傅搭棚公司"}
+                    {companyInfo?.subtitle || "康師傅搭棚公司"}
                   </span>
                 </span>
                 <span className="font-sans font-semibold text-xs sm:text-sm md:text-base text-gray-700 leading-tight tracking-wide">
-                  {companyInfo.name || "Scaffolding Engineering Limited"}
+                  {companyInfo?.name || "Scaffolding Engineering Limited"}
                 </span>
               </div>
             </div>
