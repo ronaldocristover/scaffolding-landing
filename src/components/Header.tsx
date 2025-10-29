@@ -161,7 +161,7 @@ export default function Header({ companyInfo }: HeaderProps) {
                   : "0ms",
               }}
             >
-              <LanguageSwitcher />
+              {/* <LanguageSwitcher /> */}
             </div>
           </div>
         </div>
