@@ -112,9 +112,7 @@ export class ContentService {
       // Simulate API delay
       await new Promise(resolve => setTimeout(resolve, 500));
 
-      // Log the update for development
-      console.log('Content updated:', updateData);
-
+      
       return {
         success: true,
         data: {

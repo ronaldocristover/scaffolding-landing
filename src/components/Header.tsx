@@ -90,7 +90,7 @@ export default function Header({ companyInfo, phoneNumber }: HeaderProps) {
                   {item.label}
                 </a>
               ))}
-              <LanguageSwitcher />
+              {/* <LanguageSwitcher /> */}
             </div>
 
             {/* Mobile Menu Button */}

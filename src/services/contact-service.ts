@@ -69,9 +69,7 @@ export class ContactService {
         followUpDate: new Date(Date.now() + 4 * 60 * 60 * 1000).toISOString(),
       };
 
-      // Log form data for development
-      console.log("Contact form submitted:", formData);
-
+      
       return {
         success: true,
         data: mockResponse,

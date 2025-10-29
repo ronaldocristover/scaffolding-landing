@@ -86,14 +86,7 @@ export class CarouselService {
         uploadedAt: new Date().toISOString(),
       };
 
-      // Log upload for development
-      console.log('Media uploaded:', {
-        file: uploadData.file.name,
-        size: uploadData.file.size,
-        type: uploadData.type,
-        alt: uploadData.alt,
-      });
-
+      
       return {
         success: true,
         data: mockResponse,
@@ -152,9 +145,7 @@ export class CarouselService {
       // Simulate API delay
       await new Promise(resolve => setTimeout(resolve, 400));
 
-      // Log update for development
-      console.log('Carousel item updated:', { id, ...updateData });
-
+      
       // Find and return the updated item
       const item = mockCarouselItems.find(item => item.id === id);
       if (!item) {
@@ -191,9 +182,7 @@ export class CarouselService {
       // Simulate API delay
       await new Promise(resolve => setTimeout(resolve, 300));
 
-      // Log deletion for development
-      console.log('Carousel item deleted:', id);
-
+      
       return {
         success: true,
         meta: {
