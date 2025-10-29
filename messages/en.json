@@ -1,63 +1,63 @@
 {
   "nav": {
-    "home": "Home",
-    "about": "About",
-    "services": "Services",
-    "pricing": "Pricing",
-    "contact": "Contact"
+    "home": "首頁",
+    "about": "關於我們",
+    "services": "服務",
+    "pricing": "報價",
+    "contact": "聯絡我們"
   },
   "hero": {
-    "certificateAlt1": "Certificate of Appreciation",
-    "certificateAlt2": "Certificate of Excellence"
+    "certificateAlt1": "嘉許證書",
+    "certificateAlt2": "優秀證書"
   },
   "about": {
     "title": "About Our Company",
-    "subtitle": "Company Introduction",
-    "companyImage1Alt": "Company 1",
-    "companyImage2Alt": "Company Image",
-    "description": "Master Hong Scaffolding Works is a brand under Lee Go Scaffolding Engineering Company Limited, specializing in small-scale projects, also known as 'wet and messy' work in the industry. With over 20 years of scaffolding experience, we serve property owners and small to medium enterprises with various scaffolding projects through our professional team and workflow. Supervised by multiple senior scaffolding masters with 20 years of experience to ensure scaffolding safety, practicality, and time efficiency. Our engineering and team have obtained government-recognized professional qualifications, licenses, and insurance, and regularly comply with strict safety assessments and training. After each project is completed, we regularly arrange supervisors to inspect scaffolding to ensure safety. We are professional, fast, safe, reliable, and fairly priced."
+    "subtitle": "公司簡介",
+    "companyImage1Alt": "公司1",
+    "companyImage2Alt": "公司圖片",
+    "description": "康師傅搭棚工程 隸屬 利高棚業工程有限公司其下一品牌，專責處理小型工程，行內又稱為「濕碎」。我們憑著廿多年的搭棚經驗，以專業團隊和工作流程，致力服務業主和中小企各類的棚架工程。由多位廿年資深搭棚師傅監工，以確保棚架安全、實用、省的時；工程和團隊亦已獲得政府認可之專業資格、牌照和保險，定期會配合嚴格的安全評核和訓練。每個工程完成後，更會定期安排督導員檢驗棚架，以確保安全。我們專業快捷、安全可靠、公道取價。"
   },
   "companyLogos": {
-    "alt": "Company Logo"
+    "alt": "公司標誌"
   },
   "video": {
-    "title": "Company Introduction Video"
+    "title": "公司介紹影片"
   },
   "pricing": {
     "title": "Quote Process",
-    "subtitle": "Quotation Process",
+    "subtitle": "報價流程",
     "step1": {
-      "title": "Step 1 | Initial Consultation",
-      "content": "WhatsApp or email quotation, please provide the following information: 1. Customer/company name 2. Construction location 3. Construction site photos 4. Scaffolding purpose"
+      "title": "步驟 1｜初步咨詢",
+      "content": "WhatsApp 或電郵報價，請提供以下資料：1. 客戶/公司名稱 2. 施工地點 3. 施工點照片 4. 棚架用途"
     },
     "step2": {
-      "title": "Step 2 | Site Survey",
-      "content": "Arrange professional masters to conduct on-site surveys, assess project difficulty, safety requirements, and construction environment to ensure accurate quotations"
+      "title": "步驟 2｜實地考察",
+      "content": "安排專業師傅到現場進行實地考察，評估工程難度、安全要求及施工環境，確保報價準確"
     },
     "step3": {
-      "title": "Step 3 | Detailed Quotation",
-      "content": "Based on site survey results, provide detailed project quotations including material costs, labor costs, transportation costs, and related safety measure costs"
+      "title": "步驟 3｜詳細報價",
+      "content": "根據實地考察結果，提供詳細的工程報價單，包括材料費、人工費、運輸費及相關安全措施費用"
     },
     "step4": {
-      "title": "Step 4 | Contract Signing",
-      "content": "After both parties confirm the quotation, sign a formal contract clearly defining project scope, completion time, payment methods, and safety responsibility clauses"
+      "title": "步驟 4｜合約簽署",
+      "content": "雙方確認報價後簽署正式合約，明確工程範圍、完工時間、付款方式及安全責任條款"
     },
     "step5": {
-      "title": "Step 5 | Project Construction",
-      "content": "Led by senior masters with professional teams for construction, strictly following safety regulations, regularly checking scaffolding stability and safety"
+      "title": "步驟 5｜工程施工",
+      "content": "由資深師傅帶領專業團隊進行施工，嚴格按照安全規範執行，定期檢查棚架穩固性及安全性"
     },
     "step6": {
-      "title": "Step 6 | Completion Inspection",
-      "content": "Comprehensive inspection after project completion to ensure scaffolding meets safety standards, provide usage guidelines and regular maintenance recommendations"
+      "title": "步驟 6｜完工驗收",
+      "content": "工程完成後進行全面檢查驗收，確保棚架符合安全標準，提供使用指引及定期維護建議"
     }
   },
   "contact": {
     "whatsapp": "WhatsApp",
-    "phone": "Phone",
-    "email": "Email",
+    "phone": "電話",
+    "email": "電郵",
     "facebook": "Facebook"
   },
   "footer": {
-    "copyright": "MASTER HONG SCAFFOLDING WORKS © Copyright 2025. All Rights Reserved."
+    "copyright": "康師傅搭棚工程 © 版權所有 2025。保留所有權利。"
   }
 }
