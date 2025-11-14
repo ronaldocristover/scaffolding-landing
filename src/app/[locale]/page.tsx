@@ -165,26 +165,11 @@ export default function Home({ params }: Props) {
           },
         });
       }
-      // console.log('aboutCompanyResponse', aboutCompanyResponse);
-      // if (aboutCompanyResponse.success && aboutCompanyResponse['content']) {
-      //   const data = aboutCompanyResponse['content']
-      //   setAboutCompanyInfo({
-      //     title: data.title || t("about.title"),
-      //     subtitle: data.subtitle || t("about.subtitle"),
-      //     content: data.content || t("about.description"),
-      //     images: {
-      //       section1: data.images?.section1 || [],
-      //       section2: data.images?.section2 || [],
-      //       section3: data.images?.section3 || [],
-      //     },
-      //   });
-      // };
 
-      // }
 
       const companyInfoResponse = await CompanyInfoService.getCompanyInfo();
-      if (companyInfoResponse.success && companyInfoResponse.data) {
-        setCompanyInfo(companyInfoResponse.data as typeof companyInfo);
+      if (companyInfoResponse.success && companyInfoResponse['content']) {
+        setCompanyInfo(companyInfoResponse['content']);
       }
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -240,6 +225,7 @@ export default function Home({ params }: Props) {
 
   return (
     <div className="min-h-screen bg-white">
+
       <Header companyInfo={companyInfo} phoneNumber={companyInfo?.phone || ""} />
 
       {/* Hero Section */}
