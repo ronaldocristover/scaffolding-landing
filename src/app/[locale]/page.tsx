@@ -14,13 +14,13 @@ import Carousel from "@/components/Carousel";
 import ContactInfo from "@/components/ContactInfo";
 import FloatingButtons from "@/components/FloatingButtons";
 import Header from "@/components/Header";
-
-interface ContactInfoType {
-  icon: string;
-  alt: string;
-  text: string;
-  link?: string;
-}
+import {
+  getImageSrc,
+  getImageAlt,
+  getApiContent,
+  createContactInfo,
+  type ContactInfoType,
+} from "@/lib/utils";
 
 type ImageItem = string | { src?: string; url?: string; alt?: string; type?: string };
 
@@ -29,7 +29,7 @@ type Props = {
 };
 
 export default function Home({ params }: Props) {
-  const [locale, setLocale] = useState<string>("en");
+  const [locale, setLocale] = useState<string | null>(null);
   const t = useTranslations();
 
   // Handle async params
@@ -86,122 +86,90 @@ export default function Home({ params }: Props) {
 
   // Create memoized fetch data function
   const fetchData = useCallback(async () => {
-    if (locale === "en") return; // Don't fetch until locale is set
+    if (!locale) return; // Don't fetch until locale is set
 
     try {
       setLoading(true);
 
       // Fetch contact info
       const contactResponse = await ContactService.getContactInfo();
-      if (contactResponse.success && contactResponse.data) {
-        const contactBaseInfo = {
-          title: contactResponse.data.title || t("contact.title"),
-          subtitle: contactResponse.data.subtitle || t("contact.subtitle"),
-        };
-        const contacts: ContactInfoType[] = [
-          {
-            icon: "/whatsapp-icon.png",
-            alt: t("contact.whatsapp"),
-            text: contactResponse.data.content?.whatsapp || "+852 6806-0108",
-            link: contactResponse.data.content?.whatsapp || "+852 6806-0108",
-          },
-          {
-            icon: "/print-icon.png",
-            alt: t("contact.phone"),
-            text: contactResponse.data.content?.phone || "+852 3020-6719",
-            link: `tel:${(contactResponse.data.content?.phone || "+852 3020-6719").replace(
-              /\s/g,
-              ""
-            )}`,
-          },
-          {
-            icon: "/email-icon.png",
-            alt: t("contact.email"),
-            text: contactResponse.data.content?.email || "leego.scaffolding@gmail.com",
-            link: `mailto:${contactResponse.data.content?.email || "leego.scaffolding@gmail.com"}`,
-          },
-          {
-            icon: "/fb-icon.png",
-            alt: t("contact.facebook"),
-            text: contactResponse.data.content?.facebook || "https://www.facebook.com/MasterHongScaffolding/",
-            link: contactResponse.data.content?.facebook || "https://www.facebook.com/MasterHongScaffolding/",
-          },
-        ];
-        setContactInfo(contacts);
-        setContactBaseInfo(contactBaseInfo);
+      const contactData = getApiContent(contactResponse);
+      if (contactData) {
+        setContactBaseInfo({
+          title: contactData.title || t("contact.title"),
+          subtitle: contactData.subtitle || t("contact.subtitle"),
+        });
+        setContactInfo(
+          createContactInfo(contactData.content, {
+            whatsapp: t("contact.whatsapp"),
+            phone: t("contact.phone"),
+            email: t("contact.email"),
+            facebook: t("contact.facebook"),
+          })
+        );
       }
 
       // Fetch quote price info
       const quoteResponse = await QuotePriceService.getContactInfo();
-      if (quoteResponse.success) {
-        // Currently not used, but can be set to state if needed
+      const quoteData = getApiContent<QuotePricingInfo>(quoteResponse);
+      if (quoteData) {
         setQuotePricing({
-          title: quoteResponse['content'].title || "",
-          subtitle: quoteResponse['content'].subtitle || "",
-          content: quoteResponse['content'].content,
+          title: quoteData.title || "",
+          subtitle: quoteData.subtitle || "",
+          content: quoteData.content || [],
         });
       }
 
       // Fetch banners
       const bannerResponse = await BannerService.getBannerInfo();
-      console.log(bannerResponse);
-      if (bannerResponse.success && (bannerResponse as any)['content']) {
-        setBanners((bannerResponse as any)['content'].images || []);
+      const bannerData = getApiContent<{ images?: string[] }>(bannerResponse);
+      if (bannerData?.images) {
+        setBanners(bannerData.images);
       }
 
       // Fetch about company
       const aboutCompanyResponse = await AboutCompanyService.getAboutInfo();
-      console.log('aboutCompanyResponse', aboutCompanyResponse);
-      if (aboutCompanyResponse.success) {
-        const data = (aboutCompanyResponse as any)['content'];
+      const aboutData = getApiContent<{
+        title?: string;
+        subtitle?: string;
+        content?: string;
+        images?: {
+          section1?: ImageItem[];
+          section2?: ImageItem[];
+          section3?: ImageItem[];
+        };
+      }>(aboutCompanyResponse);
+      if (aboutData) {
         setAboutCompanyInfo({
-          title: data.title || t("about.title"),
-          subtitle: data.subtitle || t("about.subtitle"),
-          content: data.content || t("about.description"),
+          title: aboutData.title || t("about.title"),
+          subtitle: aboutData.subtitle || t("about.subtitle"),
+          content: aboutData.content || t("about.description"),
           images: {
-            section1: data.images?.section1 || [],
-            section2: data.images?.section2 || [],
-            section3: data.images?.section3 || [],
+            section1: aboutData.images?.section1 || [],
+            section2: aboutData.images?.section2 || [],
+            section3: aboutData.images?.section3 || [],
           },
         });
       }
 
-
+      // Fetch company info
       const companyInfoResponse = await CompanyInfoService.getCompanyInfo();
-      if (companyInfoResponse.success && companyInfoResponse['content']) {
-        setCompanyInfo(companyInfoResponse['content']);
+      const companyData = getApiContent<typeof companyInfo>(companyInfoResponse);
+      if (companyData) {
+        setCompanyInfo(companyData);
       }
     } catch (error) {
       console.error("Error fetching data:", error);
 
       // Fallback to hardcoded data if API fails
-      const fallbackContacts: ContactInfoType[] = [
-        {
-          icon: "/whatsapp-icon.png",
-          alt: t("contact.whatsapp"),
-          text: "+852 6806-0108",
-          link: "https://wa.me/85268060108",
-        },
-        {
-          icon: "/print-icon.png",
-          alt: t("contact.phone"),
-          text: "+852 3020-6719",
-          link: "tel:+85230206719",
-        },
-        {
-          icon: "/email-icon.png",
-          alt: t("contact.email"),
-          text: "leego.scaffolding@gmail.com",
-          link: "mailto:leego.scaffolding@gmail.com",
-        },
-        {
-          icon: "/fb-icon.png",
-          alt: t("contact.facebook"),
-          text: "https://www.facebook.com/MasterHongScaffolding/",
-          link: "https://www.facebook.com/MasterHongScaffolding/",
-        },
-      ];
-      setContactInfo(fallbackContacts);
+      setContactInfo(
+        createContactInfo(undefined, {
+          whatsapp: t("contact.whatsapp"),
+          phone: t("contact.phone"),
+          email: t("contact.email"),
+          facebook: t("contact.facebook"),
+        })
+      );
     } finally {
       setLoading(false);
     }
@@ -225,7 +193,6 @@ export default function Home({ params }: Props) {
 
   return (
     <div className="min-h-screen bg-white">
-
       <Header companyInfo={companyInfo} phoneNumber={companyInfo?.phone || ""} />
 
       {/* Hero Section */}
@@ -264,23 +231,19 @@ export default function Home({ params }: Props) {
 
           {/* Company Images */}
           <div className="grid md:grid-cols-2 gap-12 mb-12">
-            {aboutCompanyInfo &&
-              aboutCompanyInfo?.images?.section1.map((item, index) => {
-                const imageSrc = typeof item === 'string' ? item : item.src || item.url || '';
-                return (
-                  <div key={index} className="text-center">
-                    <div className="relative">
-                      <Image
-                        src={imageSrc}
-                        alt={typeof item === 'string' ? t("about.companyImage1Alt") : (item.alt || t("about.companyImage1Alt"))}
-                        width={300}
-                        height={200}
-                        className="w-full h-auto object-cover max-w-sm mx-auto"
-                      />
-                    </div>
-                  </div>
-                );
-              })}
+            {aboutCompanyInfo?.images?.section1.map((item, index) => (
+              <div key={index} className="text-center">
+                <div className="relative">
+                  <Image
+                    src={getImageSrc(item)}
+                    alt={getImageAlt(item, t("about.companyImage1Alt"))}
+                    width={300}
+                    height={200}
+                    className="w-full h-auto object-cover max-w-sm mx-auto"
+                  />
+                </div>
+              </div>
+            ))}
           </div>
 
           {/* Company Description Text */}
@@ -296,28 +259,24 @@ export default function Home({ params }: Props) {
       <section className="py-12 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 justify-items-center">
-            {aboutCompanyInfo &&
-              aboutCompanyInfo.images?.section2?.map((item, idx) => {
-                const imageSrc = typeof item === 'string' ? item : item.src || item.url || '';
-                const imageAlt = typeof item === 'string'
-                  ? imageSrc + "-" + (idx + 1)
-                  : (item.alt || imageSrc + "-" + (idx + 1));
-                return (
-                  <div
-                    key={idx}
-                    className="w-32 h-32 flex items-center justify-center"
-                  >
-                    <Image
-                      src={imageSrc}
-                      alt={imageAlt}
-                      width={200}
-                      height={200}
-                      className="object-contain w-full h-full"
-                      loading="lazy"
-                    />
-                  </div>
-                );
-              })}
+            {aboutCompanyInfo.images?.section2?.map((item, idx) => {
+              const imageSrc = getImageSrc(item);
+              return (
+                <div
+                  key={idx}
+                  className="w-32 h-32 flex items-center justify-center"
+                >
+                  <Image
+                    src={imageSrc}
+                    alt={getImageAlt(item, `${imageSrc}-${idx + 1}`)}
+                    width={200}
+                    height={200}
+                    className="object-contain w-full h-full"
+                    loading="lazy"
+                  />
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -327,19 +286,11 @@ export default function Home({ params }: Props) {
         <section id="video" className="py-20 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <Carousel
-              items={aboutCompanyInfo.images.section3.map((item, index) => {
-                // Handle both string and object formats
-                const imageSrc = typeof item === 'string' ? item : item.src || item.url || '';
-                const imageAlt = typeof item === 'string'
-                  ? `Gallery image ${index + 1}`
-                  : item.alt || `Gallery image ${index + 1}`;
-
-                return {
-                  type: 'image' as const,
-                  src: imageSrc,
-                  alt: imageAlt,
-                };
-              })}
+              items={aboutCompanyInfo.images.section3.map((item, index) => ({
+                type: 'image' as const,
+                src: getImageSrc(item),
+                alt: getImageAlt(item, `Gallery image ${index + 1}`),
+              }))}
               autoPlay={true}
               interval={4000}
             />
