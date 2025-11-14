@@ -22,6 +22,7 @@ interface ContactInfoType {
   link?: string;
 }
 
+type ImageItem = string | { src?: string; url?: string; alt?: string; type?: string };
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -46,9 +47,9 @@ export default function Home({ params }: Props) {
     subtitle: string;
     content: string;
     images: {
-      section1: string[];
-      section2: string[];
-      section3: string[];
+      section1: ImageItem[];
+      section2: ImageItem[];
+      section3: ImageItem[];
     };
   }>({
     title: "",
@@ -76,7 +77,7 @@ export default function Home({ params }: Props) {
     title: "",
     subtitle: "",
   });
-    const [quotePricing, setQuotePricing] = useState<QuotePricingInfo>({
+  const [quotePricing, setQuotePricing] = useState<QuotePricingInfo>({
     title: "",
     subtitle: "",
     content: [],
@@ -132,34 +133,27 @@ export default function Home({ params }: Props) {
 
       // Fetch quote price info
       const quoteResponse = await QuotePriceService.getContactInfo();
-      if (quoteResponse.success && quoteResponse.data) {
+      if (quoteResponse.success) {
         // Currently not used, but can be set to state if needed
         setQuotePricing({
-          title: quoteResponse.data.title || "",
-          subtitle: quoteResponse.data.subtitle || "",
-          content: quoteResponse.data.content,
+          title: quoteResponse['content'].title || "",
+          subtitle: quoteResponse['content'].subtitle || "",
+          content: quoteResponse['content'].content,
         });
       }
 
       // Fetch banners
       const bannerResponse = await BannerService.getBannerInfo();
-      if (bannerResponse.success && bannerResponse.data) {
-        setBanners(bannerResponse.data?.images || []);
+      console.log(bannerResponse);
+      if (bannerResponse.success && (bannerResponse as any)['content']) {
+        setBanners((bannerResponse as any)['content'].images || []);
       }
 
       // Fetch about company
       const aboutCompanyResponse = await AboutCompanyService.getAboutInfo();
-      if (aboutCompanyResponse.success && aboutCompanyResponse.data) {
-        const data = aboutCompanyResponse.data as {
-          title?: string;
-          subtitle?: string;
-          content?: string;
-          images?: {
-            section1?: string[];
-            section2?: string[];
-            section3?: string[];
-          };
-        };
+      console.log('aboutCompanyResponse', aboutCompanyResponse);
+      if (aboutCompanyResponse.success) {
+        const data = (aboutCompanyResponse as any)['content'];
         setAboutCompanyInfo({
           title: data.title || t("about.title"),
           subtitle: data.subtitle || t("about.subtitle"),
@@ -171,6 +165,22 @@ export default function Home({ params }: Props) {
           },
         });
       }
+      // console.log('aboutCompanyResponse', aboutCompanyResponse);
+      // if (aboutCompanyResponse.success && aboutCompanyResponse['content']) {
+      //   const data = aboutCompanyResponse['content']
+      //   setAboutCompanyInfo({
+      //     title: data.title || t("about.title"),
+      //     subtitle: data.subtitle || t("about.subtitle"),
+      //     content: data.content || t("about.description"),
+      //     images: {
+      //       section1: data.images?.section1 || [],
+      //       section2: data.images?.section2 || [],
+      //       section3: data.images?.section3 || [],
+      //     },
+      //   });
+      // };
+
+      // }
 
       const companyInfoResponse = await CompanyInfoService.getCompanyInfo();
       if (companyInfoResponse.success && companyInfoResponse.data) {
@@ -269,19 +279,22 @@ export default function Home({ params }: Props) {
           {/* Company Images */}
           <div className="grid md:grid-cols-2 gap-12 mb-12">
             {aboutCompanyInfo &&
-              aboutCompanyInfo?.images?.section1.map((src, index) => (
-                <div key={index} className="text-center">
-                  <div className="relative">
-                    <Image
-                      src={src}
-                      alt={t("about.companyImage1Alt")}
-                      width={300}
-                      height={200}
-                      className="w-full h-auto object-cover max-w-sm mx-auto"
-                    />
+              aboutCompanyInfo?.images?.section1.map((item, index) => {
+                const imageSrc = typeof item === 'string' ? item : item.src || item.url || '';
+                return (
+                  <div key={index} className="text-center">
+                    <div className="relative">
+                      <Image
+                        src={imageSrc}
+                        alt={typeof item === 'string' ? t("about.companyImage1Alt") : (item.alt || t("about.companyImage1Alt"))}
+                        width={300}
+                        height={200}
+                        className="w-full h-auto object-cover max-w-sm mx-auto"
+                      />
+                    </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
           </div>
 
           {/* Company Description Text */}
@@ -298,21 +311,27 @@ export default function Home({ params }: Props) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 justify-items-center">
             {aboutCompanyInfo &&
-              aboutCompanyInfo.images?.section2?.map((src, idx) => (
-                <div
-                  key={idx}
-                  className="w-32 h-32 flex items-center justify-center"
-                >
-                  <Image
-                    src={src}
-                    alt={src + "-" + (idx + 1)}
-                    width={200}
-                    height={200}
-                    className="object-contain w-full h-full"
-                    loading="lazy"
-                  />
-                </div>
-              ))}
+              aboutCompanyInfo.images?.section2?.map((item, idx) => {
+                const imageSrc = typeof item === 'string' ? item : item.src || item.url || '';
+                const imageAlt = typeof item === 'string'
+                  ? imageSrc + "-" + (idx + 1)
+                  : (item.alt || imageSrc + "-" + (idx + 1));
+                return (
+                  <div
+                    key={idx}
+                    className="w-32 h-32 flex items-center justify-center"
+                  >
+                    <Image
+                      src={imageSrc}
+                      alt={imageAlt}
+                      width={200}
+                      height={200}
+                      className="object-contain w-full h-full"
+                      loading="lazy"
+                    />
+                  </div>
+                );
+              })}
           </div>
         </div>
       </section>
@@ -322,11 +341,19 @@ export default function Home({ params }: Props) {
         <section id="video" className="py-20 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <Carousel
-              items={aboutCompanyInfo.images.section3.map((src, index) => ({
-                type: 'image' as const,
-                src,
-                alt: `Gallery image ${index + 1}`,
-              }))}
+              items={aboutCompanyInfo.images.section3.map((item, index) => {
+                // Handle both string and object formats
+                const imageSrc = typeof item === 'string' ? item : item.src || item.url || '';
+                const imageAlt = typeof item === 'string'
+                  ? `Gallery image ${index + 1}`
+                  : item.alt || `Gallery image ${index + 1}`;
+
+                return {
+                  type: 'image' as const,
+                  src: imageSrc,
+                  alt: imageAlt,
+                };
+              })}
               autoPlay={true}
               interval={4000}
             />
