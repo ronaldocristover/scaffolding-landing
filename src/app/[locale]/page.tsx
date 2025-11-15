@@ -253,9 +253,12 @@ export default function Home({ params }: Props) {
 
           {/* Company Description Text */}
           <div className="text-center">
-            <p className="text-lg text-black leading-relaxed max-w-5xl mx-auto">
-              {aboutCompanyInfo.content || t("about.description")}
-            </p>
+            <div
+              className="text-lg text-black leading-relaxed max-w-5xl mx-auto"
+              dangerouslySetInnerHTML={{
+                __html: aboutCompanyInfo.content || t("about.description")
+              }}
+            />
           </div>
         </div>
       </section>
