@@ -202,14 +202,19 @@ export default function Home({ params }: Props) {
             {banners.length > 0 &&
               banners.map((banner: string, index: number) => (
                 <div key={index} className="flex justify-center">
-                  <Image
-                    src={banner}
-                    alt={banner + "-" + index}
-                    width={350}
-                    height={400}
-                    className="rounded-lg shadow-xl w-full h-auto object-cover max-w-xs"
-                    priority
-                  />
+                  <div
+                    className="relative w-[563px] h-[563px] rounded-lg"
+
+                  >
+                    <Image
+                      src={banner}
+                      alt={banner + "-" + index}
+                      width={563}
+                      height={563}
+                      className="rounded-lg object-contain w-full h-full max-w-full max-h-full"
+                      priority
+                    />
+                  </div>
                 </div>
               ))}
           </div>
@@ -233,13 +238,13 @@ export default function Home({ params }: Props) {
           <div className="grid md:grid-cols-2 gap-12 mb-12">
             {aboutCompanyInfo?.images?.section1.map((item, index) => (
               <div key={index} className="text-center">
-                <div className="relative">
+                <div className="relative w-[302px] h-[302px] mx-auto">
                   <Image
                     src={getImageSrc(item)}
                     alt={getImageAlt(item, t("about.companyImage1Alt"))}
-                    width={300}
-                    height={200}
-                    className="w-full h-auto object-cover max-w-sm mx-auto"
+                    width={302}
+                    height={302}
+                    className="object-contain w-full h-full max-w-full max-h-full"
                   />
                 </div>
               </div>
@@ -256,7 +261,7 @@ export default function Home({ params }: Props) {
       </section>
 
       {/* Company Logos Section */}
-      <section className="py-12 bg-white">
+      <section className="py-12 bg-white" id="company-logos">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 justify-items-center">
             {aboutCompanyInfo.images?.section2?.map((item, idx) => {
@@ -264,14 +269,14 @@ export default function Home({ params }: Props) {
               return (
                 <div
                   key={idx}
-                  className="w-32 h-32 flex items-center justify-center"
+                  className="w-[200px] h-[138px] flex items-center justify-center"
                 >
                   <Image
                     src={imageSrc}
                     alt={getImageAlt(item, `${imageSrc}-${idx + 1}`)}
                     width={200}
-                    height={200}
-                    className="object-contain w-full h-full"
+                    height={138}
+                    className="object-contain w-full h-full max-w-full max-h-full"
                     loading="lazy"
                   />
                 </div>
