@@ -1,8 +1,9 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useState, useRef } from "react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import AboutCompanyService from "@/services/about-company-service";
 import BannerService from "@/services/banner-service";
 import ContactService from "@/services/contact-service";
@@ -83,6 +84,7 @@ export default function Home({ params }: Props) {
     content: [],
   });
   const [loading, setLoading] = useState(true);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   // Create memoized fetch data function
   const fetchData = useCallback(async () => {
@@ -180,6 +182,27 @@ export default function Home({ params }: Props) {
     fetchData();
   }, [fetchData]);
 
+  // Scroll functions for hero section carousel
+  const scrollLeft = () => {
+    if (scrollContainerRef.current) {
+      const scrollAmount = 563 + 32; // image width + gap
+      scrollContainerRef.current.scrollBy({
+        left: -scrollAmount,
+        behavior: "smooth",
+      });
+    }
+  };
+
+  const scrollRight = () => {
+    if (scrollContainerRef.current) {
+      const scrollAmount = 563 + 32; // image width + gap
+      scrollContainerRef.current.scrollBy({
+        left: scrollAmount,
+        behavior: "smooth",
+      });
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
@@ -198,26 +221,57 @@ export default function Home({ params }: Props) {
       {/* Hero Section */}
       <section id="home" className="bg-[#C0FF4B] py-20 lg:py-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-            {banners.length > 0 &&
-              banners.map((banner: string, index: number) => (
-                <div key={index} className="flex justify-center">
-                  <div
-                    className="relative w-[563px] h-[563px] rounded-lg"
+          {banners.length > 0 && (
+            <div className="relative">
+              {/* Left Navigation Button */}
+              {banners.length > 1 && (
+                <button
+                  onClick={scrollLeft}
+                  className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 text-white p-3 rounded-full hover:bg-black/70 transition-colors z-10 shadow-lg"
+                  aria-label="Previous image"
+                >
+                  <ChevronLeft size={28} />
+                </button>
+              )}
 
-                  >
-                    <Image
-                      src={banner}
-                      alt={banner + "-" + index}
-                      width={563}
-                      height={563}
-                      className="rounded-lg object-contain w-full h-full max-w-full max-h-full"
-                      priority
-                    />
-                  </div>
+              {/* Scrollable Container */}
+              <div
+                ref={scrollContainerRef}
+                className="overflow-x-auto scrollbar-hide scroll-smooth"
+              >
+                <div className="flex gap-8 pb-4">
+                  {banners.map((banner: string, index: number) => (
+                    <div
+                      key={index}
+                      className="flex-shrink-0 flex justify-center"
+                    >
+                      <div className="relative w-[563px] h-[563px] rounded-lg">
+                        <Image
+                          src={banner}
+                          alt={banner + "-" + index}
+                          width={563}
+                          height={563}
+                          className="rounded-lg object-contain w-full h-full max-w-full max-h-full"
+                          priority={index === 0}
+                        />
+                      </div>
+                    </div>
+                  ))}
                 </div>
-              ))}
-          </div>
+              </div>
+
+              {/* Right Navigation Button */}
+              {banners.length > 1 && (
+                <button
+                  onClick={scrollRight}
+                  className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 text-white p-3 rounded-full hover:bg-black/70 transition-colors z-10 shadow-lg"
+                  aria-label="Next image"
+                >
+                  <ChevronRight size={28} />
+                </button>
+              )}
+            </div>
+          )}
         </div>
       </section>
 
