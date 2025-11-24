@@ -185,7 +185,10 @@ export default function Home({ params }: Props) {
   // Scroll functions for hero section carousel
   const scrollLeft = () => {
     if (scrollContainerRef.current) {
-      const scrollAmount = 563 + 32; // image width + gap
+      // Responsive scroll amount based on screen size
+      const isMobile = window.innerWidth < 640;
+      const isTablet = window.innerWidth >= 640 && window.innerWidth < 768;
+      const scrollAmount = isMobile ? 280 + 16 : isTablet ? 400 + 32 : 563 + 32;
       scrollContainerRef.current.scrollBy({
         left: -scrollAmount,
         behavior: "smooth",
@@ -195,7 +198,10 @@ export default function Home({ params }: Props) {
 
   const scrollRight = () => {
     if (scrollContainerRef.current) {
-      const scrollAmount = 563 + 32; // image width + gap
+      // Responsive scroll amount based on screen size
+      const isMobile = window.innerWidth < 640;
+      const isTablet = window.innerWidth >= 640 && window.innerWidth < 768;
+      const scrollAmount = isMobile ? 280 + 16 : isTablet ? 400 + 32 : 563 + 32;
       scrollContainerRef.current.scrollBy({
         left: scrollAmount,
         behavior: "smooth",
@@ -219,7 +225,7 @@ export default function Home({ params }: Props) {
       <Header companyInfo={companyInfo} phoneNumber={companyInfo?.phone || ""} />
 
       {/* Hero Section */}
-      <section id="home" className="bg-[#C0FF4B] py-20 lg:py-32">
+      <section id="home" className="bg-[#C0FF4B] py-12 sm:py-20 lg:py-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {banners.length > 0 && (
             <div className="relative">
@@ -227,10 +233,10 @@ export default function Home({ params }: Props) {
               {banners.length > 1 && (
                 <button
                   onClick={scrollLeft}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 text-white p-3 rounded-full hover:bg-black/70 transition-colors z-10 shadow-lg"
+                  className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 sm:p-3 rounded-full hover:bg-black/70 transition-colors z-10 shadow-lg"
                   aria-label="Previous image"
                 >
-                  <ChevronLeft size={28} />
+                  <ChevronLeft size={20} className="sm:w-7 sm:h-7" />
                 </button>
               )}
 
@@ -239,13 +245,13 @@ export default function Home({ params }: Props) {
                 ref={scrollContainerRef}
                 className="overflow-x-auto scrollbar-hide scroll-smooth"
               >
-                <div className="flex gap-8 pb-4">
+                <div className="flex gap-4 sm:gap-8 pb-4">
                   {banners.map((banner: string, index: number) => (
                     <div
                       key={index}
                       className="flex-shrink-0 flex justify-center"
                     >
-                      <div className="relative w-[563px] h-[563px] rounded-lg">
+                      <div className="relative w-[280px] h-[280px] sm:w-[400px] sm:h-[400px] md:w-[563px] md:h-[563px] rounded-lg">
                         <Image
                           src={banner}
                           alt={banner + "-" + index}
@@ -264,10 +270,10 @@ export default function Home({ params }: Props) {
               {banners.length > 1 && (
                 <button
                   onClick={scrollRight}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 text-white p-3 rounded-full hover:bg-black/70 transition-colors z-10 shadow-lg"
+                  className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-black/50 text-white p-2 sm:p-3 rounded-full hover:bg-black/70 transition-colors z-10 shadow-lg"
                   aria-label="Next image"
                 >
-                  <ChevronRight size={28} />
+                  <ChevronRight size={20} className="sm:w-7 sm:h-7" />
                 </button>
               )}
             </div>
@@ -276,23 +282,23 @@ export default function Home({ params }: Props) {
       </section>
 
       {/* About Company Section */}
-      <section id="about" className="py-20 bg-white">
+      <section id="about" className="py-12 sm:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Centered About Our Company Title */}
-          <div className="text-center mb-16">
-            <h2 className="font-viga text-[30px] text-black mb-2">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="font-viga text-2xl sm:text-[30px] text-black mb-2">
               {aboutCompanyInfo.title || t("about.title")}
             </h2>
-            <p className="text-lg text-gray-800 mb-4">
+            <p className="text-base sm:text-lg text-gray-800 mb-4 px-4">
               {aboutCompanyInfo.subtitle || t("about.subtitle")}
             </p>
           </div>
 
           {/* Company Images */}
-          <div className="grid md:grid-cols-2 gap-12 mb-12">
+          <div className="grid grid-cols-2 md:grid-cols-2 gap-4 sm:gap-8 md:gap-12 mb-12">
             {aboutCompanyInfo?.images?.section1.map((item, index) => (
               <div key={index} className="text-center">
-                <div className="relative w-[302px] h-[302px] mx-auto">
+                <div className="relative w-full max-w-[280px] sm:max-w-[302px] aspect-square mx-auto">
                   <Image
                     src={getImageSrc(item)}
                     alt={getImageAlt(item, t("about.companyImage1Alt"))}
@@ -308,7 +314,7 @@ export default function Home({ params }: Props) {
           {/* Company Description Text */}
           <div className="text-center">
             <div
-              className="text-lg text-black leading-relaxed max-w-5xl mx-auto"
+              className="text-base sm:text-lg text-black leading-relaxed max-w-5xl mx-auto px-4"
               dangerouslySetInnerHTML={{
                 __html: aboutCompanyInfo.content || t("about.description")
               }}
@@ -318,21 +324,21 @@ export default function Home({ params }: Props) {
       </section>
 
       {/* Company Logos Section */}
-      <section className="py-12 bg-white" id="company-logos">
+      <section className="py-8 sm:py-12 bg-white" id="company-logos">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex gap-8 overflow-x-auto pb-4 scroll-smooth" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+          <div className="flex gap-4 sm:gap-8 overflow-x-auto pb-4 scroll-smooth" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             {aboutCompanyInfo.images?.section2?.map((item, idx) => {
               const imageSrc = getImageSrc(item);
               return (
                 <div
                   key={idx}
-                  className="w-[200px] h-[138px] flex items-center justify-center flex-shrink-0"
+                  className="w-[200px] h-[138px] sm:w-[250px] sm:h-[173px] md:w-[300px] md:h-[207px] flex items-center justify-center flex-shrink-0"
                 >
                   <Image
                     src={imageSrc}
                     alt={getImageAlt(item, `${imageSrc}-${idx + 1}`)}
-                    width={200}
-                    height={138}
+                    width={300}
+                    height={207}
                     className="object-contain w-full h-full max-w-full max-h-full"
                     loading="lazy"
                   />
@@ -345,7 +351,7 @@ export default function Home({ params }: Props) {
 
       {/* Carousel Section */}
       {aboutCompanyInfo && aboutCompanyInfo.images?.section3 && (
-        <section id="video" className="py-20 bg-white">
+        <section id="video" className="py-12 sm:py-20 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <Carousel
               items={aboutCompanyInfo.images.section3.map((item, index) => ({
@@ -361,27 +367,27 @@ export default function Home({ params }: Props) {
       )}
 
       {/* Pricing Section */}
-      <section id="pricing" className="py-20 bg-[#C0FF4B]">
+      <section id="pricing" className="py-12 sm:py-20 bg-[#C0FF4B]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-16">
-            <h2 className="font-viga text-[30px] text-black mb-4">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="font-viga text-2xl sm:text-[30px] text-black mb-4">
               {/* {t("pricing.title")} */}
               {quotePricing.title || ""}
             </h2>
-            <p className="text-lg text-black text-3xl mb-4">
+            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-black mb-4 px-4">
               {/* {t("pricing.subtitle")} */}
               {quotePricing.subtitle || ""}
             </p>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 gap-6 sm:gap-8">
             {quotePricing.content.map((item, idx) => (
-              <div key={idx} className="p-8">
-                <h3 className="font-viga text-2xl mb-4 text-black text-center">
+              <div key={idx} className="p-4 sm:p-8">
+                <h3 className="font-viga text-xl sm:text-2xl mb-4 text-black text-center">
                   {item["title"] as string}
                 </h3>
-                <div className="space-y-3 mb-8 text-black">
-                  <p className="text-black">{item["content"] as string}</p>
+                <div className="space-y-3 text-black">
+                  <p className="text-sm sm:text-base text-black">{item["content"] as string}</p>
                 </div>
               </div>
             ))}

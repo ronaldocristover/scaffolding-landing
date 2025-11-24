@@ -34,15 +34,17 @@ export default function Header({ companyInfo, phoneNumber }: HeaderProps) {
   return (
     <>
       {/* Top Contact Bar */}
-      <div className="bg-[#737365] text-center py-1">
-        <span className="text-[#F7EA87]">
-          立即WhatsApp：{phoneNumber || companyInfo?.phone || ""}
+      <div className="bg-[#737365] text-center py-1 px-2">
+        <span className="text-[#F7EA87] text-xs sm:text-sm">
+          <span className="hidden sm:inline">立即WhatsApp：</span>
+          <span className="sm:hidden">WhatsApp：</span>
+          {phoneNumber || companyInfo?.phone || ""}
           <Image
             src="/whatsapp-icon.png"
             alt="WhatsApp"
             width={20}
             height={20}
-            className="inline-block align-middle mx-2 mb-1"
+            className="inline-block align-middle mx-1 sm:mx-2 mb-1"
             priority
           />
         </span>

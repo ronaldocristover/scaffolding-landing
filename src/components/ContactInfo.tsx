@@ -28,18 +28,18 @@ export default function ContactInfo({
   contactBaseInfo,
 }: ContactInfoProps) {
   return (
-    <section id="contact-us" className="py-20 bg-white">
+    <section id="contact-us" className="py-12 sm:py-20 bg-white">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-        <h2 className="font-viga text-3xl md:text-4xl text-black mb-2">
+        <h2 className="font-viga text-2xl sm:text-3xl md:text-4xl text-black mb-2">
           {contactBaseInfo.title}
         </h2>
-        <p className="text-lg text-black text-3xl mb-12">
+        <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-black mb-8 sm:mb-12 px-4">
           {contactBaseInfo.subtitle}
         </p>
-        <div className="text-lg text-black mb-12">
-          <div className="flex flex-wrap justify-center gap-8">
+        <div className="text-base sm:text-lg text-black mb-8 sm:mb-12">
+          <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-4 sm:gap-8">
             {contacts.map((contact, idx) => (
-              <span key={idx} className="flex items-center">
+              <span key={idx} className="flex items-center justify-center">
                 <Image
                   src={contact.icon}
                   alt={contact.alt}
@@ -58,12 +58,12 @@ export default function ContactInfo({
                         ? "noopener noreferrer"
                         : undefined
                     }
-                    className="hover:text-blue-600 transition-colors"
+                    className="hover:text-blue-600 transition-colors break-all sm:break-normal"
                   >
                     {contact.text}
                   </a>
                 ) : (
-                  contact.text
+                  <span className="break-all sm:break-normal">{contact.text}</span>
                 )}
               </span>
             ))}
