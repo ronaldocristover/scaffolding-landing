@@ -280,7 +280,7 @@ export default function Home({ params }: Props) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Centered About Our Company Title */}
           <div className="text-center mb-16">
-            <h2 className="font-viga text-3xl md:text-4xl text-black mb-2">
+            <h2 className="font-viga text-[30px] text-black mb-2">
               {aboutCompanyInfo.title || t("about.title")}
             </h2>
             <p className="text-lg text-gray-800 mb-4">
@@ -320,13 +320,13 @@ export default function Home({ params }: Props) {
       {/* Company Logos Section */}
       <section className="py-12 bg-white" id="company-logos">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 justify-items-center">
+          <div className="flex gap-8 overflow-x-auto pb-4 scroll-smooth" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
             {aboutCompanyInfo.images?.section2?.map((item, idx) => {
               const imageSrc = getImageSrc(item);
               return (
                 <div
                   key={idx}
-                  className="w-[200px] h-[138px] flex items-center justify-center"
+                  className="w-[200px] h-[138px] flex items-center justify-center flex-shrink-0"
                 >
                   <Image
                     src={imageSrc}
@@ -364,7 +364,7 @@ export default function Home({ params }: Props) {
       <section id="pricing" className="py-20 bg-[#C0FF4B]">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="font-viga text-3xl md:text-4xl text-black mb-4">
+            <h2 className="font-viga text-[30px] text-black mb-4">
               {/* {t("pricing.title")} */}
               {quotePricing.title || ""}
             </h2>
