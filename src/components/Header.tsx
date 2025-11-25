@@ -68,13 +68,7 @@ export default function Header({ companyInfo, phoneNumber }: HeaderProps) {
               </div>
               <div className="flex flex-col">
                 <span className="font-sans font-bold text-sm sm:text-lg md:text-xl text-gray-900 leading-tight tracking-tight">
-                  <span className="hidden sm:inline">
-                    {companyInfo?.title ||
-                      "利高棚業工程有限公司｜康師傅搭棚公司"}
-                  </span>
-                  <span className="sm:hidden">
-                    {companyInfo?.subtitle || "康師傅搭棚公司"}
-                  </span>
+                  {companyInfo?.title || "利高棚業工程有限公司｜康師傅搭棚公司"}
                 </span>
                 <span className="font-sans font-semibold text-xs sm:text-sm md:text-base text-gray-700 leading-tight tracking-wide">
                   {companyInfo?.name || "Scaffolding Engineering Limited"}
