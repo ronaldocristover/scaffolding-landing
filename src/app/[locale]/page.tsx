@@ -15,6 +15,7 @@ import Carousel from "@/components/Carousel";
 import ContactInfo from "@/components/ContactInfo";
 import FloatingButtons from "@/components/FloatingButtons";
 import Header from "@/components/Header";
+import PricingSection from "@/components/PricingSection";
 import {
   getImageSrc,
   getImageAlt,
@@ -23,7 +24,9 @@ import {
   type ContactInfoType,
 } from "@/lib/utils";
 
-type ImageItem = string | { src?: string; url?: string; alt?: string; type?: string };
+type ImageItem =
+  | string
+  | { src?: string; url?: string; alt?: string; type?: string };
 
 type Props = {
   params: Promise<{ locale: string }>;
@@ -107,7 +110,7 @@ export default function Home({ params }: Props) {
             phone: t("contact.phone"),
             email: t("contact.email"),
             facebook: t("contact.facebook"),
-          })
+          }),
         );
       }
 
@@ -156,7 +159,8 @@ export default function Home({ params }: Props) {
 
       // Fetch company info
       const companyInfoResponse = await CompanyInfoService.getCompanyInfo();
-      const companyData = getApiContent<typeof companyInfo>(companyInfoResponse);
+      const companyData =
+        getApiContent<typeof companyInfo>(companyInfoResponse);
       if (companyData) {
         setCompanyInfo(companyData);
       }
@@ -170,7 +174,7 @@ export default function Home({ params }: Props) {
           phone: t("contact.phone"),
           email: t("contact.email"),
           facebook: t("contact.facebook"),
-        })
+        }),
       );
     } finally {
       setLoading(false);
@@ -222,7 +226,10 @@ export default function Home({ params }: Props) {
 
   return (
     <div className="min-h-screen bg-white">
-      <Header companyInfo={companyInfo} phoneNumber={companyInfo?.phone || ""} />
+      <Header
+        companyInfo={companyInfo}
+        phoneNumber={companyInfo?.phone || ""}
+      />
 
       {/* Hero Section */}
       <section id="home" className="bg-[#C0FF4B] py-12 sm:py-20 lg:py-32">
@@ -316,7 +323,7 @@ export default function Home({ params }: Props) {
             <div
               className="text-base sm:text-lg text-black leading-relaxed max-w-5xl mx-auto px-4"
               dangerouslySetInnerHTML={{
-                __html: aboutCompanyInfo.content || t("about.description")
+                __html: aboutCompanyInfo.content || t("about.description"),
               }}
             />
           </div>
@@ -326,7 +333,10 @@ export default function Home({ params }: Props) {
       {/* Company Logos Section */}
       <section className="py-8 sm:py-12 bg-white" id="company-logos">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex gap-4 sm:gap-8 overflow-x-auto pb-4 scroll-smooth" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
+          <div
+            className="flex gap-4 sm:gap-8 overflow-x-auto pb-4 scroll-smooth"
+            style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
+          >
             {aboutCompanyInfo.images?.section2?.map((item, idx) => {
               const imageSrc = getImageSrc(item);
               return (
@@ -355,7 +365,7 @@ export default function Home({ params }: Props) {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <Carousel
               items={aboutCompanyInfo.images.section3.map((item, index) => ({
-                type: 'image' as const,
+                type: "image" as const,
                 src: getImageSrc(item),
                 alt: getImageAlt(item, `Gallery image ${index + 1}`),
               }))}
@@ -367,33 +377,7 @@ export default function Home({ params }: Props) {
       )}
 
       {/* Pricing Section */}
-      <section id="pricing" className="py-12 sm:py-20 bg-[#C0FF4B]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12 sm:mb-16">
-            <h2 className="font-viga text-2xl sm:text-[30px] text-black mb-4">
-              {/* {t("pricing.title")} */}
-              {quotePricing.title || ""}
-            </h2>
-            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-black mb-4 px-4">
-              {/* {t("pricing.subtitle")} */}
-              {quotePricing.subtitle || ""}
-            </p>
-          </div>
-
-          <div className="grid md:grid-cols-3 gap-6 sm:gap-8">
-            {quotePricing.content.map((item, idx) => (
-              <div key={idx} className="p-4 sm:p-8">
-                <h3 className="font-viga text-xl sm:text-2xl mb-4 text-black text-center">
-                  {item["title"] as string}
-                </h3>
-                <div className="space-y-3 text-black">
-                  <p className="text-sm sm:text-base text-black">{item["content"] as string}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
+      <PricingSection quotePricing={quotePricing} />
 
       <ContactInfo contacts={contactInfo} contactBaseInfo={contactBaseInfo} />
 
