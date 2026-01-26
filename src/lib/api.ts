@@ -17,15 +17,17 @@ export const apiClient = axios.create({
 apiClient.interceptors.request.use(
   (config) => {
     // Add auth token if available
-    const token = localStorage.getItem("auth_token");
-    if (token) {
-      config.headers.Authorization = `Bearer ${token}`;
+    if (typeof window !== "undefined") {
+      const token = localStorage.getItem("auth_token");
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
     }
     return config;
   },
   (error) => {
     return Promise.reject(error);
-  }
+  },
 );
 
 // Response interceptor
@@ -35,11 +37,13 @@ apiClient.interceptors.response.use(
     // Handle common errors
     if (error.response?.status === 401) {
       // Handle unauthorized access
-      localStorage.removeItem("auth_token");
-      window.location.href = "/login";
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("auth_token");
+        window.location.href = "/login";
+      }
     }
     return Promise.reject(error);
-  }
+  },
 );
 
 // API response type
@@ -66,7 +70,7 @@ export interface ApiResponse<T> {
 export const apiCall = async <T>(
   method: "GET" | "POST" | "PUT" | "DELETE",
   endpoint: string,
-  data?: Record<string, unknown> | FormData
+  data?: Record<string, unknown> | FormData,
 ): Promise<ApiResponse<T>> => {
   try {
     const response = await apiClient.request({
