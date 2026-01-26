@@ -377,7 +377,7 @@ export default function Home({ params }: Props) {
       )}
 
       {/* Pricing Section */}
-      <PricingSection quotePricing={quotePricing} />
+      {/* <PricingSection quotePricing={quotePricing} /> */}
 
       <ContactInfo contacts={contactInfo} contactBaseInfo={contactBaseInfo} />
 
