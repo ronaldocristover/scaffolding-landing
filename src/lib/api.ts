@@ -2,7 +2,7 @@ import axios from "axios";
 
 // API base configuration
 const API_BASE_URL =
-  process.env.NEXT_PUBLIC_API_URL || "https://scaffolding-api.ronaldodev.com";
+  process.env.NEXT_PUBLIC_API_URL || "https://api.leegoscaffolding.com";
 
 // Create axios instance
 export const apiClient = axios.create({
