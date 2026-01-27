@@ -52,6 +52,8 @@
     }
   },
   "contact": {
+    "title": "聯絡我們",
+    "subtitle": "聯絡資訊",
     "whatsapp": "WhatsApp",
     "phone": "電話",
     "email": "電郵",
