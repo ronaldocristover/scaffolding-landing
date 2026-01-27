@@ -23,17 +23,81 @@ apiClient.interceptors.request.use(
         config.headers.Authorization = `Bearer ${token}`;
       }
     }
+
+    // Logger
+    if (process.env.NODE_ENV === "development") {
+      const { method, url, params, data } = config;
+      const fullUrl = config.baseURL ? `${config.baseURL}${url}` : url;
+
+      if (typeof window !== "undefined") {
+        const timestamp = new Date().toLocaleTimeString();
+        console.groupCollapsed(
+          `%c🚀 API Req [${timestamp}]: ${method?.toUpperCase()} ${url}`,
+          "color: #3b82f6; font-weight: bold;",
+        );
+        console.log("Full URL:", fullUrl);
+        if (params) console.log("Params:", params);
+        if (data) console.log("Body:", data);
+        console.log("Headers:", config.headers);
+        console.groupEnd();
+      } else {
+        console.log(`[API Req] ${method?.toUpperCase()} ${fullUrl}`);
+      }
+    }
+
     return config;
   },
   (error) => {
+    if (process.env.NODE_ENV === "development") {
+      console.error("API Request Error:", error);
+    }
     return Promise.reject(error);
   },
 );
 
 // Response interceptor
 apiClient.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    // Logger
+    if (process.env.NODE_ENV === "development") {
+      const { status, config, data } = response;
+      const { url } = config;
+
+      if (typeof window !== "undefined") {
+        const timestamp = new Date().toLocaleTimeString();
+        console.groupCollapsed(
+          `%c✅ API Res [${timestamp}]: ${status} ${url}`,
+          "color: #22c55e; font-weight: bold;",
+        );
+        console.log("Data:", data);
+        console.groupEnd();
+      } else {
+        console.log(`[API Res] ${status} ${url}`);
+      }
+    }
+    return response;
+  },
   (error) => {
+    // Logger
+    if (process.env.NODE_ENV === "development") {
+      const { response, config } = error;
+      const status = response?.status;
+      const url = config?.url;
+
+      if (typeof window !== "undefined") {
+        const timestamp = new Date().toLocaleTimeString();
+        console.groupCollapsed(
+          `%c❌ API Err [${timestamp}]: ${status || "Network"} ${url}`,
+          "color: #ef4444; font-weight: bold;",
+        );
+        console.error("Error:", error);
+        if (response?.data) console.error("Response Data:", response.data);
+        console.groupEnd();
+      } else {
+        console.error(`[API Err] ${status} ${url}`, error.message);
+      }
+    }
+
     // Handle common errors
     if (error.response?.status === 401) {
       // Handle unauthorized access
