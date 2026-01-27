@@ -18,6 +18,7 @@ const nextConfig = {
     ],
   },
   cacheComponents: true,
+  output: "standalone" as const,
 };
 
 export default withNextIntl(nextConfig);
