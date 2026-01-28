@@ -100,6 +100,10 @@ export default function HomeContent({
       {/* Hero Section */}
       <section id="home" className="bg-[#C0FF4B] py-12 sm:py-20 lg:py-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h1 className="sr-only">
+            {companyInfo.name || "Leego Scaffolding"} -{" "}
+            {companyInfo.title || "Professional Scaffolding Services"}
+          </h1>
           {banners.length > 0 && (
             <div className="relative">
               {/* Left Navigation Button */}
