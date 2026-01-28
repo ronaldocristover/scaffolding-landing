@@ -91,7 +91,7 @@ export default function HomeContent({
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <main className="min-h-screen bg-white">
       <Header
         companyInfo={companyInfo}
         phoneNumber={companyInfo?.phone || ""}
@@ -271,6 +271,6 @@ export default function HomeContent({
           "85268060108"
         }
       />
-    </div>
+    </main>
   );
 }

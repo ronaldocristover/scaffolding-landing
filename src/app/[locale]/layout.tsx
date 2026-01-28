@@ -41,7 +41,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   return {
     metadataBase: new URL("https://leegoscaffolding.com"),
-    title: t("metadata.siteTitle") + " - " + t("about.title"),
+    title: t("metadata.siteTitle") + " - " + t("metadata.tagline"),
     description: t("about.description").slice(0, 160),
     keywords:
       locale === "zh"
@@ -70,10 +70,10 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       images: ["/certificate.jpeg"],
     },
     alternates: {
-      canonical: `/${locale}`,
+      canonical: `https://leegoscaffolding.com/${locale}`,
       languages: {
-        "zh-HK": "/zh",
-        "en-US": "/en",
+        "zh-HK": "https://leegoscaffolding.com/zh",
+        "en-US": "https://leegoscaffolding.com/en",
       },
     },
     robots: {
@@ -89,20 +89,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     },
     icons: {
       icon: [
-        { url: "/favicon.ico", sizes: "any" },
-        { url: "/icon-16x16.png", sizes: "16x16", type: "image/png" },
-        { url: "/icon-32x32.png", sizes: "32x32", type: "image/png" },
-        { url: "/icon-192x192.png", sizes: "192x192", type: "image/png" },
-        { url: "/icon-512x512.png", sizes: "512x512", type: "image/png" },
+        { url: "/favicon/favicon.ico", sizes: "any" },
+        { url: "/favicon/favicon.svg", type: "image/svg+xml" },
+        {
+          url: "/favicon/favicon-96x96.png",
+          sizes: "96x96",
+          type: "image/png",
+        },
       ],
       apple: [
-        { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
-      ],
-      other: [
-        { rel: "mask-icon", url: "/safari-pinned-tab.svg", color: "#C0FF4B" },
+        {
+          url: "/favicon/apple-touch-icon.png",
+          sizes: "180x180",
+          type: "image/png",
+        },
       ],
     },
-    manifest: "/manifest.json",
+    manifest: "/favicon/site.webmanifest",
   };
 }
 
