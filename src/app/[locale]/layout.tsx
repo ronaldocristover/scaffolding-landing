@@ -46,7 +46,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     keywords:
       locale === "zh"
         ? "搭棚, 香港, 建築, 安全, 專業搭棚, 康師傅搭棚, 利高棚業, 竹棚, 金屬棚, 外牆維修, 裝修工程, 搭棚工程, 康師傅搭掤, scaffolding, leego, 康師傅, 康師父, 搭掤, 掤業, 掤架"
-        : "scaffolding, Hong Kong, construction, safety, professional scaffolding, Master Hong, bamboo scaffolding, metal scaffolding, exterior wall repair, renovation, scaffolding engineering, 康師傅搭掤, leego, 康師傅, 康師父, 掤架",
+        : "scaffolding, Hong Kong, construction, safety, professional scaffolding, Master Hong, bamboo scaffolding, metal scaffolding, exterior wall repair, renovation, scaffolding engineering, 康師傅搭掤, leego, 康師傅, 康師父, 搭掤, 掤業, 竹棚, 掤架",
     authors: [{ name: "Leego Scaffolding" }],
     openGraph: {
       title: t("metadata.siteTitle") + " - " + t("about.title"),
