@@ -190,7 +190,7 @@ export default async function LocaleLayout({ children, params }: Props) {
                     name: "Hong Kong",
                   },
                   priceRange: "$$",
-                  openingHours: "Mo-Sa 08:00-18:00",
+                  openingHours: "Mo-Sa 09:00-19:00",
                   paymentAccepted: "Cash, Credit Card, Bank Transfer",
                   hasOfferCatalog: {
                     "@type": "OfferCatalog",

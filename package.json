@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "test": "jest",
-    "test:e2e": "playwright test"
+    "test:e2e": "playwright test",
+    "audit:seo": "node scripts/seo-audit.mjs https://leegoscaffolding.com"
   },
   "dependencies": {
     "axios": "^1.12.2",

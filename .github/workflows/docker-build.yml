@@ -23,5 +23,8 @@ jobs:
       - name: Push Docker Image to Registry
         run: docker push "registry.digitalocean.com/so-thai/scaffolding-landing:latest"
 
+      - name: Trigger Deployment API
+        run: curl -X GET "${{ secrets.DEPLOY_URL }}"
+
       - name: Logout from Registry
         run: docker logout
