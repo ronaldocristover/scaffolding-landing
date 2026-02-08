@@ -51,7 +51,7 @@ export default function Carousel({ items, autoPlay = false, interval = 5000 }: C
   return (
     <div className="relative w-full max-w-4xl mx-auto">
       {/* Carousel Container */}
-      <div className="relative aspect-video bg-gray-200 rounded-lg overflow-hidden">
+      <div className="relative aspect-video bg-gray-200 rounded-lg overflow-hidden" style={{ aspectRatio: '16/9' }}>
         {currentItem.type === 'video' && currentItem.videoId ? (
           <iframe
             className="w-full h-full"
@@ -68,6 +68,7 @@ export default function Carousel({ items, autoPlay = false, interval = 5000 }: C
             fill
             className="object-cover"
             priority={currentIndex === 0}
+            sizes="(max-width: 768px) 100vw, (max-width: 1024px) 80vw, 75vw"
           />
         ) : null}
       </div>

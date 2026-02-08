@@ -5,7 +5,11 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   // Define your routes here
   const routes = [
-    "",
+    {
+      path: "",
+      priority: 1,
+      changeFrequency: "weekly" as const,
+    },
     // Add other routes e.g. '/about', '/contact' if they exist independently
   ];
 
@@ -15,10 +19,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const sitemapEntries = routes.flatMap((route) => {
     return locales.map((locale) => {
       return {
-        url: `${baseUrl}/${locale}${route}`,
+        url: `${baseUrl}/${locale}${route.path}`,
         lastModified: new Date(),
-        changeFrequency: "weekly" as const,
-        priority: route === "" ? 1 : 0.8,
+        changeFrequency: route.changeFrequency,
+        priority: route.priority * (locale === "en" ? 1 : 0.9), // Slightly lower priority for alternate language
       };
     });
   });
@@ -28,7 +32,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
       url: baseUrl,
       lastModified: new Date(),
       changeFrequency: "weekly",
-      priority: 1,
+      priority: 0.8, // Lower priority for root, it redirects
     },
     ...sitemapEntries,
   ];

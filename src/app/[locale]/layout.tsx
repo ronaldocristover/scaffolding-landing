@@ -6,24 +6,33 @@ import {
 } from "next-intl/server";
 import { NextIntlClientProvider } from "next-intl";
 import { ReactNode, Suspense } from "react";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Viga } from "next/font/google";
 import "../globals.css";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
+  display: "optional",
+  preload: true,
+  adjustFontFallback: true,
 });
 
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+  display: "optional",
+  preload: false,
+  adjustFontFallback: true,
 });
 
 const viga = Viga({
   variable: "--font-viga",
   subsets: ["latin"],
   weight: "400",
+  display: "optional",
+  preload: true,
+  adjustFontFallback: true,
 });
 
 type Props = {
@@ -39,49 +48,59 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale });
 
+  const metaDescription =
+    locale === "zh"
+      ? "康師傅搭掤 - 專業搭棚服務超過20年經驗，香港知名搭棚工程公司。提供竹棚、金屬棚架、外牆維修、裝修工程等服務。安全可靠，公道取價，服務全香港。免費報價：+852-6806-0108"
+      : "Leego Scaffolding (康師傅搭掤) - Professional scaffolding services with over 20 years of experience. We provide bamboo scaffolding, metal scaffolding, exterior wall repair, and renovation services. Safe, reliable, and fairly priced. Serving all Hong Kong. Free quote: +852-6806-0108";
+
+  const isProduction = process.env.NODE_ENV === "production";
+
   return {
     metadataBase: new URL("https://leegoscaffolding.com"),
     title: t("metadata.siteTitle") + " - " + t("metadata.tagline"),
-    description: t("about.description").slice(0, 160),
+    description: metaDescription,
     keywords:
       locale === "zh"
-        ? "搭棚, 香港, 建築, 安全, 專業搭棚, 康師傅搭棚, 利高棚業, 竹棚, 金屬棚, 外牆維修, 裝修工程, 搭棚工程, 康師傅搭掤, scaffolding, leego, 康師傅, 康師父, 搭掤, 掤業, 掤架"
-        : "scaffolding, Hong Kong, construction, safety, professional scaffolding, Master Hong, bamboo scaffolding, metal scaffolding, exterior wall repair, renovation, scaffolding engineering, 康師傅搭掤, leego, 康師傅, 康師父, 搭掤, 掤業, 竹棚, 掤架",
+        ? "康師傅搭掤, 康師傅搭棚, 搭棚, 香港, 建築, 安全, 專業搭棚, 利高棚業, 竹棚, 金屬棚, 金屬棚架, 外牆維修, 裝修工程, 搭棚工程, 搭掤, 掤業, 掤架, leego, scaffolding, 康師傅, 康師父, 香港搭棚, 搭棚公司, 專業搭棚公司"
+        : "康師傅搭掤, scaffolding, Hong Kong, construction, safety, professional scaffolding, Master Hong, bamboo scaffolding, metal scaffolding, exterior wall repair, renovation, scaffolding engineering, leego, 康師傅搭棚, 康師傅, 康師父, 搭掤, 掤業, 竹棚, 掤架, Hong Kong scaffolding, scaffolding company",
     authors: [{ name: "Leego Scaffolding" }],
     openGraph: {
-      title: t("metadata.siteTitle") + " - " + t("about.title"),
-      description: t("about.description").slice(0, 160),
+      title: t("metadata.siteTitle") + " - " + t("metadata.tagline"),
+      description: metaDescription,
       type: "website",
       locale: locale === "zh" ? "zh_HK" : "en_US",
       siteName: "Leego Scaffolding",
       images: [
         {
           url: "/certificate.jpeg",
-          width: 350,
-          height: 400,
-          alt: t("hero.certificateAlt1"),
+          width: 1200,
+          height: 630,
+          alt: locale === "zh"
+            ? "康師傅搭棚工程 - 專業搭棚服務"
+            : "Leego Scaffolding - Professional Scaffolding Services",
         },
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title: t("metadata.siteTitle") + " - " + t("about.title"),
-      description: t("about.description").slice(0, 160),
+      title: t("metadata.siteTitle") + " - " + t("metadata.tagline"),
+      description: metaDescription,
       images: ["/certificate.jpeg"],
     },
     alternates: {
       canonical: `https://leegoscaffolding.com/${locale}`,
       languages: {
+        "x-default": "https://leegoscaffolding.com/en",
+        "en": "https://leegoscaffolding.com/en",
         "zh-HK": "https://leegoscaffolding.com/zh",
-        "en-US": "https://leegoscaffolding.com/en",
       },
     },
     robots: {
-      index: true,
-      follow: true,
+      index: isProduction,
+      follow: isProduction,
       googleBot: {
-        index: true,
-        follow: true,
+        index: isProduction,
+        follow: isProduction,
         "max-video-preview": -1,
         "max-image-preview": "large",
         "max-snippet": -1,
@@ -109,6 +128,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+export function generateViewport(): Viewport {
+  return {
+    width: "device-width",
+    initialScale: 1,
+    maximumScale: 5,
+  };
+}
+
 export default async function LocaleLayout({ children, params }: Props) {
   const { locale } = await params;
 
@@ -119,6 +146,10 @@ export default async function LocaleLayout({ children, params }: Props) {
 
   return (
     <html lang={locale}>
+      <head>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${viga.variable} antialiased`}
       >
@@ -132,11 +163,11 @@ export default async function LocaleLayout({ children, params }: Props) {
                   "@context": "https://schema.org",
                   "@type": "LocalBusiness",
                   name: "Leego Scaffolding",
-                  alternateName: "康師傅搭棚工程",
+                  alternateName: ["康師傅搭棚工程", "康師傅搭掤", "Master Hong Scaffolding"],
                   description:
                     locale === "zh"
-                      ? "專業搭棚服務，超過20年經驗，安全可靠，公道取價"
-                      : "Professional scaffolding services with over 20 years of experience. Safe, reliable, and fairly priced.",
+                      ? "康師傅搭掤 - 專業搭棚服務，超過20年經驗，安全可靠，公道取價。提供小型工程搭棚、工業搭棚、外牆維修搭棚、裝修工程搭棚等服務。"
+                      : "康師傅搭掤 (Master Hong Scaffolding) - Professional scaffolding services with over 20 years of experience. Safe, reliable, and fairly priced. We provide small construction scaffolding, industrial scaffolding, exterior wall repair, renovation scaffolding, and more.",
                   url: `https://leegoscaffolding.com/${locale}`,
                   telephone: "+852-6806-0108",
                   email: "leego.scaffolding@gmail.com",
@@ -158,31 +189,169 @@ export default async function LocaleLayout({ children, params }: Props) {
                     "@type": "Place",
                     name: "Hong Kong",
                   },
+                  priceRange: "$$",
+                  openingHours: "Mo-Sa 08:00-18:00",
+                  paymentAccepted: "Cash, Credit Card, Bank Transfer",
                   hasOfferCatalog: {
                     "@type": "OfferCatalog",
                     name: "Scaffolding Services",
                     itemListElement: [
                       {
-                        "@type": "OfferCatalog",
+                        "@type": "Offer",
                         name:
                           locale === "zh"
                             ? "小型工程搭棚"
                             : "Small Construction Scaffolding",
+                        description:
+                          locale === "zh"
+                            ? "為小型建築工程提供專業搭棚服務"
+                            : "Professional scaffolding for small construction projects",
                       },
                       {
-                        "@type": "OfferCatalog",
+                        "@type": "Offer",
                         name:
                           locale === "zh"
                             ? "工業搭棚"
                             : "Industrial Scaffolding",
+                        description:
+                          locale === "zh"
+                            ? "工業設施和大型建築項目的搭棚解決方案"
+                            : "Scaffolding solutions for industrial facilities and large construction projects",
                       },
                       {
-                        "@type": "OfferCatalog",
+                        "@type": "Offer",
+                        name:
+                          locale === "zh"
+                            ? "外牆維修搭棚"
+                            : "Exterior Wall Repair Scaffolding",
+                        description:
+                          locale === "zh"
+                            ? "外牆維修和翻新工程的安全搭棚"
+                            : "Safe scaffolding for exterior wall repair and renovation projects",
+                      },
+                      {
+                        "@type": "Offer",
                         name:
                           locale === "zh" ? "安全檢查" : "Safety Inspection",
+                        description:
+                          locale === "zh"
+                            ? "專業棚架安全檢查和評估服務"
+                            : "Professional scaffolding safety inspection and assessment services",
                       },
                     ],
                   },
+                  areaServed: {
+                    "@type": "City",
+                    name: "Hong Kong",
+                  },
+                  knowsAbout: [
+                    "康師傅搭掤",
+                    locale === "zh" ? "竹棚搭建" : "Bamboo Scaffolding",
+                    locale === "zh" ? "金屬棚架" : "Metal Scaffolding",
+                    locale === "zh" ? "搭棚安全" : "Scaffolding Safety",
+                    locale === "zh" ? "外牆維修工程" : "Exterior Wall Repair",
+                    locale === "zh" ? "搭棚工程" : "Scaffolding Engineering",
+                  ],
+                }),
+              }}
+            />
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{
+                __html: JSON.stringify({
+                  "@context": "https://schema.org",
+                  "@type": "BreadcrumbList",
+                  itemListElement: [
+                    {
+                      "@type": "ListItem",
+                      position: 1,
+                      name: locale === "zh" ? "首頁" : "Home",
+                      item: `https://leegoscaffolding.com/${locale}`,
+                    },
+                    {
+                      "@type": "ListItem",
+                      position: 2,
+                      name:
+                        locale === "zh"
+                          ? "關於我們"
+                          : "About Us",
+                      item: `https://leegoscaffolding.com/${locale}#about`,
+                    },
+                    {
+                      "@type": "ListItem",
+                      position: 3,
+                      name:
+                        locale === "zh" ? "聯絡我們" : "Contact Us",
+                      item: `https://leegoscaffolding.com/${locale}#contact`,
+                    },
+                  ],
+                }),
+              }}
+            />
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{
+                __html: JSON.stringify({
+                  "@context": "https://schema.org",
+                  "@type": "FAQPage",
+                  mainEntity: [
+                    {
+                      "@type": "Question",
+                      name:
+                        locale === "zh"
+                          ? "你們提供什麼類型的搭棚服務？"
+                          : "What types of scaffolding services do you provide?",
+                      acceptedAnswer: {
+                        "@type": "Answer",
+                        text:
+                          locale === "zh"
+                            ? "我們提供小型工程搭棚、工業搭棚、外牆維修搭棚、裝修工程搭棚等專業服務。我們也提供棚架安全檢查服務。"
+                            : "We provide professional small construction scaffolding, industrial scaffolding, exterior wall repair scaffolding, renovation scaffolding, and more. We also offer scaffolding safety inspection services.",
+                      },
+                    },
+                    {
+                      "@type": "Question",
+                      name:
+                        locale === "zh"
+                          ? "你們的搭棚服務覆蓋哪些地區？"
+                          : "What areas do your scaffolding services cover?",
+                      acceptedAnswer: {
+                        "@type": "Answer",
+                        text:
+                          locale === "zh"
+                            ? "我們的搭棚服務覆蓋全香港，包括香港島、九龍和新界。"
+                            : "Our scaffolding services cover all of Hong Kong, including Hong Kong Island, Kowloon, and the New Territories.",
+                      },
+                    },
+                    {
+                      "@type": "Question",
+                      name:
+                        locale === "zh"
+                          ? "你們有多少年的搭棚經驗？"
+                          : "How many years of scaffolding experience do you have?",
+                      acceptedAnswer: {
+                        "@type": "Answer",
+                        text:
+                          locale === "zh"
+                            ? "我們擁有超過20年的專業搭棚經驗，是香港知名的专业搭團隊。"
+                            : "We have over 20 years of professional scaffolding experience and are a well-known professional scaffolding team in Hong Kong.",
+                      },
+                    },
+                    {
+                      "@type": "Question",
+                      name:
+                        locale === "zh"
+                          ? "如何獲取搭棚服務報價？"
+                          : "How can I get a quote for scaffolding services?",
+                      acceptedAnswer: {
+                        "@type": "Answer",
+                        text:
+                          locale === "zh"
+                            ? "您可以通過電話 +852-6806-0108、WhatsApp 或電子郵件 leego.scaffolding@gmail.com 聯絡我們獲取免費報價。"
+                            : "You can contact us via phone at +852-6806-0108, WhatsApp, or email at leego.scaffolding@gmail.com for a free quote.",
+                      },
+                    },
+                  ],
                 }),
               }}
             />
