@@ -50,8 +50,8 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
   const metaDescription =
     locale === "zh"
-      ? "康師傅搭掤 - 專業搭棚服務超過20年經驗，香港知名搭棚工程公司。提供竹棚、金屬棚架、外牆維修、裝修工程等服務。安全可靠，公道取價，服務全香港。免費報價：+852-6806-0108"
-      : "Leego Scaffolding (康師傅搭掤) - Professional scaffolding services with over 20 years of experience. We provide bamboo scaffolding, metal scaffolding, exterior wall repair, and renovation services. Safe, reliable, and fairly priced. Serving all Hong Kong. Free quote: +852-6806-0108";
+      ? "康師傅搭掤 - 專業搭棚工程超過20年經驗，香港知名搭棚公司。提供竹棚搭建、金屬棚架、外牆維修、裝修工程、小型工程、濕碎工程等服務。安全可靠，公道取價，服務全香港。免費報價：+852-6806-0108。利高棚業工程有限公司旗下品牌"
+      : "Leego Scaffolding (康師傅搭掤) - Professional scaffolding services with over 20 years of experience in Hong Kong. We provide bamboo scaffolding, metal scaffolding, exterior wall repair, renovation, small construction projects. Safe, reliable, and fairly priced. Free quote: +852-6806-0108";
 
   const isProduction = process.env.NODE_ENV === "production";
 
@@ -61,23 +61,23 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description: metaDescription,
     keywords:
       locale === "zh"
-        ? "康師傅搭掤, 康師傅搭棚, 搭棚, 香港, 建築, 安全, 專業搭棚, 利高棚業, 竹棚, 金屬棚, 金屬棚架, 外牆維修, 裝修工程, 搭棚工程, 搭掤, 掤業, 掤架, leego, scaffolding, 康師傅, 康師父, 香港搭棚, 搭棚公司, 專業搭棚公司"
-        : "康師傅搭掤, scaffolding, Hong Kong, construction, safety, professional scaffolding, Master Hong, bamboo scaffolding, metal scaffolding, exterior wall repair, renovation, scaffolding engineering, leego, 康師傅搭棚, 康師傅, 康師父, 搭掤, 掤業, 竹棚, 掤架, Hong Kong scaffolding, scaffolding company",
+        ? "康師傅搭掤, 康師傅搭棚, 搭棚, 搭掤, 香港, 建築, 安全, 專業搭棚, 利高棚業, 利高棚業工程, 竹棚, 竹棚搭建, 金屬棚, 金屬棚架, 外牆維修, 裝修工程, 搭棚工程, 掤業, 掤架, leego, scaffolding, 康師傅, 康師父, 香港搭棚, 搭棚公司, 專業搭棚公司, 小型工程, 濕碎, 濕碎工程, 香港建築, 棚架, 買棚, 租棚, 搭棚價錢, 搭棚收費, 搭棚師傅, 專業棚架"
+        : "康師傅搭掤, scaffolding, Hong Kong, construction, safety, professional scaffolding, Master Hong, bamboo scaffolding, metal scaffolding, exterior wall repair, renovation, scaffolding engineering, leego, 康師傅搭棚, 康師傅, 康師父, 搭掤, 掤業, 竹棚, 掤架, Hong Kong scaffolding, scaffolding company, small construction, 濕碎, scaffolding rental, scaffolding price, scaffolding cost",
     authors: [{ name: "Leego Scaffolding" }],
     openGraph: {
       title: t("metadata.siteTitle") + " - " + t("metadata.tagline"),
       description: metaDescription,
       type: "website",
       locale: locale === "zh" ? "zh_HK" : "en_US",
-      siteName: "Leego Scaffolding",
+      siteName: "康師傅搭掤 - Leego Scaffolding",
       images: [
         {
           url: "/certificate.jpeg",
           width: 1200,
           height: 630,
           alt: locale === "zh"
-            ? "康師傅搭棚工程 - 專業搭棚服務"
-            : "Leego Scaffolding - Professional Scaffolding Services",
+            ? "康師傅搭棚工程 - 專業竹棚搭建、金屬棚架、外牆維修、小型工程服務，超過20年經驗"
+            : "Master Hong Scaffolding - Professional Bamboo Scaffolding, Metal Scaffolding, Exterior Wall Repair, Small Construction Services, Over 20 Years Experience",
         },
       ],
     },
@@ -86,13 +86,16 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: t("metadata.siteTitle") + " - " + t("metadata.tagline"),
       description: metaDescription,
       images: ["/certificate.jpeg"],
+      site: "@leegoscaffolding",
     },
     alternates: {
       canonical: `https://leegoscaffolding.com/${locale}`,
       languages: {
-        "x-default": "https://leegoscaffolding.com/en",
+        "x-default": "https://leegoscaffolding.com/zh",
         "en": "https://leegoscaffolding.com/en",
         "zh-HK": "https://leegoscaffolding.com/zh",
+        "zh-TW": "https://leegoscaffolding.com/zh",
+        "zh-CN": "https://leegoscaffolding.com/zh",
       },
     },
     robots: {
@@ -163,11 +166,11 @@ export default async function LocaleLayout({ children, params }: Props) {
                   "@context": "https://schema.org",
                   "@type": "LocalBusiness",
                   name: "Leego Scaffolding",
-                  alternateName: ["康師傅搭棚工程", "康師傅搭掤", "Master Hong Scaffolding"],
+                  alternateName: ["康師傅搭棚工程", "康師傅搭掤", "利高棚業工程有限公司", "Master Hong Scaffolding", "Leego Scaffolding", "康師傅", "濕碎工程"],
                   description:
                     locale === "zh"
-                      ? "康師傅搭掤 - 專業搭棚服務，超過20年經驗，安全可靠，公道取價。提供小型工程搭棚、工業搭棚、外牆維修搭棚、裝修工程搭棚等服務。"
-                      : "康師傅搭掤 (Master Hong Scaffolding) - Professional scaffolding services with over 20 years of experience. Safe, reliable, and fairly priced. We provide small construction scaffolding, industrial scaffolding, exterior wall repair, renovation scaffolding, and more.",
+                      ? "康師傅搭掤（利高棚業工程有限公司）- 專業搭棚工程超過20年經驗，香港知名搭棚公司。提供竹棚搭建、金屬棚架、外牆維修、裝修工程、小型工程（濕碎）等服務。安全可靠，公道取價，服務全香港。"
+                      : "Master Hong Scaffolding (Leego Scaffolding) - Professional scaffolding services with over 20 years of experience in Hong Kong. We provide bamboo scaffolding, metal scaffolding, exterior wall repair, renovation, small construction projects (濕碎). Safe, reliable, and fairly priced.",
                   url: `https://leegoscaffolding.com/${locale}`,
                   telephone: "+852-6806-0108",
                   email: "leego.scaffolding@gmail.com",
@@ -246,11 +249,16 @@ export default async function LocaleLayout({ children, params }: Props) {
                   },
                   knowsAbout: [
                     "康師傅搭掤",
+                    "利高棚業工程有限公司",
                     locale === "zh" ? "竹棚搭建" : "Bamboo Scaffolding",
                     locale === "zh" ? "金屬棚架" : "Metal Scaffolding",
                     locale === "zh" ? "搭棚安全" : "Scaffolding Safety",
                     locale === "zh" ? "外牆維修工程" : "Exterior Wall Repair",
                     locale === "zh" ? "搭棚工程" : "Scaffolding Engineering",
+                    locale === "zh" ? "小型工程" : "Small Construction",
+                    locale === "zh" ? "濕碎工程" : "濕碎 Projects",
+                    locale === "zh" ? "香港搭棚" : "Hong Kong Scaffolding",
+                    locale === "zh" ? "棚架租賃" : "Scaffolding Rental",
                   ],
                 }),
               }}

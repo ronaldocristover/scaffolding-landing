@@ -13,16 +13,26 @@ export default function sitemap(): MetadataRoute.Sitemap {
     // Add other routes e.g. '/about', '/contact' if they exist independently
   ];
 
-  const locales = ["zh", "en"];
+  const locales = [
+    { code: "zh", lang: "zh-HK" },
+    { code: "en", lang: "en-US" },
+  ];
 
   // Generate sitemap entries for each locale
   const sitemapEntries = routes.flatMap((route) => {
     return locales.map((locale) => {
       return {
-        url: `${baseUrl}/${locale}${route.path}`,
+        url: `${baseUrl}/${locale.code}${route.path}`,
         lastModified: new Date(),
         changeFrequency: route.changeFrequency,
-        priority: route.priority * (locale === "en" ? 1 : 0.9), // Slightly lower priority for alternate language
+        priority: route.priority * (locale.code === "zh" ? 1 : 0.9), // Higher priority for Chinese (primary market)
+        alternates: {
+          languages: {
+            zh: `${baseUrl}/zh${route.path}`,
+            "zh-HK": `${baseUrl}/zh${route.path}`,
+            en: `${baseUrl}/en${route.path}`,
+          },
+        },
       };
     });
   });
