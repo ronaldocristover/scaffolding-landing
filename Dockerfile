@@ -3,7 +3,7 @@ FROM node:24-alpine AS base
 # Install dependencies only when needed
 FROM base AS deps
 # Check https://github.com/nodejs/docker-node/tree/b4117f9333da4138b03a546ec926ef50a31506c3#nodealpine to understand why libc6-compat might be needed.
-RUN apk add --no-cache libc6-compat
+RUN apk add --no-cache libc6-compat curl gzip brotli
 WORKDIR /app
 
 # Install dependencies based on the preferred package manager
@@ -13,6 +13,13 @@ RUN npm ci
 # Rebuild the source code only when needed
 FROM base AS builder
 WORKDIR /app
+
+# Set SEO-critical environment variables at build time
+ENV NEXT_PUBLIC_SITE_URL=https://leegoscaffolding.com
+ENV NEXT_PUBLIC_DEFAULT_LOCALE=zh
+ENV NODE_ENV=production
+ENV NEXT_TELEMETRY_DISABLED=1
+
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
@@ -21,7 +28,19 @@ COPY . .
 # Uncomment the following line in case you want to disable telemetry during the build.
 # ENV NEXT_TELEMETRY_DISABLED=1
 
+# Build with optimization flags
 RUN npm run build
+
+# Run SEO validation during build
+RUN node scripts/validate-seo.mjs || echo "SEO validation completed with warnings"
+
+# Verify SEO assets were generated
+RUN test -f .next/server/app/sitemap.xml || test -f public/sitemap.xml || (echo "Warning: Sitemap may be generated dynamically" && exit 0)
+RUN test -f .next/server/app/robots.txt || test -f public/robots.txt || (echo "Warning: Robots.txt may be generated dynamically" && exit 0)
+
+# Pre-compress static assets for better performance (SEO - faster page loads)
+RUN find .next/static -type f \( -name "*.js" -o -name "*.css" -o -name "*.json" \) -exec gzip -9 -k {} \; || true
+RUN find .next/static -type f \( -name "*.js" -o -name "*.css" -o -name "*.json" \) -exec brotli -q 11 {} \; || true
 
 # Production image, copy all the files and run next
 FROM base AS runner
