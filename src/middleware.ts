@@ -15,6 +15,14 @@ export default function middleware(request: NextRequest) {
     return NextResponse.redirect(url, { status: 301 });
   }
 
+  // Redirect root path to default locale (zh)
+  const pathname = request.nextUrl.pathname;
+  if (pathname === '/') {
+    const url = request.nextUrl.clone();
+    url.pathname = '/zh';
+    return NextResponse.redirect(url, { status: 301 });
+  }
+
   return intlMiddleware(request);
 }
 
