@@ -49,50 +49,44 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const t = await getTranslations({ locale });
 
   const metaDescription =
-    locale === "zh"
-      ? "康師傅搭掤 - 專業搭棚工程超過20年經驗，香港知名搭棚公司。提供竹棚搭建、金屬棚架、外牆維修、裝修工程、小型工程、濕碎工程等服務。安全可靠，公道取價，服務全香港。免費報價：+852-6806-0108。利高棚業工程有限公司旗下品牌"
-      : "Leego Scaffolding (康師傅搭掤) - Professional scaffolding services with over 20 years of experience in Hong Kong. We provide bamboo scaffolding, metal scaffolding, exterior wall repair, renovation, small construction projects. Safe, reliable, and fairly priced. Free quote: +852-6806-0108";
+    "康師傅搭棚公司及利高棚業工程有限公司均為康師傅個人獨資公司。康師傅入行26年，所有個人及公司牌照全部齊備。公司業務以裝修及維修類懸空式棚架及小型工程類棚架為主，公司宗旨「安全專業」「企理妥當」「定價公道」歡迎whatapp 查詢";
 
   const isProduction = process.env.NODE_ENV === "production";
 
   return {
     metadataBase: new URL("https://leegoscaffolding.com"),
-    title: t("metadata.siteTitle") + " - " + t("metadata.tagline"),
+    title: "康師傅搭棚公司" + " - " + t("metadata.tagline"),
     description: metaDescription,
     keywords:
       locale === "zh"
         ? "康師傅搭掤, 康師傅搭棚, 搭棚, 搭掤, 香港, 建築, 安全, 專業搭棚, 利高棚業, 利高棚業工程, 竹棚, 竹棚搭建, 金屬棚, 金屬棚架, 外牆維修, 裝修工程, 搭棚工程, 掤業, 掤架, leego, scaffolding, 康師傅, 康師父, 香港搭棚, 搭棚公司, 專業搭棚公司, 小型工程, 濕碎, 濕碎工程, 香港建築, 棚架, 買棚, 租棚, 搭棚價錢, 搭棚收費, 搭棚師傅, 專業棚架"
         : "康師傅搭掤, scaffolding, Hong Kong, construction, safety, professional scaffolding, Master Hong, bamboo scaffolding, metal scaffolding, exterior wall repair, renovation, scaffolding engineering, leego, 康師傅搭棚, 康師傅, 康師父, 搭掤, 掤業, 竹棚, 掤架, Hong Kong scaffolding, scaffolding company, small construction, 濕碎, scaffolding rental, scaffolding price, scaffolding cost",
-    authors: [{ name: "Leego Scaffolding" }],
+    authors: [{ name: "康師傅搭棚公司" }],
     openGraph: {
-      title: t("metadata.siteTitle") + " - " + t("metadata.tagline"),
+      title: "康師傅搭棚公司" + " - " + t("metadata.tagline"),
       description: metaDescription,
       type: "website",
       locale: locale === "zh" ? "zh_HK" : "en_US",
-      siteName: "康師傅搭掤 - Leego Scaffolding",
+      siteName: "康師傅搭棚公司",
       images: [
         {
-          url: "/certificate.jpeg",
-          width: 1200,
-          height: 630,
-          alt: locale === "zh"
-            ? "康師傅搭棚工程 - 專業竹棚搭建、金屬棚架、外牆維修、小型工程服務，超過20年經驗"
-            : "Master Hong Scaffolding - Professional Bamboo Scaffolding, Metal Scaffolding, Exterior Wall Repair, Small Construction Services, Over 20 Years Experience",
+          url: "/scaffolding-logo.png",
+          alt: "康師傅搭棚工程 - 專業竹棚搭建、金屬棚架、外牆維修、小型工程服務，超過20年經驗",
         },
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title: t("metadata.siteTitle") + " - " + t("metadata.tagline"),
+      title: "康師傅搭棚公司" + " - " + t("metadata.tagline"),
       description: metaDescription,
-      images: ["/certificate.jpeg"],
+      images: ["/scaffolding-logo.png"],
       site: "@leegoscaffolding",
     },
     alternates: {
       canonical: `https://leegoscaffolding.com/${locale}`,
       languages: {
         "x-default": "https://leegoscaffolding.com/zh",
-        "en": "https://leegoscaffolding.com/en",
+        en: "https://leegoscaffolding.com/en",
         "zh-HK": "https://leegoscaffolding.com/zh",
         "zh-TW": "https://leegoscaffolding.com/zh",
         "zh-CN": "https://leegoscaffolding.com/zh",
@@ -151,7 +145,11 @@ export default async function LocaleLayout({ children, params }: Props) {
     <html lang={locale === "zh" ? "zh-HK" : locale}>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link
+          rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossOrigin="anonymous"
+        />
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${viga.variable} antialiased`}
@@ -165,13 +163,21 @@ export default async function LocaleLayout({ children, params }: Props) {
                 __html: JSON.stringify({
                   "@context": "https://schema.org",
                   "@type": "LocalBusiness",
-                  name: "Leego Scaffolding",
-                  alternateName: ["康師傅搭棚工程", "康師傅搭掤", "利高棚業工程有限公司", "Master Hong Scaffolding", "Leego Scaffolding", "康師傅", "濕碎工程"],
+                  name: "康師傅搭棚公司",
+                  alternateName: [
+                    "康師傅搭棚公司",
+                    "康師傅搭掤",
+                    "利高棚業工程有限公司",
+                    "Master Hong Scaffolding",
+                    "Leego Scaffolding",
+                    "康師傅",
+                    "濕碎工程",
+                  ],
                   description:
-                    locale === "zh"
-                      ? "康師傅搭掤（利高棚業工程有限公司）- 專業搭棚工程超過20年經驗，香港知名搭棚公司。提供竹棚搭建、金屬棚架、外牆維修、裝修工程、小型工程（濕碎）等服務。安全可靠，公道取價，服務全香港。"
-                      : "Master Hong Scaffolding (Leego Scaffolding) - Professional scaffolding services with over 20 years of experience in Hong Kong. We provide bamboo scaffolding, metal scaffolding, exterior wall repair, renovation, small construction projects (濕碎). Safe, reliable, and fairly priced.",
+                    "康師傅搭棚公司及利高棚業工程有限公司均為康師傅個人獨資公司。康師傅入行26年，所有個人及公司牌照全部齊備。公司業務以裝修及維修類懸空式棚架及小型工程類棚架為主，公司宗旨「安全專業」「企理妥當」「定價公道」歡迎whatapp 查詢",
                   url: `https://leegoscaffolding.com/${locale}`,
+                  logo: "https://leegoscaffolding.com/scaffolding-logo.png",
+                  image: "https://leegoscaffolding.com/scaffolding-logo.png",
                   telephone: "+852-6806-0108",
                   email: "leego.scaffolding@gmail.com",
                   address: {
@@ -279,17 +285,13 @@ export default async function LocaleLayout({ children, params }: Props) {
                     {
                       "@type": "ListItem",
                       position: 2,
-                      name:
-                        locale === "zh"
-                          ? "關於我們"
-                          : "About Us",
+                      name: locale === "zh" ? "關於我們" : "About Us",
                       item: `https://leegoscaffolding.com/${locale}#about`,
                     },
                     {
                       "@type": "ListItem",
                       position: 3,
-                      name:
-                        locale === "zh" ? "聯絡我們" : "Contact Us",
+                      name: locale === "zh" ? "聯絡我們" : "Contact Us",
                       item: `https://leegoscaffolding.com/${locale}#contact`,
                     },
                   ],

@@ -75,10 +75,8 @@ test.describe("SEO Tests", () => {
     const h1 = page.locator("h1");
     await expect(h1).toBeAttached();
     await expect(h1).toHaveClass(/sr-only/); // Check if it's the hidden one we added
-    // Match either the static text or the one coming from API/Service which might be "Scaffolding Engineering Limited..."
-    await expect(h1).toHaveText(
-      /Leego Scaffolding|Scaffolding Engineering Limited|康師傅/,
-    );
+    // Match either the static text or the one coming from API/Service which might be "康師傅搭棚公司..."
+    await expect(h1).toHaveText(/Leego Scaffolding|康師傅搭棚公司|康師傅/);
   });
 
   test("should have proper Open Graph tags", async ({ page }) => {
