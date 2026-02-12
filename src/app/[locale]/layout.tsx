@@ -4,6 +4,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { ReactNode, Suspense } from "react";
 import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Viga } from "next/font/google";
+import Script from "next/script";
 import "../globals.css";
 
 const geistSans = Geist({
@@ -159,6 +160,18 @@ export default async function LocaleLayout({ children, params }: Props) {
           href="https://fonts.gstatic.com"
           crossOrigin="anonymous"
         />
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-96N9T1MJP2"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-96N9T1MJP2');
+          `}
+        </Script>
       </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} ${viga.variable} antialiased`}
