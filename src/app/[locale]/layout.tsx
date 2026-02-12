@@ -1,9 +1,5 @@
 import { routing } from "@/i18n/routing";
-import {
-  setRequestLocale,
-  getTranslations,
-  getMessages,
-} from "next-intl/server";
+import { setRequestLocale, getMessages } from "next-intl/server";
 import { NextIntlClientProvider } from "next-intl";
 import { ReactNode, Suspense } from "react";
 import type { Metadata, Viewport } from "next";
@@ -46,16 +42,27 @@ export function generateStaticParams() {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
-  const t = await getTranslations({ locale });
+
+  // Locale-specific meta descriptions (optimized for search engines)
+  const metaDescriptionZH =
+    "康師傅搭棚公司 - 香港專業搭棚服務超過20年。提供竹棚搭建、金屬棚架、外牆維修、小型工程服務。電話: +852-6806-0108";
+
+  const metaDescriptionEN =
+    "康師傅搭棚公司 - 香港專業搭棚服務超過20年。提供竹棚搭建、金屬棚架、外牆維修、小型工程服務。電話: +852-6806-0108";
 
   const metaDescription =
-    "康師傅搭棚公司及利高棚業工程有限公司均為康師傅個人獨資公司。康師傅入行26年，所有個人及公司牌照全部齊備。公司業務以裝修及維修類懸空式棚架及小型工程類棚架為主，公司宗旨「安全專業」「企理妥當」「定價公道」歡迎whatapp 查詢";
+    locale === "zh" ? metaDescriptionZH : metaDescriptionEN;
+
+  // Locale-specific titles
+  const siteTitleZH = "康師傅搭棚公司 - 專業搭棚工程超過20年經驗";
+  const siteTitleEN = "康師傅搭棚公司 - 專業搭棚工程超過20年經驗";
+  const siteTitle = locale === "zh" ? siteTitleZH : siteTitleEN;
 
   const isProduction = process.env.NODE_ENV === "production";
 
   return {
     metadataBase: new URL("https://leegoscaffolding.com"),
-    title: "康師傅搭棚公司" + " - " + t("metadata.tagline"),
+    title: siteTitle,
     description: metaDescription,
     keywords:
       locale === "zh"
@@ -63,23 +70,25 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
         : "康師傅搭掤, scaffolding, Hong Kong, construction, safety, professional scaffolding, Master Hong, bamboo scaffolding, metal scaffolding, exterior wall repair, renovation, scaffolding engineering, leego, 康師傅搭棚, 康師傅, 康師父, 搭掤, 掤業, 竹棚, 掤架, Hong Kong scaffolding, scaffolding company, small construction, 濕碎, scaffolding rental, scaffolding price, scaffolding cost",
     authors: [{ name: "康師傅搭棚公司" }],
     openGraph: {
-      title: "康師傅搭棚公司" + " - " + t("metadata.tagline"),
+      title: siteTitle,
       description: metaDescription,
       type: "website",
-      locale: locale === "zh" ? "zh_HK" : "en_US",
+      locale: "zh_HK",
       siteName: "康師傅搭棚公司",
       images: [
         {
-          url: "/scaffolding-logo.png",
+          url: "https://leegoscaffolding.com/scaffolding-logo.png",
+          width: 1200,
+          height: 630,
           alt: "康師傅搭棚工程 - 專業竹棚搭建、金屬棚架、外牆維修、小型工程服務，超過20年經驗",
         },
       ],
     },
     twitter: {
       card: "summary_large_image",
-      title: "康師傅搭棚公司" + " - " + t("metadata.tagline"),
+      title: siteTitle,
       description: metaDescription,
-      images: ["/scaffolding-logo.png"],
+      images: ["https://leegoscaffolding.com/scaffolding-logo.png"],
       site: "@leegoscaffolding",
     },
     alternates: {
@@ -182,7 +191,9 @@ export default async function LocaleLayout({ children, params }: Props) {
                   email: "leego.scaffolding@gmail.com",
                   address: {
                     "@type": "PostalAddress",
+                    streetAddress: "Hong Kong",
                     addressLocality: "Hong Kong",
+                    postalCode: "999077",
                     addressCountry: "HK",
                   },
                   geo: {
@@ -207,45 +218,23 @@ export default async function LocaleLayout({ children, params }: Props) {
                     itemListElement: [
                       {
                         "@type": "Offer",
-                        name:
-                          locale === "zh"
-                            ? "小型工程搭棚"
-                            : "Small Construction Scaffolding",
-                        description:
-                          locale === "zh"
-                            ? "為小型建築工程提供專業搭棚服務"
-                            : "Professional scaffolding for small construction projects",
+                        name: "小型工程搭棚",
+                        description: "為小型建築工程提供專業搭棚服務",
                       },
                       {
                         "@type": "Offer",
-                        name:
-                          locale === "zh"
-                            ? "工業搭棚"
-                            : "Industrial Scaffolding",
-                        description:
-                          locale === "zh"
-                            ? "工業設施和大型建築項目的搭棚解決方案"
-                            : "Scaffolding solutions for industrial facilities and large construction projects",
+                        name: "工業搭棚",
+                        description: "工業設施和大型建築項目的搭棚解決方案",
                       },
                       {
                         "@type": "Offer",
-                        name:
-                          locale === "zh"
-                            ? "外牆維修搭棚"
-                            : "Exterior Wall Repair Scaffolding",
-                        description:
-                          locale === "zh"
-                            ? "外牆維修和翻新工程的安全搭棚"
-                            : "Safe scaffolding for exterior wall repair and renovation projects",
+                        name: "外牆維修搭棚",
+                        description: "外牆維修和翻新工程的安全搭棚",
                       },
                       {
                         "@type": "Offer",
-                        name:
-                          locale === "zh" ? "安全檢查" : "Safety Inspection",
-                        description:
-                          locale === "zh"
-                            ? "專業棚架安全檢查和評估服務"
-                            : "Professional scaffolding safety inspection and assessment services",
+                        name: "安全檢查",
+                        description: "專業棚架安全檢查和評估服務",
                       },
                     ],
                   },

@@ -1,3 +1,4 @@
+// @ts-ignore - playwright types not installed
 import { defineConfig, devices } from "@playwright/test";
 
 export default defineConfig({

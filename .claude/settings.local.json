@@ -12,7 +12,9 @@
       "Bash(python3:*)",
       "WebSearch",
       "Bash(docker compose:*)",
-      "Bash(docker logs:*)"
+      "Bash(docker logs:*)",
+      "Bash(ls:*)",
+      "Bash(pkill:*)"
     ],
     "deny": [],
     "ask": []
