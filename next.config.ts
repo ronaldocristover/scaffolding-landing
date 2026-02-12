@@ -75,6 +75,10 @@ const nextConfig: NextConfig = {
             key: "Referrer-Policy",
             value: "strict-origin-when-cross-origin",
           },
+          {
+            key: "Permissions-Policy",
+            value: "storage=(self), analytics=(https://www.googletagmanager.com)",
+          },
         ],
       },
     ];

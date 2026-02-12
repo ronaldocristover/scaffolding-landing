@@ -17,6 +17,7 @@ WORKDIR /app
 # Set SEO-critical environment variables at build time
 ENV NEXT_PUBLIC_SITE_URL=https://leegoscaffolding.com
 ENV NEXT_PUBLIC_DEFAULT_LOCALE=zh
+ENV NEXT_PUBLIC_GA_ID=G-96N9T1MJP2
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
@@ -34,13 +35,25 @@ RUN npm run build
 # Run SEO validation during build
 RUN node scripts/validate-seo.mjs || echo "SEO validation completed with warnings"
 
+# Run performance check for Core Web Vitals optimization
+RUN node scripts/performance-check.mjs || echo "Performance check completed with warnings"
+
 # Verify SEO assets were generated
 RUN test -f .next/server/app/sitemap.xml || test -f public/sitemap.xml || (echo "Warning: Sitemap may be generated dynamically" && exit 0)
 RUN test -f .next/server/app/robots.txt || test -f public/robots.txt || (echo "Warning: Robots.txt may be generated dynamically" && exit 0)
 
+# Verify critical SEO assets exist (favicon, manifest, og-image)
+RUN test -f public/scaffolding-logo.png || (echo "Warning: OG image missing" && exit 0)
+RUN test -d public/favicon || (echo "Warning: Favicon directory missing" && exit 0)
+RUN test -f public/favicon/site.webmanifest || (echo "Warning: Webmanifest missing" && exit 0)
+
 # Pre-compress static assets for better performance (SEO - faster page loads)
 RUN find .next/static -type f \( -name "*.js" -o -name "*.css" -o -name "*.json" \) -exec gzip -9 -k {} \; || true
 RUN find .next/static -type f \( -name "*.js" -o -name "*.css" -o -name "*.json" \) -exec brotli -q 11 {} \; || true
+
+# Pre-compress public assets referenced in SEO (favicon, manifest, images)
+RUN find public -type f \( -name "*.svg" -o -name "*.json" -o -name "*.webmanifest" \) -exec gzip -9 -k {} \; || true
+RUN find public -type f \( -name "*.svg" -o -name "*.json" -o -name "*.webmanifest" \) -exec brotli -q 11 {} \; || true
 
 # Production image, copy all the files and run next
 FROM base AS runner
