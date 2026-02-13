@@ -14,7 +14,7 @@ export interface BannerInfo {
 
 export class BannerService {
   static async getBannerInfo() {
-    return apiCall<any>("GET", "/banners");
+    return apiCall<BannerInfo>("GET", "/banners");
   }
 }
 
