@@ -1,0 +1,30 @@
+# robots.txt for Leego Scaffolding (康師傅搭棚公司)
+# Website: https://leegoscaffolding.com
+# Last updated: 2026-02-14
+
+User-agent: *
+Allow: /
+
+# Disallow API routes and system files
+Disallow: /api/
+Disallow: /_next/
+Disallow: /favicon/
+
+# Crawl delay for respectful crawling
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://leegoscaffolding.com/sitemap.xml
+
+# Allow all major search engines specific access
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: Yandex
+Allow: /

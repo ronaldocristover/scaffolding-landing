@@ -23,7 +23,8 @@
       "Bash(npm test:*)",
       "Bash(awk:*)",
       "Bash(xargs:*)",
-      "Bash(echo:*)"
+      "Bash(echo:*)",
+      "Bash(identify:*)"
     ],
     "deny": [],
     "ask": []

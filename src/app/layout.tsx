@@ -42,7 +42,7 @@ export async function generateMetadata(): Promise<Metadata> {
     description:
       "康師傅搭棚公司 - 香港專業搭棚服務超過20年。提供竹棚搭建、金屬棚架、外牆維修、小型工程服務。電話: +852-6806-0108",
     keywords:
-      "康師傅搭掤, 康師傅搭棚, 搭棚, 搭掤, 香港, 建築, 安全, 專業搭棚, 利高棚業, 利高棚業工程, 竹棚, 竹棚搭建, 金屬棚, 金屬棚架, 外牆維修, 裝修工程, 搭棚工程, 掤業, 掤架, leego, scaffolding, 康師傅, 康師父, 香港搭棚, 搭棚公司, 專業搭棚公司, 小型工程, 濕碎, 濕碎工程, 香港建築, 棚架, 買棚, 租棚, 搭棚價錢, 搭棚收費, 搭棚師傅, 專業棚架",
+      "康師傅搭掤, 康師傅搭棚, 搭棚, 搭掤, 香港, 建築, 安全, 專業搭棚, 利高棚業, 利高棚業工程, 竹棚, 竹棚搭建, 金屬棚, 金屬棚架, 外牆維修, 裝修工程, 搭棚工程, 掤業, 掤架, leego, leego scaffolding, leehong, leehong scaffolding, lee hong, lee hong scaffolding, 康師傅, 康師父, 香港搭棚, 搭棚公司, 專業搭棚公司, 小型工程, 濕碎, 濕碎工程, 香港建築, 棚架, 買棚, 租棚, 搭棚價錢, 搭棚收費, 搭棚師傅, 專業棚架, Leego, Leego Scaffolding, LeeHong, Leehong Scaffolding, Lee Hong, Lee Hong Scaffolding, Leego Hong Kong, Leego Scaffolding Hong Kong, LeeHong Hong Kong, Leehong Scaffolding Hong Kong, Leego搭棚, Leego搭掤, Leego Scaffolding 搭棚, LeeHong搭棚, Leehong搭棚, LeeHong搭掤, Leehong Scaffolding 搭棚, 康師傅 Leego, 康師傅 LeeHong, 康師傅 Leego Scaffolding, 康師傅 Leehong Scaffolding, Leego Scaffolding 香港, Leehong Scaffolding 香港, LeeHong Scaffolding 香港, Leego 棚架, Leehong 棚架, LeeHong 棚架, Leego 竹棚, Leehong 竹棚, LeeHong 竹棚",
     authors: [{ name: "康師傅搭棚公司" }],
     openGraph: {
       title: "康師傅搭棚公司 - 專業搭棚工程超過20年經驗",
@@ -54,8 +54,8 @@ export async function generateMetadata(): Promise<Metadata> {
       images: [
         {
           url: "https://leegoscaffolding.com/scaffolding-logo.png",
-          width: 1200,
-          height: 630,
+          width: 646,
+          height: 536,
           alt: "康師傅搭棚工程 - 專業竹棚搭建、金屬棚架、外牆維修、小型工程服務，超過20年經驗",
         },
       ],
@@ -65,7 +65,14 @@ export async function generateMetadata(): Promise<Metadata> {
       title: "康師傅搭棚公司 - 專業搭棚工程超過20年經驗",
       description:
         "康師傅搭棚公司 - 香港專業搭棚服務超過20年。提供竹棚搭建、金屬棚架、外牆維修、小型工程服務。電話: +852-6806-0108",
-      images: ["https://leegoscaffolding.com/scaffolding-logo.png"],
+      images: [
+        {
+          url: "https://leegoscaffolding.com/scaffolding-logo.png",
+          width: 646,
+          height: 536,
+          alt: "康師傅搭棚工程 - 專業竹棚搭建、金屬棚架、外牆維修、小型工程服務，超過20年經驗",
+        }
+      ],
       site: "@leegoscaffolding",
     },
     alternates: {
