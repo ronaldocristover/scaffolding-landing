@@ -38,35 +38,42 @@ export default function ContactInfo({
         </p>
         <div className="text-base sm:text-lg text-black mb-8 sm:mb-12">
           <div className="flex flex-col sm:flex-row flex-wrap justify-center gap-4 sm:gap-8">
-            {contacts.map((contact, idx) => (
-              <span key={idx} className="flex items-center justify-center">
-                <Image
-                  src={contact.icon}
-                  alt={contact.alt}
-                  width={24}
-                  height={24}
-                  className="inline-block align-middle mr-2"
-                />
-                {contact.link ? (
-                  <a
-                    href={contact.link}
-                    target={
-                      contact.link.startsWith("http") ? "_blank" : undefined
-                    }
-                    rel={
-                      contact.link.startsWith("http")
-                        ? "noopener noreferrer"
-                        : undefined
-                    }
-                    className="hover:text-blue-600 transition-colors break-all sm:break-normal"
-                  >
-                    {contact.text}
-                  </a>
-                ) : (
-                  <span className="break-all sm:break-normal">{contact.text}</span>
-                )}
-              </span>
-            ))}
+            {contacts.map((contact, idx) => {
+              const formattedLink =
+                contact.alt == "WhatsApp" && contact.link
+                  ? `https://wa.me/${contact.link.replace(/\D/g, "")}`
+                  : contact.link;
+
+              return (
+                <span key={idx} className="flex items-center justify-center">
+                  <Image
+                    src={contact.icon}
+                    alt={contact.alt}
+                    width={24}
+                    height={24}
+                    className="inline-block align-middle mr-2"
+                  />
+                  {formattedLink ? (
+                    <a
+                      href={formattedLink}
+                      target="_blank"
+                      rel={
+                        formattedLink.startsWith("http")
+                          ? "noopener noreferrer"
+                          : undefined
+                      }
+                      className="hover:text-blue-600 transition-colors break-all sm:break-normal"
+                    >
+                      {contact.text}
+                    </a>
+                  ) : (
+                    <span className="break-all sm:break-normal">
+                      {contact.text}
+                    </span>
+                  )}
+                </span>
+              );
+            })}
           </div>
         </div>
       </div>
