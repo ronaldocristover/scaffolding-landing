@@ -1,7 +1,6 @@
 "use client";
 
 import { useRef } from "react";
-import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Carousel from "@/components/Carousel";
@@ -60,7 +59,6 @@ export default function HomeContent({
   contactBaseInfo,
   quotePricing,
 }: HomeContentProps) {
-  const t = useTranslations();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   // Scroll functions for hero section carousel
@@ -165,10 +163,10 @@ export default function HomeContent({
           {/* Centered About Our Company Title */}
           <div className="text-center mb-12 sm:mb-16">
             <h2 className="font-viga text-2xl sm:text-[30px] text-black mb-2">
-              {aboutCompanyInfo.title || t("about.title")}
+              {aboutCompanyInfo.title || "關於我們"}
             </h2>
             <p className="text-base sm:text-lg text-gray-800 mb-4 px-4">
-              {aboutCompanyInfo.subtitle || t("about.subtitle")}
+              {aboutCompanyInfo.subtitle || "超過20年的專業搭棚經驗"}
             </p>
           </div>
 
@@ -182,7 +180,7 @@ export default function HomeContent({
                 >
                   <Image
                     src={getImageSrc(item)}
-                    alt={getImageAlt(item, t("about.companyImage1Alt"))}
+                    alt={getImageAlt(item, "康師傅搭棚公司工程圖片")}
                     width={302}
                     height={302}
                     className="object-contain w-full h-full"
@@ -199,7 +197,7 @@ export default function HomeContent({
             <div
               className="text-base sm:text-lg text-black leading-relaxed max-w-5xl mx-auto px-4"
               dangerouslySetInnerHTML={{
-                __html: aboutCompanyInfo.content || t("about.description"),
+                __html: aboutCompanyInfo.content || "康師傅搭棚公司擁有超過20年的專業搭棚經驗",
               }}
             />
           </div>
@@ -265,7 +263,7 @@ export default function HomeContent({
         className="text-white bg-gradient-to-b from-[#FFFBB5] to-[#E0B700]"
       >
         <div className="pt-8 pb-8 text-center text-black">
-          <p>{companyInfo.footer || t("footer.copyright")}</p>
+          <p>{companyInfo.footer || "© 2024 康師傅搭棚公司. 版權所有."}</p>
         </div>
       </footer>
 

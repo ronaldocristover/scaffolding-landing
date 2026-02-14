@@ -22,30 +22,30 @@
 
 /* WCAG 2.1 Level AA Compliant Color Overrides */
 /* Improving contrast for yellow/green backgrounds */
-.bg-\\[\\.C0FF4B\\] {
+.bg-\[\.C0FF4B\] {
   background-color: #9BC53D !important; /* Darker green for better contrast */
 }
 
-.bg-\\[\\#FFFBB5\\] {
+.bg-\[\#FFFBB5\] {
   background-color: #F5E6A3 !important; /* Darker yellow for better contrast */
 }
 
-.bg-\\[\\#E0B700\\] {
+.bg-\[\#E0B700\] {
   background-color: #C9A400 !important; /* Darker gold for better contrast */
 }
 
-.bg-\\[\\#737365\\] {
+.bg-\[\#737365\] {
   background-color: #5a5a52 !important; /* Darker gray for better contrast */
 }
 
-.text-\\[\\#F7EA87\\] {
+.text-\[\#F7EA87\] {
   color: #FFFF00 !important; /* Brighter yellow for dark backgrounds */
 }
 
 /* Ensure sufficient contrast for text on colored backgrounds */
-.bg-\\[\\.C0FF4B\\] *,
-.bg-\\[\\#FFFBB5\\] *,
-.bg-\\[\\#E0B700\\] * {
+.bg-\[\.C0FF4B\] *,
+.bg-\[\#FFFBB5\] *,
+.bg-\[\#E0B700\] * {
   color: #1a1a1a !important;
 }
 

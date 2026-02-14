@@ -80,7 +80,7 @@ function validateSitemap() {
   // Check for required elements
   const requiredElements = [
     { name: 'baseUrl', pattern: /baseUrl\s*[:=]\s*["']https?:/ },
-    { name: 'url entries', pattern: /url:\s*`?\$\{baseUrl\}/ },
+    { name: 'url entries', pattern: /url:\s*["`]?(\$\{baseUrl\}|baseUrl)/ },
     { name: 'lastModified', pattern: /lastModified/ },
     { name: 'changeFrequency', pattern: /changeFrequency/ },
   ];
@@ -141,14 +141,29 @@ function validateRobots() {
 function validateLayoutMetadata() {
   log('\n📄 Validating Layout Metadata...', 'cyan');
 
-  const layoutPath = path.join(APP_DIR, 'layout.tsx');
+  // Check for layout in both root app directory and locale directory
+  const rootLayoutPath = path.join(APP_DIR, 'layout.tsx');
+  const localeLayoutPath = path.join(APP_DIR, '[locale]', 'layout.tsx');
 
-  if (!fs.existsSync(layoutPath)) {
-    report('error', 'layout.tsx not found in src/app/');
+  let layoutPath = null;
+  let layoutLocation = null;
+
+  if (fs.existsSync(rootLayoutPath)) {
+    layoutPath = rootLayoutPath;
+    layoutLocation = 'src/app/';
+  } else if (fs.existsSync(localeLayoutPath)) {
+    layoutPath = localeLayoutPath;
+    layoutLocation = 'src/app/[locale]/';
+  }
+
+  if (!layoutPath) {
+    report('error', 'layout.tsx not found in src/app/ or src/app/[locale]/');
     return false;
   }
 
   const content = fs.readFileSync(layoutPath, 'utf-8');
+
+  report('success', `layout.tsx found in ${layoutLocation}`);
 
   // Check for metadata export
   const hasMetadata = content.includes('export const metadata') ||
@@ -251,26 +266,6 @@ function validateImageConfig() {
   return true;
 }
 
-// 6. Check for internationalization support
-function validateI18n() {
-  log('\n🌍 Validating Internationalization...', 'cyan');
-
-  const i18nPath = path.join(ROOT_DIR, 'src', 'i18n');
-
-  if (!fs.existsSync(i18nPath)) {
-    report('warning', 'i18n directory not found in src/');
-    return false;
-  }
-
-  report('success', 'i18n directory exists');
-
-  const requestPath = path.join(i18nPath, 'request.ts');
-  if (fs.existsSync(requestPath)) {
-    report('success', 'i18n request.ts configuration found');
-  }
-
-  return true;
-}
 
 // 7. Check for security headers
 function validateSecurityHeaders() {
@@ -314,7 +309,6 @@ function main() {
   validateLayoutMetadata();
   validateStructuredData();
   validateImageConfig();
-  validateI18n();
   validateSecurityHeaders();
 
   // Print summary

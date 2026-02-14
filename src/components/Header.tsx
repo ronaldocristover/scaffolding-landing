@@ -2,8 +2,6 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import { useTranslations } from "next-intl";
-import LanguageSwitcher from "./LanguageSwitcher";
 
 interface HeaderProps {
   phoneNumber?: string;
@@ -17,7 +15,6 @@ interface HeaderProps {
 }
 
 export default function Header({ companyInfo, phoneNumber }: HeaderProps) {
-  const t = useTranslations("nav");
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   // Add null checks to prevent runtime errors
@@ -26,9 +23,9 @@ export default function Header({ companyInfo, phoneNumber }: HeaderProps) {
   }
 
   const menuItems = [
-    { href: "#about", label: t("about") },
-    { href: "#pricing", label: t("pricing") },
-    { href: "#contact", label: t("contact") },
+    { href: "#about", label: "關於我們" },
+    { href: "#pricing", label: "報價" },
+    { href: "#contact", label: "聯絡我們" },
   ];
 
   return (
@@ -87,7 +84,6 @@ export default function Header({ companyInfo, phoneNumber }: HeaderProps) {
                   {item.label}
                 </a>
               ))}
-              {/* <LanguageSwitcher /> */}
             </div>
 
             {/* Mobile Menu Button */}
@@ -150,20 +146,6 @@ export default function Header({ companyInfo, phoneNumber }: HeaderProps) {
                 {item.label}
               </a>
             ))}
-            <div
-              className={`pt-2 border-t border-gray-200/50 transform transition-all duration-300 ${
-                isMobileMenuOpen
-                  ? "translate-x-0 opacity-100"
-                  : "-translate-x-4 opacity-0"
-              }`}
-              style={{
-                transitionDelay: isMobileMenuOpen
-                  ? `${menuItems.length * 50}ms`
-                  : "0ms",
-              }}
-            >
-              {/* <LanguageSwitcher /> */}
-            </div>
           </div>
         </div>
       </nav>

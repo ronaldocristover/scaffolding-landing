@@ -19,7 +19,6 @@
     "json-server": "^1.0.0-beta.3",
     "lucide-react": "^0.546.0",
     "next": "^16.1.4",
-    "next-intl": "^4.7.0",
     "react": "19.1.0",
     "react-dom": "19.1.0"
   },

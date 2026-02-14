@@ -14,7 +14,12 @@
       "Bash(docker compose:*)",
       "Bash(docker logs:*)",
       "Bash(ls:*)",
-      "Bash(pkill:*)"
+      "Bash(pkill:*)",
+      "Bash(node:*)",
+      "Bash(npm run validate:seo:*)",
+      "Bash(lsof:*)",
+      "Bash(xargs kill:*)",
+      "Bash(npm uninstall:*)"
     ],
     "deny": [],
     "ask": []

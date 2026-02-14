@@ -1,4 +1,3 @@
-import { getTranslations } from "next-intl/server";
 import AboutCompanyService from "@/services/about-company-service";
 import BannerService from "@/services/banner-service";
 import ContactService from "@/services/contact-service";
@@ -17,18 +16,11 @@ import {
   type ContactInfoType,
 } from "@/lib/utils";
 
-type Props = {
-  params: Promise<{ locale: string }>;
-};
-
 type ImageItem =
   | string
   | { src?: string; url?: string; alt?: string; type?: string };
 
-export default async function Home({ params }: Props) {
-  const { locale } = await params;
-  const t = await getTranslations({ locale });
-
+export default async function Home() {
   // Parallel fetching of all required data
   const [
     contactResponse,
@@ -47,16 +39,16 @@ export default async function Home({ params }: Props) {
   // Process Contact Info
   const contactData = getApiContent(contactResponse);
   const contactBaseInfo: ContactBaseInfo = {
-    title: contactData?.title || t("contact.title"),
-    subtitle: contactData?.subtitle || t("contact.subtitle"),
+    title: contactData?.title || "聯絡我們",
+    subtitle: contactData?.subtitle || "隨時為您提供專業服務",
   };
   const contactInfo: ContactInfoType[] = createContactInfo(
     contactData?.content,
     {
-      whatsapp: t("contact.whatsapp"),
-      phone: t("contact.phone"),
-      email: t("contact.email"),
-      facebook: t("contact.facebook"),
+      whatsapp: "WhatsApp",
+      phone: "電話",
+      email: "電郵",
+      facebook: "Facebook",
     },
   );
 
@@ -85,9 +77,9 @@ export default async function Home({ params }: Props) {
   }>(aboutCompanyResponse);
 
   const aboutCompanyInfo: AboutCompanyInfo = {
-    title: aboutData?.title || t("about.title"),
-    subtitle: aboutData?.subtitle || t("about.subtitle"),
-    content: aboutData?.content || t("about.description"),
+    title: aboutData?.title || "關於我們",
+    subtitle: aboutData?.subtitle || "超過20年的專業搭棚經驗",
+    content: aboutData?.content || "康師傅搭棚公司擁有超過20年的專業搭棚經驗",
     images: {
       section1: aboutData?.images?.section1 || [],
       section2: aboutData?.images?.section2 || [],
