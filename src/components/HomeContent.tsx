@@ -183,12 +183,18 @@ export default function HomeContent({
           </div>
 
           {/* H3: Company Introduction */}
-          <h3 className="text-xl sm:text-2xl font-semibold text-center mb-8 text-gray-900">
+          <h3
+            className="text-xl sm:text-2xl font-semibold text-center mb-8 text-gray-900"
+            style={{ display: "none" }}
+          >
             專業搭棚服務，安全可靠
           </h3>
 
           {/* Add bullet points for services */}
-          <div className="max-w-4xl mx-auto mb-12 px-4">
+          <div
+            className="max-w-4xl mx-auto mb-12 px-4"
+            style={{ display: "none" }}
+          >
             <ul className="text-left space-y-3 text-base sm:text-lg text-gray-800">
               <li className="flex items-start">
                 <span className="text-green-600 mr-2 text-xl">✓</span>
@@ -204,7 +210,15 @@ export default function HomeContent({
               </li>
               <li className="flex items-start">
                 <span className="text-green-600 mr-2 text-xl">✓</span>
-                <span><a href="#contact" className="text-blue-600 hover:text-blue-800 underline font-medium">立即獲取免費報價</a> - 電話: {companyInfo?.phone || "+852-6806-0108"}</span>
+                <span>
+                  <a
+                    href="#contact"
+                    className="text-blue-600 hover:text-blue-800 underline font-medium"
+                  >
+                    立即獲取免費報價
+                  </a>{" "}
+                  - 電話: {companyInfo?.phone || "+852-6806-0108"}
+                </span>
               </li>
             </ul>
           </div>
@@ -250,7 +264,10 @@ export default function HomeContent({
       <section className="py-8 sm:py-12 bg-white" id="company-logos">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* H2: Client Projects */}
-          <h2 className="font-viga text-2xl sm:text-[30px] text-black text-center mb-8">
+          <h2
+            className="font-viga text-2xl sm:text-[30px] text-black text-center mb-8"
+            style={{ display: "none" }}
+          >
             客戶案例展示
           </h2>
           <div
@@ -289,7 +306,10 @@ export default function HomeContent({
         <section id="video" className="py-12 sm:py-20 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {/* H2: Project Gallery */}
-            <h2 className="font-viga text-2xl sm:text-[30px] text-black text-center mb-8">
+            <h2
+              className="font-viga text-2xl sm:text-[30px] text-black text-center mb-8"
+              style={{ display: "none" }}
+            >
               工程作品展示
             </h2>
             <Carousel
@@ -311,36 +331,54 @@ export default function HomeContent({
       <ContactInfo contacts={contactInfo} contactBaseInfo={contactBaseInfo} />
 
       {/* Why Choose Us Section with internal links */}
-      <section className="py-12 sm:py-16 bg-gray-50">
+      <section
+        className="py-12 sm:py-16 bg-gray-50"
+        style={{ display: "none" }}
+      >
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h2 className="font-viga text-2xl sm:text-[30px] text-black text-center mb-8">
             為什麼選擇康師傅搭棚？
           </h2>
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
             <div className="bg-white p-6 rounded-lg shadow-sm">
-              <h3 className="text-xl font-semibold mb-3 text-gray-900">安全專業</h3>
+              <h3 className="text-xl font-semibold mb-3 text-gray-900">
+                安全專業
+              </h3>
               <p className="text-gray-700 mb-4">
                 康師傅入行26年，所有個人及公司牌照齊備，確保工程安全。
               </p>
-              <a href="#about" className="text-blue-600 hover:text-blue-800 underline font-medium inline-flex items-center">
+              <a
+                href="#about"
+                className="text-blue-600 hover:text-blue-800 underline font-medium inline-flex items-center"
+              >
                 了解更多 →
               </a>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-sm">
-              <h3 className="text-xl font-semibold mb-3 text-gray-900">定價公道</h3>
+              <h3 className="text-xl font-semibold mb-3 text-gray-900">
+                定價公道
+              </h3>
               <p className="text-gray-700 mb-4">
                 企理妥當的服務，透明公道的收費標準，不隱藏費用。
               </p>
-              <a href="#contact" className="text-blue-600 hover:text-blue-800 underline font-medium inline-flex items-center">
+              <a
+                href="#contact"
+                className="text-blue-600 hover:text-blue-800 underline font-medium inline-flex items-center"
+              >
                 免費報價 →
               </a>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-sm">
-              <h3 className="text-xl font-semibold mb-3 text-gray-900">經驗豐富</h3>
+              <h3 className="text-xl font-semibold mb-3 text-gray-900">
+                經驗豐富
+              </h3>
               <p className="text-gray-700 mb-4">
                 超過20年的專業經驗，服務全香港，完成無數工程項目。
               </p>
-              <a href="#video" className="text-blue-600 hover:text-blue-800 underline font-medium inline-flex items-center">
+              <a
+                href="#video"
+                className="text-blue-600 hover:text-blue-800 underline font-medium inline-flex items-center"
+              >
                 查看案例 →
               </a>
             </div>
