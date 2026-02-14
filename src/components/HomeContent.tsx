@@ -1,15 +1,27 @@
 "use client";
 
 import { useRef } from "react";
+import dynamic from "next/dynamic";
 import Image from "next/image";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import Carousel from "@/components/Carousel";
-import ContactInfo from "@/components/ContactInfo";
-import FloatingButtons from "@/components/FloatingButtons";
-import Header from "@/components/Header";
-import PricingSection from "@/components/PricingSection";
 import { getImageSrc, getImageAlt, type ContactInfoType } from "@/lib/utils";
 import { QuotePricingInfo } from "@/services/quote-price-service";
+import Header from "@/components/Header";
+
+// Lazy load below-the-fold components
+const ContactInfo = dynamic(() => import("@/components/ContactInfo"), {
+  loading: () => <div className="h-64 animate-pulse bg-gray-100" />,
+  ssr: true,
+});
+
+const FloatingButtons = dynamic(() => import("@/components/FloatingButtons"), {
+  ssr: false, // Only load on client side
+});
+
+const Carousel = dynamic(() => import("@/components/Carousel"), {
+  loading: () => <div className="h-96 animate-pulse bg-gray-100" />,
+  ssr: true,
+});
 
 type ImageItem =
   | string
@@ -251,9 +263,6 @@ export default function HomeContent({
           </div>
         </section>
       )}
-
-      {/* Pricing Section */}
-      {/* <PricingSection quotePricing={quotePricing} /> */}
 
       <ContactInfo contacts={contactInfo} contactBaseInfo={contactBaseInfo} />
 

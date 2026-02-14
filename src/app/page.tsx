@@ -1,3 +1,4 @@
+import dynamic from 'next/dynamic';
 import AboutCompanyService from "@/services/about-company-service";
 import BannerService from "@/services/banner-service";
 import ContactService from "@/services/contact-service";
@@ -15,6 +16,9 @@ import {
   createContactInfo,
   type ContactInfoType,
 } from "@/lib/utils";
+
+// Dynamically import PricingSection - already lazy loaded in HomeContent
+// This page component is now very lightweight as HomeContent handles the heavy lifting
 
 type ImageItem =
   | string

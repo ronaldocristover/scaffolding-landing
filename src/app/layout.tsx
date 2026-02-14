@@ -125,8 +125,9 @@ export default async function RootLayout({ children }: Props) {
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-96N9T1MJP2"
           strategy="afterInteractive"
+          defer
         />
-        <Script id="google-analytics" strategy="afterInteractive">
+        <Script id="google-analytics" strategy="afterInteractive" defer>
           {`
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}

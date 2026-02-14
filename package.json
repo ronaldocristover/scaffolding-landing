@@ -12,7 +12,11 @@
     "audit:seo": "node scripts/seo-audit.mjs https://leegoscaffolding.com",
     "validate:seo": "node scripts/validate-seo.mjs",
     "check:performance": "node scripts/performance-check.mjs",
-    "build:seo": "npm run validate:seo && npm run check:performance && npm run build"
+    "analyze:bundle": "node scripts/analyze-bundle.mjs",
+    "check:bundle": "npm run build && ls -lh .next/static/chunks/*.js | awk '{print $5, $9}' | sort -rh | head -10",
+    "build:seo": "npm run validate:seo && npm run check:performance && npm run build",
+    "optimize": "npm run analyze:bundle && npm run build",
+    "build:analyze": "npm run build && npm run analyze:bundle"
   },
   "dependencies": {
     "axios": "^1.12.2",

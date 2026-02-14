@@ -19,7 +19,11 @@
       "Bash(npm run validate:seo:*)",
       "Bash(lsof:*)",
       "Bash(xargs kill:*)",
-      "Bash(npm uninstall:*)"
+      "Bash(npm uninstall:*)",
+      "Bash(npm test:*)",
+      "Bash(awk:*)",
+      "Bash(xargs:*)",
+      "Bash(echo:*)"
     ],
     "deny": [],
     "ask": []
