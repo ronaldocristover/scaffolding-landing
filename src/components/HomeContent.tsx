@@ -111,7 +111,7 @@ export default function HomeContent({
       <section id="home" className="bg-[#C0FF4B] py-12 sm:py-20 lg:py-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-black text-center mb-8 font-viga">
-            {companyInfo.name || "Leego Scaffolding"} -{" "}
+            {/* {companyInfo.name || "Leego Scaffolding"} -{" "} */}
             {companyInfo.title || "Professional Scaffolding Services"}
           </h1>
           {banners.length > 0 && (
@@ -188,7 +188,7 @@ export default function HomeContent({
               <div key={index} className="text-center">
                 <div
                   className="relative w-full max-w-[280px] sm:max-w-[302px] aspect-square mx-auto overflow-hidden"
-                  style={{ aspectRatio: '1/1' }}
+                  style={{ aspectRatio: "1/1" }}
                 >
                   <Image
                     src={getImageSrc(item)}
@@ -209,7 +209,9 @@ export default function HomeContent({
             <div
               className="text-base sm:text-lg text-black leading-relaxed max-w-5xl mx-auto px-4"
               dangerouslySetInnerHTML={{
-                __html: aboutCompanyInfo.content || "康師傅搭棚公司擁有超過20年的專業搭棚經驗",
+                __html:
+                  aboutCompanyInfo.content ||
+                  "康師傅搭棚公司擁有超過20年的專業搭棚經驗",
               }}
             />
           </div>
@@ -229,11 +231,14 @@ export default function HomeContent({
                 <div
                   key={idx}
                   className="w-[200px] h-[138px] sm:w-[250px] sm:h-[173px] md:w-[300px] md:h-[207px] flex items-center justify-center flex-shrink-0 overflow-hidden"
-                  style={{ aspectRatio: '300/207' }}
+                  style={{ aspectRatio: "300/207" }}
                 >
                   <Image
                     src={imageSrc}
-                    alt={getImageAlt(item, `Leego Scaffolding client project ${idx + 1}`)}
+                    alt={getImageAlt(
+                      item,
+                      `Leego Scaffolding client project ${idx + 1}`,
+                    )}
                     width={300}
                     height={207}
                     className="object-contain w-full h-full"
@@ -255,7 +260,10 @@ export default function HomeContent({
               items={aboutCompanyInfo.images.section3.map((item, index) => ({
                 type: "image" as const,
                 src: getImageSrc(item),
-                alt: getImageAlt(item, `Leego Scaffolding completed project gallery ${index + 1}`),
+                alt: getImageAlt(
+                  item,
+                  `Leego Scaffolding completed project gallery ${index + 1}`,
+                ),
               }))}
               autoPlay={true}
               interval={4000}
