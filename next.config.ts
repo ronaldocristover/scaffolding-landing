@@ -25,6 +25,11 @@ const nextConfig: NextConfig = {
         hostname: "pub-e5f46e0c6d2d4313829c38c984304979.r2.dev",
         pathname: "/**",
       },
+      {
+        protocol: "https",
+        hostname: "scaffolding-os.ronaldodev.com",
+        pathname: "/**",
+      },
     ],
   },
   compress: true,
@@ -73,7 +78,8 @@ const nextConfig: NextConfig = {
           },
           {
             key: "Permissions-Policy",
-            value: "storage=(self), analytics=(https://www.googletagmanager.com)",
+            value:
+              "storage=(self), analytics=(https://www.googletagmanager.com)",
           },
         ],
       },
