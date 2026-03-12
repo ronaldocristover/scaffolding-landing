@@ -3,6 +3,7 @@ import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono, Viga } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
+import { getBaseUrl, getCanonicalUrl, getImageUrl } from "@/lib/domain";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -35,9 +36,12 @@ type Props = {
 
 export async function generateMetadata(): Promise<Metadata> {
   const isProduction = process.env.NODE_ENV === "production";
+  const baseUrl = getBaseUrl();
+  const canonicalUrl = getCanonicalUrl();
+  const logoUrl = getImageUrl('/scaffolding-logo.png');
 
   return {
-    metadataBase: new URL("https://leegoscaffolding.com"),
+    metadataBase: new URL(baseUrl),
     title: "康師傅搭棚公司 - 專業搭棚工程超過20年經驗",
     description:
       "康師傅搭棚公司 - 香港專業搭棚服務超過20年。提供竹棚搭建、金屬棚架、外牆維修、小型工程服務。電話: +852-6806-0108",
@@ -53,7 +57,7 @@ export async function generateMetadata(): Promise<Metadata> {
       siteName: "康師傅搭棚公司",
       images: [
         {
-          url: "https://leegoscaffolding.com/scaffolding-logo.png",
+          url: logoUrl,
           width: 646,
           height: 536,
           alt: "康師傅搭棚工程 - 專業竹棚搭建、金屬棚架、外牆維修、小型工程服務，超過20年經驗",
@@ -67,7 +71,7 @@ export async function generateMetadata(): Promise<Metadata> {
         "康師傅搭棚公司 - 香港專業搭棚服務超過20年。提供竹棚搭建、金屬棚架、外牆維修、小型工程服務。電話: +852-6806-0108",
       images: [
         {
-          url: "https://leegoscaffolding.com/scaffolding-logo.png",
+          url: logoUrl,
           width: 646,
           height: 536,
           alt: "康師傅搭棚工程 - 專業竹棚搭建、金屬棚架、外牆維修、小型工程服務，超過20年經驗",
@@ -76,7 +80,7 @@ export async function generateMetadata(): Promise<Metadata> {
       site: "@leegoscaffolding",
     },
     alternates: {
-      canonical: "https://leegoscaffolding.com",
+      canonical: canonicalUrl,
     },
     robots: {
       index: isProduction,
@@ -165,9 +169,9 @@ export default async function RootLayout({ children }: Props) {
               ],
               description:
                 "康師傅搭棚公司及利高棚業工程有限公司均為康師傅個人獨資公司。康師傅入行26年，所有個人及公司牌照全部齊備。公司業務以裝修及維修類懸空式棚架及小型工程類棚架為主，公司宗旨「安全專業」「企理妥當」「定價公道」歡迎whatapp 查詢",
-              url: "https://leegoscaffolding.com",
-              logo: "https://leegoscaffolding.com/scaffolding-logo.png",
-              image: "https://leegoscaffolding.com/scaffolding-logo.png",
+              url: getCanonicalUrl(),
+              logo: getImageUrl('/scaffolding-logo.png'),
+              image: getImageUrl('/scaffolding-logo.png'),
               telephone: "+852-6806-0108",
               email: "leego.scaffolding@gmail.com",
               address: {
@@ -250,19 +254,19 @@ export default async function RootLayout({ children }: Props) {
                   "@type": "ListItem",
                   position: 1,
                   name: "首頁",
-                  item: "https://leegoscaffolding.com",
+                  item: getCanonicalUrl(),
                 },
                 {
                   "@type": "ListItem",
                   position: 2,
                   name: "關於我們",
-                  item: "https://leegoscaffolding.com#about",
+                  item: getCanonicalUrl('#about'),
                 },
                 {
                   "@type": "ListItem",
                   position: 3,
                   name: "聯絡我們",
-                  item: "https://leegoscaffolding.com#contact",
+                  item: getCanonicalUrl('#contact'),
                 },
               ],
             }),

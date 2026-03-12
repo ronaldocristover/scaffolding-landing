@@ -1,6 +1,9 @@
 import { MetadataRoute } from "next";
+import { getBaseUrl } from "@/lib/domain";
 
 export default function robots(): MetadataRoute.Robots {
+  const baseUrl = getBaseUrl();
+
   return {
     rules: [
       {
@@ -13,7 +16,7 @@ export default function robots(): MetadataRoute.Robots {
         allow: "/",
       },
     ],
-    sitemap: "https://leegoscaffolding.com/sitemap.xml",
-    host: "https://leegoscaffolding.com",
+    sitemap: `${baseUrl}/sitemap.xml`,
+    host: baseUrl,
   };
 }

@@ -1,4 +1,5 @@
 import { MetadataRoute } from "next";
+import { SUPPORTED_DOMAINS } from "@/lib/domain";
 
 // Define routes with their priorities and change frequencies
 const routes = [
@@ -30,12 +31,25 @@ const routes = [
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://leegoscaffolding.com";
+  // Generate sitemap entries for both domains
+  const sitemapEntries: MetadataRoute.Sitemap = [];
 
-  return routes.map((route) => ({
-    url: `${baseUrl}/${route.path}`,
-    lastModified: new Date(),
-    changeFrequency: route.changeFrequency,
-    priority: route.priority,
-  }));
+  // Get primary domains (without www) for cleaner sitemap
+  const primaryDomains = SUPPORTED_DOMAINS.filter(
+    (domain) => !domain.startsWith('www.')
+  );
+
+  // Generate entries for each domain
+  for (const domain of primaryDomains) {
+    for (const route of routes) {
+      sitemapEntries.push({
+        url: `https://${domain}/${route.path}`,
+        lastModified: new Date(),
+        changeFrequency: route.changeFrequency,
+        priority: route.priority,
+      });
+    }
+  }
+
+  return sitemapEntries;
 }
