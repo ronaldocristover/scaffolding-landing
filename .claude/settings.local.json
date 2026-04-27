@@ -24,7 +24,9 @@
       "Bash(awk:*)",
       "Bash(xargs:*)",
       "Bash(echo:*)",
-      "Bash(identify:*)"
+      "Bash(identify:*)",
+      "Bash(grep:*)",
+      "Bash(git commit:*)"
     ],
     "deny": [],
     "ask": []
